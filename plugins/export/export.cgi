@@ -38,11 +38,11 @@ EOT
 	}
 	gen_tarball() {
 		gettext "Creating tarball"; echo -n ": "
-		cd $tmpdir && mkdir $TINYCM/$cache/export
+		cd $tmpdir && mkdir $tiny/$cache/export
 		# Clean cache
-		find $TINYCM/$cache/export -mtime +1 | xargs rm -rf
-		tar czf $TINYCM/$cache/export/$export-$date.tar.gz $export
-		cd $TINYCM/$cache/export && du -sh $export-$date.tar.gz
+		find $tiny/$cache/export -mtime +1 | xargs rm -rf
+		tar czf $tiny/$cache/export/$export-$date.tar.gz $export
+		cd $tiny/$cache/export && du -sh $export-$date.tar.gz
 	}
 	dl_link() {
 		gettext "Download"; echo \
