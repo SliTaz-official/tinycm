@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Serv TinyCM via Busybox HTTPd
+#
+
+port=8084
+
+echo "Starting server on port: $port"
+echo "URL: http://localhost:$port/"
+httpd -f -u www:www -p $port -c httpd.conf
+
+exit 0
