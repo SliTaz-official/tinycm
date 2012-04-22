@@ -2,25 +2,25 @@ TinyCM - A micro CGI/SHell Content Manager!
 ================================================================================
 
 
-	* CGI/Shell powered, small Wiki syntaxe and HTML JS editor helper
+	* CGI/Shell powered, small Wiki syntax and HTML JS editor helper
 	* Tiny, fast, elegent and easy to install and customize
 	* No database, flat file storage with diff and log
 	* Plugins support for any kind of functions such as a blog
 	* Help file with formating rules, macro and HTML example code
-	* Gettexte support and languages support for documents
+	* Gettext support and languages support for documents
 
 
 Installation
 ------------
 You must first get TinyCM source code via a tarball on SliTaz mirrors or Hg 
 repository. You can extract or clone the CM under a web server directory,
-for security reason the config file have a .cgi extension and users data are
-stored outsite the web server in the directory /var/lib/slitaz. The user
+for security reasons the config file has a .cgi extension and users data are
+stored outside the web server in the directory /var/lib/slitaz. The user
 files paths can be changed via the configuration file.
 
-When you have your copy of TinyCM you can then install web interface under a
+When you have your copy of TinyCM you can then install a web interface under a
 CGI/SHell enabled web server such as Busybox HTTPd, LightTPD or Apache. Gettext
-must be installed for localisation support. So, let download Content Manager:
+must be installed for localisation support. So, let's download the Content Manager:
 
 	$ wget http://mirror.slitaz.org/sources/tinycm/tinycm-VERSION.tar.gz
 	$ tar xzf tinycm-VERSION.tar.gz
@@ -30,7 +30,7 @@ Or clone the Mercurial repo:
 	$ hg clone http://hg.slitaz.org/tinycm
 
 
-Change directory to the CM, check and edit the configuration file config.cgi
+Change directory to the CM, check and edit the configuration file config.cgi,
 and use make to install:
 
 	$ cd tinycm*
@@ -40,9 +40,9 @@ and use make to install:
 
 Standalone Server
 -----------------
-On SliTaz you can install a copy of TinyCM somewhere under you $HOME directory
+On SliTaz you can install a copy of TinyCM anywhere under your $HOME directory
 and start the stand alone web server powered by Busybox HTTPd applet. This also
-help to debug TazCM since error messages are displayed in the terminal. To
+helps to debug TazCM since error messages are displayed in the terminal. To
 start the server, cd to TinyCM dir and execute:
 
 $ ./tinycm serv
@@ -50,15 +50,15 @@ $ ./tinycm serv
 
 Mercurial integration
 ---------------------
-TinyCM can smothily be integrated with Mercurial, each new document and edit
+TinyCM can be integrated smoothly with Mercurial, each new document and edit
 will be committed. You must first edit you config.cgi configuration to 
-enable Hg with HG="yes" then login to your TinyCM follow the link to init the
+enable Hg with HG="yes" then login to your TinyCM, follow the link to init the
 repo or do it manually: cd content && hg init && hg add && hg commit -m "Message"
 
-Then all content will be under Hg and people can commit as usual, to make sure
-we use the last files on the web interface we use a Hook to update the repo on
+Then all content will be under Hg and people can commit as usual. To make sure
+we use the latest files on the web interface we use a Hook to update the repo on
 each commit. To have the mercurial web interface for the repo you can setup
-a vhost, TinyCM provide a small web interface to display Hg log but it can
+a vhost, TinyCM provides a small web interface to display a Hg log but it can
 be extented via a plugin. Hook for $content/.hg/hgrc:
 
 [hooks]

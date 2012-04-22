@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Serv TinyCM via Busybox HTTPd
+# Serve TinyCM via Busybox HTTPd
 #
 
 port=8084

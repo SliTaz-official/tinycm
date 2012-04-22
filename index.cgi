@@ -6,7 +6,7 @@
 #
 . /usr/lib/slitaz/httphelper
 
-# Let have a peer site config file with a .cgi extension so content
+# Let's have a peer site config file with a .cgi extension so content
 # is secure even if left in a web server directory.
 . config.cgi
 
@@ -43,7 +43,7 @@ export LANG=$lang LC_ALL=$lang
 # Functions
 #
 
-# Used by edit to display language name and the language box. this is
+# Used by edit to display language name and the language box. This is
 # for CM content not gettext support.
 get_lang() {
 	lang=$(echo $d | cut -d "/" -f 1)
@@ -107,7 +107,7 @@ default_index() {
 	cat > $wiki/$index.txt << EOT
 ==== Welcome ====
 
-This is the default index page of your CM, you can edit to start adding
+This is the default index page of your CM, you can start to edit adding
 some content to your TinyCM.
 
 EOT
@@ -181,7 +181,7 @@ login_page() {
 <h2>$(gettext "Login")</h2>
 
 <div id="account-info">
-$(gettext "Not yet and account or trouble with you account? Please send
+$(gettext "No account yet or trouble with you account? Please send
 a request to $ADMIN_MAIL with your real name, user name, mail and password.")
 $(online_signup)
 </div>
@@ -258,8 +258,8 @@ Secure key : $KEY
 EOT
 }
 
-# The CM style parser. Just title, simple text formating and internal
-# link, as well as images and use HTML for other stuff. Keep it fast!
+# The CM style parser. Just a title, simple text formating and internal
+# links, as well as images and use HTML for other stuff. Keep it fast!
 # To make TinyCM as easy as possible we have a small HTML editor/helper
 # written in Javascript
 wiki_parser() {
@@ -386,7 +386,7 @@ case " $(POST) " in
 			header
 			html_header
 			user_box
-			echo "<h2>gettext "User already exist: $user"</h2>"
+			echo "<h2>gettext "User already exists: $user"</h2>"
 			html_footer
 		fi ;;
 esac
@@ -429,7 +429,7 @@ case " $(GET) " in
 </div>
 EOT
 		else
-			gettext "You must be logged to edit pages"
+			gettext "You must be logged in to edit pages"
 		fi
 		html_footer ;;
 	*\ save\ *)
@@ -499,7 +499,7 @@ EOT
 		if [ "$ONLINE_SIGNUP" == "yes" ]; then
 			signup_page
 		else
-			gettext "Online registration is disable"
+			gettext "Online registration is disabled"
 		fi
 		html_footer ;;
 	*\ logout\ *)
@@ -548,7 +548,7 @@ EOT
 			done
 			echo '</pre>'
 		else
-			gettext "You must be logged to view the dashboard."
+			gettext "You must be logged in to view the dashboard."
 		fi
 		html_footer ;;
 	*\ hg\ *)
@@ -568,7 +568,7 @@ EOT
 					cd $content/ && hg init
 					echo '[hooks]' > .hg/hgrc
 					echo 'incoming = hg update' >> .hg/hgrc
-					gettext "Adding current content and commiting"; echo
+					gettext "Adding current content and committing"; echo
 					[ ! -f "$wiki/index.txt" ] && touch $wiki/$index.txt
 					hg add && hg commit -u "$NAME <$MAIL>" \
 						-m "Initial commit with curent content"

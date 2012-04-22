@@ -14,7 +14,7 @@ if [ "$(GET export)" ]; then
 	cat << EOT 
 <h2>Export</h2>
 <p>
-$(gettext "Export to HTML and ceate a tarball of your text content or
+$(gettext "Export to HTML and create a tarball of your text content or
 uploaded files.")
 </p>
 <form method="get" action="$WEB_URL">
