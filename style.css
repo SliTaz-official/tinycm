@@ -227,6 +227,46 @@ input, textarea, select, #tools a {
 	border-radius: 4px;
 }
 
+/* notes */
+
+.noteclassic,.noteimportant,.notewarning,.notetip {
+    margin:2em;
+    margin-left:auto;
+    margin-right:auto;
+    width:70% !important;
+    min-height:40px;
+    clear:both;
+    text-align:justify;
+    vertical-align:middle;
+    border-collapse:collapse;
+    padding:15px 20px 15px 80px;
+    background-position:20px 50%;
+    background-repeat:no-repeat;
+    -moz-border-radius:20px;
+    -khtml-border-radius:20px;
+    border-radius:20px;
+}
+
+.noteclassic {
+    background-color:#eef;
+    background-image:url(images/note.png);
+}
+
+.noteimportant {
+    background-color:#ffc;
+    background-image:url(images/important.png);
+}
+
+.notewarning {
+    background-color:#fdd;
+    background-image:url(images/warning.png);
+}
+
+.notetip {
+    background-color:#dfd;
+    background-image:url(images/tip.png);
+}
+
 /* Footer */
 
 #footer {
