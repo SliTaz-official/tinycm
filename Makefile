@@ -4,8 +4,8 @@
 PACKAGE="tinycm"
 PREFIX?=/usr
 DESTDIR?=
-WEB?=/var/www
-VAR?=/var/lib/slitaz
+WEB?=/var/www/cgi-bin/tinycm
+LOGIN?=/var/lib/slitaz
 LINGUAS?=
 
 all:
@@ -32,16 +32,23 @@ msgfmt:
 # Install
 
 install:
-	install -m 0700 -d $(DESTDIR)/$(VAR)/people
-	install -m 0700 -d $(DESTDIR)/$(VAR)/auth
+	install -m 0700 -d $(DESTDIR)$(LOGIN)/people
+	install -m 0700 -d $(DESTDIR)$(LOGIN)/auth
 	install -m 0755 -d $(DESTDIR)$(WEB)/content
 	install -m 0755 -d $(DESTDIR)$(WEB)/cache
 	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
 	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
-	touch $(DESTDIR)/$(VAR)/auth/people
-	chmod 0600 $(DESTDIR)$(VAR)/auth/people
+	
+	cp -a config.cgi favicon.ico index.cgi README style.css \
+		images lib plugins $(DESTDIR)$(WEB)
+	
 	#install -m 0644 data/tinycm.desktop \
 	#	$(DESTDIR)$(PREFIX)/share/applications
 	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
-	chown -R www.www $(DESTDIR)/$(VAR)
-	chown -R www.www $(DESTDIR)/$(WEB)/content
+	
+	touch $(DESTDIR)$(LOGIN)/auth/people
+	chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
+	chown -R www.www $(DESTDIR)$(LOGIN)/auth
+	chown -R www.www $(DESTDIR)$(LOGIN)/people
+	chown www.www $(DESTDIR)$(WEB)/content
+	chown www.www $(DESTDIR)$(WEB)/cache

@@ -103,11 +103,11 @@ EOT
 
 # Default index if missing
 default_index() {
-	mkdir -p $(dirname $index)
+	mkdir -p "$wiki"
 	cat > $wiki/$index.txt << EOT
 ==== Welcome ====
 
-This is the default index page of your CM, you can start to edit adding
+This is the default index page of your CM, you can start to edit and adding
 some content to your TinyCM.
 
 EOT
@@ -585,7 +585,9 @@ EOT
 		html_header
 		user_box
 		get_lang
-		[ ! -f "$wiki/$index.txt" ] && default_index
+		if [ ! -f "$wiki/$index.txt" ]; then
+			default_index
+		fi
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
 			gettext "The document does not exist. You can create it or read the"
