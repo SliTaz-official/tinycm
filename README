@@ -45,7 +45,7 @@ and start the stand alone web server powered by Busybox HTTPd applet. This also
 helps to debug TazCM since error messages are displayed in the terminal. To
 start the server, cd to TinyCM dir and execute:
 
-$ ./tinycm serv
+$ ./tools/serv.sh
 
 
 Mercurial integration

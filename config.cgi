@@ -2,7 +2,7 @@
 #
 
 # CM URL for redirection and RSS
-WEB_URL="http://localhost/~pankso/cgi-bin/tinycm/"
+WEB_URL="http://localhost/cgi-bin/tinycm/"
 
 # Administrator email.
 ADMIN_MAIL="root@$SERVER_NAME"
@@ -20,4 +20,4 @@ LANGUAGES="en fr pt"
 ONLINE_SIGNUP="yes"
 
 # Use Mercurial repo for content and configure user name
-HG="yes"
+HG="no"

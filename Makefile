@@ -52,3 +52,7 @@ install:
 	chown -R www.www $(DESTDIR)$(LOGIN)/people
 	chown www.www $(DESTDIR)$(WEB)/content
 	chown www.www $(DESTDIR)$(WEB)/cache
+
+uninstall:
+	rm -rf $(DESTDIR)$(WEB)
+	#rm $(DESTDIR)$(PREFIX)/share/applications/tinycm.desktop
