@@ -148,6 +148,8 @@ thead { font-weight: bold; }
 	padding: 10px;
 }
 
+pre img { padding: 4px; }
+
 .error { color: red; }
 .ok { color: green; }
 
@@ -211,7 +213,7 @@ select {
 
 #tools { 
 	padding-top: 10px; 
-	margin-top: 40px; 
+	margin-top: 20px; 
 	/*border-top: 1px dotted #ccc;
 	position: fixed;
 	bottom: 10px;*/

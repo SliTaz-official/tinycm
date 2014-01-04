@@ -2,7 +2,7 @@
 #
 # TinyCM - Small, fast and elegent CGI/SHell Content Manager
 #
-# Copyright (C) 2012 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
 #
 . /usr/lib/slitaz/httphelper
 
@@ -19,7 +19,7 @@ cache="cache"
 plugins="plugins"
 tmp="/tmp/tinycm"
 sessions="$tmp/sessions"
-script=$SCRIPT_NAME
+script="$SCRIPT_NAME"
 
 # Content negotiation for Gettext
 IFS=","
@@ -272,13 +272,13 @@ wiki_parser() {
 		-e s"#''\([^']*\)''#<em>\1</em>#"g \
 		-e s"#__\([^']*\)__#<u>\1</u>#"g \
 		-e s"#\[\([^]]*\)|\($doc\)\]#<a href='$script?d=\2'>\1</a>#"g \
-		-e s"#http://\([^']*\).png#<img src='\0' />#"g \
+		-e s"#http://\([^']*\).png#<img src='\0'> \/>#"g \
 		-e s"#http://\([^']*\).*# <a href='\0'>\1</a>#"g
 	#-e s"/^$/<br \/>/"g
 }
 
 link_user() {
-	echo "<a href='$script?user=$user'>$user</a>"
+	echo "<a href='$(basename $script)?user=$user'>$user</a>"
 }
 
 # Save a document. Do we need more than 1 backup and diff ?
@@ -432,12 +432,14 @@ EOT
 			gettext "You must be logged in to edit pages"
 		fi
 		html_footer ;;
+		
 	*\ save\ *)
 		d="$(GET save)"
 		if check_auth; then
 			save_document
 		fi 
 		header "Location: $script?d=$d" ;;
+		
 	*\ log\ *)
 		d="$(GET log)"
 		header
@@ -456,6 +458,7 @@ EOT
 			wiki_tools
 		fi 
 		html_footer ;;
+		
 	*\ diff\ *)
 		d="$(GET diff)"
 		date="last"
@@ -479,6 +482,7 @@ EOT
 			wiki_tools
 		fi 
 		html_footer ;;
+		
 	*\ login\ *)
 		# The login page
 		d="Login"
@@ -489,6 +493,7 @@ EOT
 		user_box
 		login_page 
 		html_footer ;;
+		
 	*\ signup\ *)
 		# The login page
 		d="$(gettext "Sign Up")"
@@ -502,6 +507,7 @@ EOT
 			gettext "Online registration is disabled"
 		fi
 		html_footer ;;
+		
 	*\ logout\ *)
 		# Set a Cookie in the past to logout.
 		expires="Expires=Wed, 01-Jan-1980 00:00:00 GMT"
@@ -509,8 +515,10 @@ EOT
 			rm -f "$sessions/$user"
 			header "Location: $script" "Set-Cookie: auth=none; $expires; HttpOnly"
 		fi ;;
+		
 	*\ user\ *)
 		# User profile
+		d="$(GET user)"
 		header
 		html_header
 		user_box
@@ -524,6 +532,7 @@ EOT
 			public_people
 		fi
 		html_footer ;;
+		
 	*\ dashboard\ *)
 		# For now simply list plugins and users info. We could have a 
 		# dashbord only for ADMINS found in the config file. The dashboard
@@ -537,8 +546,8 @@ EOT
 		size="$(du -sh $wiki | awk '{print $1}')"
 		echo "<h2>$d</h2>"
 		if check_auth; then
-			echo "<p>$(gettext "Users:") $users</p>"
-			echo "<p>$(gettext "Documents:") $docs ($size)</p>"
+			echo "<p><b>$(gettext "Users:")</b> $users"
+			echo "| <b>$(gettext "Documents:")</b> $docs ($size)</p>"
 			[ "$HG" != "yes" ] && echo $(gettext "Hg is disabled")
 			echo "<h3>$(gettext "Plugins")</h3>"
 			echo '<pre>'
@@ -552,6 +561,7 @@ EOT
 			gettext "You must be logged in to view the dashboard."
 		fi
 		html_footer ;;
+		
 	*\ hg\ *)
 		header
 		[ "$HG" != "yes" ] && gettext "Hg is disabled" && exit 0
@@ -578,6 +588,7 @@ EOT
 		esac
 		hg_log
 		html_footer ;;
+		
 	*)
 		# Display requested page
 		d="$(GET d)"
@@ -586,6 +597,7 @@ EOT
 		html_header
 		user_box
 		get_lang
+		# Generate a default index on first run.
 		if [ ! -f "$wiki/$index.txt" ]; then
 			default_index
 		fi
