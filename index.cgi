@@ -268,7 +268,7 @@ wiki_parser() {
 		-e s"#====\([^']*\)====#<h2>\1</h2>#"g \
 		-e s"#===\([^']*\)===#<h3>\1</h3>#"g \
 		-e s"#==\([^']*\)==#<h4>\1</h4>#"g \
-		-e s"#\*\*\([^']*\)\*\*#<strong>\1</strong>#"g \
+		-e s"#\*\*\([^']*\)\*\*#<b>\1</b>#"g \
 		-e s"#''\([^']*\)''#<em>\1</em>#"g \
 		-e s"#__\([^']*\)__#<u>\1</u>#"g \
 		-e s"#\[\([^]]*\)|\($doc\)\]#<a href='$script?d=\2'>\1</a>#"g \
@@ -539,6 +539,7 @@ EOT
 		if check_auth; then
 			echo "<p>$(gettext "Users:") $users</p>"
 			echo "<p>$(gettext "Documents:") $docs ($size)</p>"
+			[ "$HG" != "yes" ] && echo $(gettext "Hg is disabled")
 			echo "<h3>$(gettext "Plugins")</h3>"
 			echo '<pre>'
 			for p in $(ls -1 $plugins)
@@ -591,10 +592,10 @@ EOT
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
 			gettext "The document does not exist. You can create it or read the"
-			echo " <a href='?d=help'>help</a>"
+			echo " <a href='?d=en/help'>help</a>"
 		else
-			if fgrep NOWIKI $wiki/$d.txt; then
-				cat $wiki/$d.txt
+			if fgrep -q NOWIKI $wiki/$d.txt; then
+				cat $wiki/$d.txt | sed '/NOWIKI/'d
 			else
 				cat $wiki/$d.txt | wiki_parser
 			fi
