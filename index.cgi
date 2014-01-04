@@ -272,9 +272,9 @@ wiki_parser() {
 		-e s"#''\([^']*\)''#<em>\1</em>#"g \
 		-e s"#__\([^']*\)__#<u>\1</u>#"g \
 		-e s"#\[\([^]]*\)|\($doc\)\]#<a href='$script?d=\2'>\1</a>#"g \
-		-e s"#http://\([^']*\).png#<img src='\0'> \/>#"g \
-		-e s"#http://\([^']*\).*# <a href='\0'>\1</a>#"g
-	#-e s"/^$/<br \/>/"g
+		-e s"#\[\([^]]*\)!\($doc\)\]#<a href='\2'>\1</a>#"g \
+		-e s"#\[\(http://*[^]]*.png\)\]#<img src='\1' />#"g \
+		-e s"#\[\([^]]*.png\)\]#<img src='content/cloud/\1' />#"g
 }
 
 link_user() {
@@ -543,14 +543,23 @@ EOT
 		user_box
 		users=$(ls -1 $PEOPLE | wc -l)
 		docs=$(find $wiki -type f | wc -l)
-		size="$(du -sh $wiki | awk '{print $1}')"
+		wikisize="$(du -sh $wiki | awk '{print $1}')"
+		cachesize="$(du -sh $cache | awk '{print $1}')"
+		[ "$HG" != "yes" ] && hg=$(gettext "disabled")
+		[ "$HG" == "yes" ] && hg=$(gettext "enabled")
 		echo "<h2>$d</h2>"
 		if check_auth; then
-			echo "<p><b>$(gettext "Users:")</b> $users"
-			echo "| <b>$(gettext "Documents:")</b> $docs ($size)</p>"
-			[ "$HG" != "yes" ] && echo $(gettext "Hg is disabled")
-			echo "<h3>$(gettext "Plugins")</h3>"
-			echo '<pre>'
+			cat << EOT
+<pre>
+Users     : $users
+Wiki      : $docs ($wikisize)
+Cache     : $cachesize
+Mercurial : $hg
+</pre>
+
+<h3>$(gettext "Plugins")</h3>
+<pre>
+EOT
 			for p in $(ls -1 $plugins)
 			do
 				. $plugins/$p/$p.conf
