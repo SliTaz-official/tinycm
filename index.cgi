@@ -528,12 +528,16 @@ EOT
 		user_box
 		. $PEOPLE/"$(GET user)"/account.conf
 		echo "<h2>$(get_gravatar $MAIL) $(GET user)</h2>"
-		loglines=$(fgrep $user $(find $cache -name *.log) | wc -l)
+		loglines=$(fgrep $(GET user) $(find $cache -name *.log) | wc -l)
 		gettext "Activities:"; echo " $loglines"
 		if check_auth && [ "$(GET user)" == "$user" ]; then
 			auth_people
 		else
 			public_people
+		fi
+		# Each user can have personnal profile page
+		if [ -f "$PEOPLE/$USER/profile.txt" ]; then
+			cat $PEOPLE/$USER/profile.txt | wiki_parser
 		fi
 		html_footer ;;
 		
