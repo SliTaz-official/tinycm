@@ -36,16 +36,17 @@ install:
 	install -m 0700 -d $(DESTDIR)$(LOGIN)/auth
 	install -m 0755 -d $(DESTDIR)$(WEB)/content
 	install -m 0755 -d $(DESTDIR)$(WEB)/cache
-	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
 	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
 	
 	cp -a config.cgi favicon.ico index.cgi README style.css \
-		images lib plugins $(DESTDIR)$(WEB)
+		images lib plugins content $(DESTDIR)$(WEB)
 	
-	#install -m 0644 data/tinycm.desktop \
-	#	$(DESTDIR)$(PREFIX)/share/applications
+	install -m 0644 data/tinycm.desktop \
+		$(DESTDIR)$(PREFIX)/share/applications
 	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	
+	# Auth system may be used by an other app
 	touch $(DESTDIR)$(LOGIN)/auth/people
 	chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
 	chown -R www.www $(DESTDIR)$(LOGIN)/auth
@@ -55,4 +56,4 @@ install:
 
 uninstall:
 	rm -rf $(DESTDIR)$(WEB)
-	#rm $(DESTDIR)$(PREFIX)/share/applications/tinycm.desktop
+	rm $(DESTDIR)$(PREFIX)/share/applications/tinycm.desktop

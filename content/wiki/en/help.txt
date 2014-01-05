@@ -3,8 +3,10 @@ NOWIKI
 <h2>Help</h2>
 
 <p>
-TinyCM lets you easily create nice web content. Clean, fast and CGI SHell powered!
-TinyCM provides a simple Wiki syntax, a JavaScript code helper, diff interface, dashboard, Hg integration and a plugin system. It can also be multi-user and a great collaboration tool.
+TinyCM lets you easily create nice web content. Clean, fast and CGI SHell
+powered! TinyCM provides a simple Wiki syntax, a JavaScript code helper, 
+diff interface, dashboard, Hg integration and a plugin system. It can also
+be multi-user and a great collaboration tool.
 </p>
 
 <h3>Titles</h3>
@@ -24,22 +26,27 @@ This is how to make <strong>bold</strong>, <em>emphasis</em> and <u>underline</u
 
 <h3>Page link and URL</h3>
 <p>
-To create a new page you have to create a new link to it. Then you can edit and add content to your new page. First the link title then the path to a new or existing page:
+To create a new page you have to create a new link to it. Then you can edit 
+and add content to your new page. First the link title then the path to a 
+new or existing page:
 </p>
 <pre>
 [Help|en/help]
 </pre>
 <p>
-You can also copy/paste a full URL such as:
+You can also use a full URL. Thos time we separate the link name of the URL
+with an exclamation !
 </p>
 <pre>
-http://www.slitaz.org/
+[SliTaz!http://www.slitaz.org/]
 </pre>
 
 <h3>Images</h3>
 <p>
-You can have some images in your content folder or use one from the web. Just paste the URL to the PNG image:
+You can have some images in your content folder or use one from the web.
+Just paste the URL to the PNG image or use the image name:
 </p>
 <pre>
-http://site.com/path/image.png
+[http://site.com/path/image.png]
+[image.png]
 </pre>
