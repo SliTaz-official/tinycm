@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Secure key Generator
+Name[fr]=Générateur de clés sécurisées
+Icon=slitaz-icon
+Exec=browser http://localhost/tinycm/index.cgi?keygen
+Type=Application
+Categories=System;
+
