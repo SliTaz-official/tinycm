@@ -1,6 +1,6 @@
 
 
-	* Upload interface with a config var to disable file upload
+	* HTML5 Video player
 	* Mail integration in SHell or Python
 	* PHP content viewer for hosting without CGI support
 	* Use tazu to manage user ? Use in option system users in /etc ?

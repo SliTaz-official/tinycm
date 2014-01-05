@@ -557,6 +557,10 @@ Cache     : $cachesize
 Mercurial : $hg
 </pre>
 
+<div id="tools">
+	<a href="$scripts?README">README</a>
+</div>
+
 <h3>$(gettext "Plugins")</h3>
 <pre>
 EOT
@@ -570,6 +574,16 @@ EOT
 			gettext "You must be logged in to view the dashboard."
 		fi
 		html_footer ;;
+	
+	*\ README\ *)
+		d="README"
+		header
+		html_header
+		user_box
+		echo "<h2>README</h2>"
+		echo '<pre>'
+		cat ${tiny}/README
+		echo '</pre>' && html_footer ;;
 		
 	*\ hg\ *)
 		header

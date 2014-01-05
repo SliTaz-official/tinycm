@@ -22,8 +22,8 @@ When you have your copy of TinyCM you can then install a web interface under a
 CGI/SHell enabled web server such as Busybox HTTPd, LightTPD or Apache. Gettext
 must be installed for localisation support. So, let's download the Content Manager:
 
-	$ wget http://mirror.slitaz.org/sources/tinycm/tinycm-VERSION.tar.gz
-	$ tar xzf tinycm-VERSION.tar.gz
+	$ wget http://hg.slitaz.org/tinycm/archive/tip.tar.gz
+	$ tar xzf tinycm-*.tar.gz
 	
 Or clone the Mercurial repo:
 	
