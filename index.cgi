@@ -249,6 +249,10 @@ public_people() {
 Real name : $NAME
 </pre>
 EOT
+	# Display personnal user profile
+	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
+		cat $PEOPLE/$USER/profile.txt | wiki_parser
+	fi
 }
 
 # Display authentified user profile. TODO: change password
@@ -260,6 +264,21 @@ Email      : $MAIL
 Secure key : $KEY
 </pre>
 EOT
+	# Each user can have personal profile page
+	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
+		cat $PEOPLE/$USER/profile.txt | wiki_parser
+		cat << EOT
+<div id="tools">
+	<a href="$script?edit=profile">$(gettext "Edit profile")</a>
+</div>
+EOT
+	else
+		cat << EOT
+<div id="tools">
+	<a href="$script?edit=profile">$(gettext "Create a profile page")</a>
+</div>
+EOT
+	fi
 }
 
 # The CM style parser. Just a title, simple text formating and internal
@@ -315,6 +334,15 @@ EOT
 			cd $tiny
 		fi
 	fi
+}
+
+# Save a user profile.
+save_profile() {
+	path="$PEOPLE/$user"
+	cp -f ${path}/${d}.txt ${path}/${d}.bak
+	sed "s/$(echo -en '\r') /\n/g" > ${path}/${d}.txt << EOT
+$(GET content)
+EOT
 }
 
 # CM tools (edit, diff, etc).
@@ -416,7 +444,9 @@ case " $(GET) " in
 		user_box
 		get_lang
 		if check_auth; then
-			get_lang
+			if [ "$doc" == "profile" ]; then
+				wiki="$PEOPLE/$user"
+			fi
 			cat << EOT
 <h2>$(gettext "Edit $doc [ $i18n ]")</h2>
 
@@ -440,7 +470,13 @@ EOT
 	*\ save\ *)
 		d="$(GET save)"
 		if check_auth; then
-			save_document
+			# User profile
+			if [ "$d" == "profile" ]; then
+				save_profile
+				header "Location: $script?user=$user"
+			else
+				save_document
+			fi
 		fi 
 		header "Location: $script?d=$d" ;;
 		
@@ -534,10 +570,6 @@ EOT
 			auth_people
 		else
 			public_people
-		fi
-		# Each user can have personal profile page
-		if [ -f "$PEOPLE/$USER/profile.txt" ]; then
-			cat $PEOPLE/$USER/profile.txt | wiki_parser
 		fi
 		html_footer ;;
 		
