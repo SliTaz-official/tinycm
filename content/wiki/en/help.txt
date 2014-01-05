@@ -1,4 +1,4 @@
-NOWIKI
+[NOWIKI]
 
 <h2>Help</h2>
 
