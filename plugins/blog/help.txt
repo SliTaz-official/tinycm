@@ -1,0 +1,4 @@
+
+The blog plugin use the Wiki syntax for formating text and store all 
+posts in $content/blog. It can replace the default index to have a
+dynamic website home page.
