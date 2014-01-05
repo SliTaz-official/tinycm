@@ -34,7 +34,7 @@ new or existing page:
 [Help|en/help]
 </pre>
 <p>
-You can also use a full URL. Thos time we separate the link name of the URL
+You can also use a full URL. This time we separate the link name of the URL
 with an exclamation !
 </p>
 <pre>

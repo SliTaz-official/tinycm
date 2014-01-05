@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# TinyCM Plugin - Upload file to the Cloud
+# TinyCM Plugin - Upload files to the Cloud
 #
 . /usr/lib/slitaz/httphelper
 
@@ -20,7 +20,7 @@ case " $(GET) " in
 		# Sanity check
 		[ ! -d "$cloud" ] && mkdir -p ${cloud}
 		[ ! -f "$cloudlog" ] && touch ${cloudlog}
-		# Move/Overwrite file to the cloud and set permissions
+		# Move/Overwrite files to the cloud and set permissions
 		if ! mv -f ${tmpname} ${cloud}/${name}; then
 			echo "ERROR: ${name}" && exit 1
 		fi

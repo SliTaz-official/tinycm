@@ -535,7 +535,7 @@ EOT
 		else
 			public_people
 		fi
-		# Each user can have personnal profile page
+		# Each user can have personal profile page
 		if [ -f "$PEOPLE/$USER/profile.txt" ]; then
 			cat $PEOPLE/$USER/profile.txt | wiki_parser
 		fi
@@ -613,7 +613,7 @@ EOT
 					gettext "Adding current content and committing"; echo
 					[ ! -f "$wiki/index.txt" ] && touch $wiki/$index.txt
 					hg add && hg commit -u "$NAME <$MAIL>" \
-						-m "Initial commit with curent content"
+						-m "Initial commit with current content"
 					echo '</pre>' && cd .. 
 				fi ;;
 		esac
