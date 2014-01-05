@@ -8,6 +8,9 @@ TinyCM - A micro CGI/SHell Content Manager!
 	* Plugins support for any kind of functions such as a blog
 	* Help file with formating rules, macro and HTML example code
 	* Gettext support and languages support for documents
+	* Mercurial integration with web and cmdline commits
+	* Shared and secure authentification system
+	* Easilely themable and fine desktop integration
 
 
 Installation
