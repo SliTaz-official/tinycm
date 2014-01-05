@@ -47,8 +47,8 @@ install:
 	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	
 	# Auth system may be used by an other app
-	touch $(DESTDIR)$(LOGIN)/auth/people
-	chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
+	#touch $(DESTDIR)$(LOGIN)/auth/people
+	#chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
 	chown -R www.www $(DESTDIR)$(LOGIN)/auth
 	chown -R www.www $(DESTDIR)$(LOGIN)/people
 	chown www.www $(DESTDIR)$(WEB)/content

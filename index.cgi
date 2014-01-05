@@ -222,6 +222,10 @@ EOT
 
 # Create a new user in AUTH_FILE and PEOPLE
 new_user_config() {
+	if [ ! -f "$AUTH_FILE" ];then
+		touch $(DESTDIR)$(LOGIN)/auth/people
+		chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
+	fi
 	key=$(echo -n "$user:$mail:$pass" | md5sum | awk '{print $1}')
 	echo "$user:$pass" >> $AUTH_FILE
 	mkdir -p $PEOPLE/$user/
