@@ -339,7 +339,7 @@ EOT
 	# Log
 	if [ "$new" ]; then
 		echo "Page created by: $(link_user)" | log
-		
+		echo "New document: <a href='$script?d=$d'>$d</a>" | log_activity
 		if [ "$HG" == "yes" ]; then
 			cd $content && hg -q add
 			hg commit -q -u "$NAME <$MAIL>" -m "Created new document: $d"
@@ -348,7 +348,6 @@ EOT
 	else
 		# Here we may clean log: cat && tail -n 40
 		echo "Page edited by: $(link_user)" | log
-		echo "New document: <a href='$script?d=$d'>$d</a>" | log_activity
 		if [ "$HG" == "yes" ]; then
 			cd $content && hg commit -q -u "$NAME <$MAIL>" \
 				-m "Edited document: $d"
@@ -372,8 +371,8 @@ wiki_tools() {
 <div id="tools">
 	<a href="$script?edit=$d">$(gettext "Edit document")</a>
 	<a href="$script?diff=$d">$(gettext "Last diff")</a>
-	<a href="$script?log=$d">$(gettext "Activity")</a>
-	<a href="$script?dashboard">Dashboard</a>
+	<a href="$script?log=$d">$(gettext "File log")</a>
+	<a href="$script?dashboard">$(gettext "Dashboard")</a>
 	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
 </div>
 EOT

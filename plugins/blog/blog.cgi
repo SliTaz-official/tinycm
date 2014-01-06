@@ -87,7 +87,7 @@ case " $(GET) " in
 		html_header
 		user_box
 		# Blog tools for auth users
-		if ! admin_user; then
+		if ! check_auth && admin_user; then
 			gettext "You must be admin to create a new Blog post"
 			html_footer && exit 0
 		fi
@@ -116,7 +116,7 @@ EOT
 
 	*\ blogsave\ *)
 		d="$(GET blogsave)"
-		if admin_user; then
+		if check_auth && admin_user; then
 			[ -d "$blog" ] || mkdir -p ${blog}
 			# New post ?
 			if [ ! -f "${blog}/${d}.txt" ]; then
@@ -138,7 +138,7 @@ EOT
 		user_box
 		#echo "<h2>$(gettext "Latest blog posts")</h2>"
 		# Blog tools for auth users
-		if admin_user; then
+		if check_auth && admin_user; then
 			blog_tools
 		fi
 		# Exit if plugin is disabled
