@@ -34,25 +34,20 @@ msgfmt:
 install:
 	install -m 0700 -d $(DESTDIR)$(LOGIN)/people
 	install -m 0700 -d $(DESTDIR)$(LOGIN)/auth
-	install -m 0755 -d $(DESTDIR)$(WEB)/content
 	install -m 0755 -d $(DESTDIR)$(WEB)/cache
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
 	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
 	
 	cp -a config.cgi favicon.ico index.cgi README style.css \
-		images lib plugins content $(DESTDIR)$(WEB)
-	
-	install -m 0644 data/tinycm.desktop \
-		$(DESTDIR)$(PREFIX)/share/applications
+		images lib plugins content/ $(DESTDIR)$(WEB)
 	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
+	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	
-	# Auth system may be used by an other app
-	#touch $(DESTDIR)$(LOGIN)/auth/people
-	#chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
+	# Set permissions
 	chown -R www.www $(DESTDIR)$(LOGIN)/auth
 	chown -R www.www $(DESTDIR)$(LOGIN)/people
-	chown www.www $(DESTDIR)$(WEB)/content
-	chown www.www $(DESTDIR)$(WEB)/cache
+	chown -R www.www $(DESTDIR)$(WEB)/content
+	chown -R www.www $(DESTDIR)$(WEB)/cache
 
 uninstall:
 	rm -rf $(DESTDIR)$(WEB)

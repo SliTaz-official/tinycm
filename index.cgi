@@ -108,8 +108,9 @@ default_index() {
 	cat > $wiki/$index.txt << EOT
 ==== Welcome ====
 
-This is the default index page of your CM, you can start to edit and adding
-some content to your TinyCM.
+This is the default index page of your TinyCM, you can login then start to
+edit and adding some content. You can read the help about text formating
+and functions: <a href='?d=en/help'>Help page</a>
 
 EOT
 }
@@ -732,6 +733,10 @@ EOT
 		# Generate a default index on first run.
 		if [ ! -f "$wiki/$index.txt" ]; then
 			default_index
+			if [ ! -f "$wiki/$index.txt" ]; then
+				echo "<pre class='error'>Directory: content/ is not writable</pre>"
+				html_footer && exit 0
+			fi
 		fi
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
