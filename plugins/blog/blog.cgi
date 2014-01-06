@@ -45,7 +45,7 @@ show_post() {
 	<span class="date">$date</span>
 EOT
 	# Post tools for auth users
-	if check_auth; then
+	if admin_user; then
 		post_tools
 		echo "</div>"
 	else
@@ -72,7 +72,7 @@ if fgrep -q '[BLOG]' $tiny/$wiki/index.txt && [ ! "$(GET)" ]; then
 	html_header
 	user_box
 	# Post tools for auth users
-	if check_auth; then
+	if admin_user; then
 		blog_tools
 	fi
 	show_posts 5
@@ -87,8 +87,8 @@ case " $(GET) " in
 		html_header
 		user_box
 		# Blog tools for auth users
-		if ! check_auth; then
-			gettext "You must be logged in to create a new Blog post"
+		if ! admin_user; then
+			gettext "You must be admin to create a new Blog post"
 			html_footer && exit 0
 		fi
 		# New post
@@ -97,7 +97,7 @@ case " $(GET) " in
 			last=$(ls -r $blog | head -n 1)
 			nb=${last%.txt}
 			d=$(($nb + 1))
-			conf=$(echo -e "\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n====Title====")
+			conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n====Title====")
 		fi		
 		cat << EOT
 <h2>$(gettext "Blog post"): $d</h2>
@@ -116,7 +116,7 @@ EOT
 
 	*\ blogsave\ *)
 		d="$(GET blogsave)"
-		if check_auth; then
+		if admin_user; then
 			[ -d "$blog" ] || mkdir -p ${blog}
 			# New post ?
 			if [ ! -f "${blog}/${d}.txt" ]; then
@@ -138,7 +138,7 @@ EOT
 		user_box
 		#echo "<h2>$(gettext "Latest blog posts")</h2>"
 		# Blog tools for auth users
-		if check_auth; then
+		if admin_user; then
 			blog_tools
 		fi
 		# Exit if plugin is disabled
