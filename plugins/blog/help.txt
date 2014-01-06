@@ -1,4 +1,4 @@
 
-The blog plugin use the Wiki syntax for formating text and store all 
+The blog plugin uses the Wiki syntax for formating text and stores all 
 posts in $content/blog. It can replace the default index to have a
 dynamic website home page by adding [BLOG] to the main index.

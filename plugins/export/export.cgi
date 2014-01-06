@@ -5,9 +5,9 @@
 . /usr/lib/slitaz/httphelper
 
 #
-# NOTE: Exporting wiki and make all url's work is is a bit tricky and
-# actually don't work as expected. The goal is to have a SliTaz codex
-# online thta can be include on the ISO, so we could have an export
+# NOTE: Exporting wiki and making all urls work is a bit tricky and
+# actually doesn't work as expected. The goal is to have a SliTaz codex
+# online that can be included on the ISO, so we could have an export
 # including a small CGI script to simply display wiki pages via HTTPd
 # knowing that with HTML we must also deal with ../../
 #
@@ -87,7 +87,7 @@ EOT
 				sed -i s'/index.cgi/index.html/'/ ${f}
 				doc="[0-9a-zA-Z\.\#/~\_%=\?\&,\+\:@;!\(\)\*\$'\-]*"
 				#
-				# The sed from wiki url's to html bug if there is 2 link
+				# The sed from wiki urls to html bug if there is 2 links
 				# on same line: [test|Test] tralala [en/index|English]
 				#
 				cat $d.txt | wiki_parser | sed \

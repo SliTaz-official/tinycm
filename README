@@ -3,14 +3,14 @@ TinyCM - A micro CGI/SHell Content Manager!
 
 
 	* CGI/Shell powered, small Wiki syntax and HTML JS editor helper
-	* Tiny, fast, elegent and easy to install and customize
+	* Tiny, fast, elegant and easy to install and customize
 	* No database, flat file storage with diff and log
 	* Plugins support for any kind of functions such as a blog
-	* Help file with formating rules, macro and HTML example code
+	* Help file with formatting rules, macro and HTML example code
 	* Gettext support and languages support for documents
 	* Mercurial integration with web and cmdline commits
-	* Shared and secure authentification system
-	* Easilely themable and fine desktop integration
+	* Shared and secure authentication system
+	* Easily themable and fine desktop integration
 
 
 Installation
@@ -44,7 +44,7 @@ and use make to install:
 Plugins
 -------
 All plugins are located in plugins/* and consist of a SHell script, a config
-file and an optionnal help.txt file. To start a new plugin simply copy and
+file and an optional help.txt file. To start a new plugin simply copy and
 rename the skel directory and files. Then edit the configuration file and
 start coding. 
 
@@ -70,7 +70,7 @@ Then all content will be under Hg and people can commit as usual. To make sure
 we use the latest files on the web interface we use a Hook to update the repo on
 each commit. To have the mercurial web interface for the repo you can setup
 a vhost, TinyCM provides a small web interface to display a Hg log but it can
-be extented via a plugin. Hook for $content/.hg/hgrc:
+be extended via a plugin. Hook for $content/.hg/hgrc:
 
 [hooks]
 incoming = hg update

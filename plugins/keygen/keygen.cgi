@@ -17,7 +17,7 @@ case " $(GET) " in
 <div style="text-align: center; padding: 20px 0;">
 	<form method="get" action="$script">
 		<input type="text" name="keygen" 
-			placeholder="$(gettext "Random or personnal string")" />
+			placeholder="$(gettext "Random or personal string")" />
 		<div>
 			<input type="submit" name="encryption" value="base64" />
 			<input type="submit" name="encryption" value="md5sum" />
