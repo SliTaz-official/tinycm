@@ -5,7 +5,7 @@
 . /usr/lib/slitaz/httphelper
 
 cloud="$tiny/$content/cloud"
-cloudlog="$tiny/$cache/cloud.log"
+cloudlog="$tiny/$cache/log/cloud.log"
 
 case " $(GET) " in
 	*\ upcloud\ *)
@@ -14,7 +14,7 @@ case " $(GET) " in
 		[ ! "$(FILE datafile name)" ] && header "Location: $HTTP_REFERER"
 		user="$(GET user)"
 		cloud="../../content/cloud"
-		cloudlog="../../cache/cloud.log"
+		cloudlog="../../cache/log/cloud.log"
 		name=$(FILE datafile name)
 		tmpname=$(FILE datafile tmpname)
 		# Sanity check
@@ -93,7 +93,7 @@ EOT
 $(gettext "Upload files on the cloud to share them with some other people
 or use them in your documents content.")
 </p>
-<div style="text-align: center;"">
+<div style="text-align: center;">
 	<form method="post" action="plugins/cloud/cloud.cgi?upcloud&amp;user=$user"
 		enctype="multipart/form-data">
 		<input type="file" name="datafile" size="50" />

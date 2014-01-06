@@ -10,7 +10,7 @@ a:hover { text-decoration: none; }
 img { border: 0pt none; vertical-align: middle; }
 pre {
 	overflow: auto;
-	font-size: 96%;
+	font-size: 98%;
 }
 textarea, table { width: 100%; }
 thead { font-weight: bold; }
@@ -148,10 +148,11 @@ thead { font-weight: bold; }
 	padding: 10px;
 }
 
-pre img { padding: 4px; }
+pre img { margin: 4px 4px 4px 0px; }
 
 .error { color: red; }
 .ok { color: green; }
+.date { color: #666; font-size: 96%; }
 
 /* Progress bar */
 
@@ -213,7 +214,7 @@ select {
 
 #tools { 
 	padding-top: 10px; 
-	margin-top: 20px; 
+	margin: 20px 0px; 
 	/*border-top: 1px dotted #ccc;
 	position: fixed;
 	bottom: 10px;*/
@@ -279,3 +280,10 @@ input, textarea, select, #tools a {
 }
 
 #footer a { padding: 0 2px; }
+
+/* Plugins CSS */
+
+.blogpost { border-bottom: 1px dotted #ddd; }
+.post-tools { border-bottom: 1px dotted #ddd; padding: 4px 0;}
+.post-tools a { text-decoration: none; }
+.post-tools a:hover { text-decoration: underline; }

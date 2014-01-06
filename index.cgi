@@ -20,6 +20,7 @@ plugins="plugins"
 tmp="/tmp/tinycm"
 sessions="$tmp/sessions"
 script="$SCRIPT_NAME"
+activity="$cache/log/activity.log"
 
 # Content negotiation for Gettext
 IFS=","
@@ -113,6 +114,15 @@ some content to your TinyCM.
 EOT
 }
 
+# Log main activity.
+log_activity() {
+	[ -d "$cache/log" ] || mkdir -p ${cache}/log
+	#gravatar="$(get_gravatar $MAIL 24)"
+	grep ^[A-Z] | \
+		sed s"#^[A-Z]\([^']*\)#$user|$(date '+%Y-%m-%d')|\0#" \
+		>> $cache/log/activity.log
+}
+
 # Log documents activity.
 log() {
 	grep ^[A-Z] | \
@@ -132,6 +142,11 @@ check_auth() {
 	else
 		return 1
 	fi
+}
+
+# Check if user is admin
+admin_user() {
+	fgrep -q 'ADMIN_USER="yes"' ${PEOPLE}/${user}/account.conf
 }
 
 # Authentified or not
@@ -240,6 +255,10 @@ KEY="$key"
 
 EOT
 	chmod 0600 $PEOPLE/$user/account.conf
+	# First created user is admin
+	if [ $(ls ${PEOPLE} | wc -l) == "1" ]; then
+		echo 'ADMIN_USER="yes"' >> $PEOPLE/$user/account.conf
+	fi
 }
 
 # Display user public profile.
@@ -320,14 +339,16 @@ EOT
 	# Log
 	if [ "$new" ]; then
 		echo "Page created by: $(link_user)" | log
+		
 		if [ "$HG" == "yes" ]; then
 			cd $content && hg -q add
 			hg commit -q -u "$NAME <$MAIL>" -m "Created new document: $d"
 			cd $tiny
 		fi
 	else
-		# Here we will clean log: cat && tail -n 40
+		# Here we may clean log: cat && tail -n 40
 		echo "Page edited by: $(link_user)" | log
+		echo "New document: <a href='$script?d=$d'>$d</a>" | log_activity
 		if [ "$HG" == "yes" ]; then
 			cd $content && hg commit -q -u "$NAME <$MAIL>" \
 				-m "Edited document: $d"
@@ -485,6 +506,32 @@ EOT
 		header
 		html_header
 		user_box
+		# Main activity
+		if [ "$d" == "log" ]; then
+			echo "<h2>$(gettext "Activity")</h2>"
+			if check_auth; then
+				echo "<div id='tools'>"
+				echo "<a href='$script?dashboard'>Dashboard</a>"
+				echo "</div>"
+			fi 
+			echo '<pre>'
+			if [ -f "$cache/log/activity.log" ]; then
+				IFS="|"
+				tac $cache/log/activity.log | while read USER DATE LOG
+				do
+					. ${PEOPLE}/${USER}/account.conf
+					cat << EOT
+<a href='$script?user=$USER'>$(get_gravatar $MAIL 24)</a>\
+<span class='date'>$DATE -</span> $LOG
+EOT
+				done
+				unset IFS
+			else
+				gettext "No activity log yet"; echo
+			fi
+			echo '</pre>'
+			html_footer && exit 0
+		fi
 		get_lang
 		echo "<h2>$(gettext "Activity for:") <a href='$script?d=$d'>$d</a></h2>"
 		echo '<pre>'
@@ -497,6 +544,26 @@ EOT
 		if check_auth; then
 			wiki_tools
 		fi 
+		html_footer ;;
+	
+	*\ ls\ *)
+		d="Document list"
+		header
+		html_header
+		user_box
+		echo "<h2>$(gettext "Document list")</h2>"
+		if check_auth; then
+			echo "<div id='tools'>"
+			echo "<a href='$script?dashboard'>Dashboard</a>"
+			echo "</div>"
+		fi 
+		echo '<pre>'
+		cd ${wiki}
+		for d in $(find . -type f | sed s'/.\///')
+		do
+			echo "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
+		done
+		echo '</pre>'
 		html_footer ;;
 		
 	*\ diff\ *)
@@ -569,6 +636,8 @@ EOT
 		if check_auth && [ "$(GET user)" == "$user" ]; then
 			auth_people
 		else
+			# check_auth will set VARS to current logged user: re-source
+			. $PEOPLE/"$(GET user)"/account.conf
 			public_people
 		fi
 		html_footer ;;
@@ -590,17 +659,28 @@ EOT
 		echo "<h2>$d</h2>"
 		if check_auth; then
 			cat << EOT
+<div id="tools">
+	<a href='$script?log'>Activity log</a>
+	<a href='$script?ls'>List files</a>
+</div>
+
 <pre>
 Users     : $users
 Wiki      : $docs ($wikisize)
 Cache     : $cachesize
 Mercurial : $hg
 </pre>
-
-<div id="tools">
-
-</div>
-
+<h3>Admin users</h3>
+EOT
+			# Get the list of administrators
+			for u in $(ls $PEOPLE)
+			do
+				user=${u}
+				if admin_user; then
+					echo "<a href='?user=$u'>$u</a>"
+				fi
+			done
+			cat << EOT
 <h3>$(gettext "Plugins")</h3>
 <pre>
 EOT

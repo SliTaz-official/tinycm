@@ -21,25 +21,44 @@ EOT
 # Post tools
 post_tools() {
 	cat << EOT
-<div class="post-tools">
-	${d}: <a href="$script?blogedit&amp;d=${d}">$(gettext "Edit post")</a>
-</div>
+	- <a href="$script?blogedit&amp;d=${d}">$(gettext "Edit it!")</a>
 EOT
+#<a href="$script?blogrm&amp;d=${d}">$(gettext "Remove")</a>
 }
 
 # Display blog post: show_posts nb
-show_posts() {
-	for p in $(find $blog -type f | head -n $1)
-	do
-		name=$(basename $p)
-		d=${name%.txt}
-		echo "<div class=\"blogpost\">"
-		cat ${blog}/${d}.txt | wiki_parser
+show_post() {
+	d=${1%.txt}
+	date=$(fgrep 'DATE=' ${blog}/${d}.txt | cut -d '"' -f 2)
+	# Get post author
+	author=$(fgrep 'AUTHOR=' ${blog}/${d}.txt | cut -d '"' -f 2)
+	if [ -f "${PEOPLE}/${author}/account.conf" ]; then
+		. ${PEOPLE}/${author}/account.conf
+	else
+		echo ERROR: ${PEOPLE}/${author}/account.conf
+	fi
+	echo "<div class=\"blogpost\">"
+	cat ${blog}/${d}.txt | sed -e '/AUTHOR=/'d -e '/DATE=/'d | wiki_parser
+	cat << EOT
+<div class="post-tools">
+	<a href="$script?user=$USER">$(get_gravatar $MAIL 24)</a>
+	<span class="date">$date</span>
+EOT
+	# Post tools for auth users
+	if check_auth; then
+		post_tools
 		echo "</div>"
-		# Post tools for auth users
-		if check_auth; then
-			post_tools
-		fi
+	else
+		echo "</div>"
+	fi
+	echo "</div>"
+}
+
+# Display blog post: show_posts count
+show_posts() {
+	for p in $(ls -r $blog | head -n $1)
+	do
+		show_post ${p}
 	done
 }
 
@@ -47,12 +66,11 @@ show_posts() {
 # Index main page can display the lastest Blog posts
 #
 if fgrep -q '[BLOG]' $tiny/$wiki/index.txt && [ ! "$(GET)" ]; then
-	d="Blog"
+	d="Blog posts"
 	index="blog"
 	header
 	html_header
 	user_box
-	echo "<h2>$(gettext "Latest blog posts")</h2>"
 	# Post tools for auth users
 	if check_auth; then
 		blog_tools
@@ -75,8 +93,11 @@ case " $(GET) " in
 		fi
 		# New post
 		if [ "$d" == "new" ]; then
-			d=$(date '+%Y%m%d')
-			[ -f "$blog/$d.txt" ] && d=$(date '+%Y%m%d-%H%M')
+			date=$(date '+%Y-%M-%d')
+			last=$(ls -r $blog | head -n 1)
+			nb=${last%.txt}
+			d=$(($nb + 1))
+			conf=$(echo -e "\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n====Title====")
 		fi		
 		cat << EOT
 <h2>$(gettext "Blog post"): $d</h2>
@@ -84,7 +105,7 @@ case " $(GET) " in
 <div id="edit">
 	<form method="get" action="$script" name="editor">
 		<input type="hidden" name="blogsave" value="$d" />
-		<textarea name="content">$(cat "$blog/$d.txt")</textarea>
+		<textarea name="content">$conf $(cat "$blog/$d.txt")</textarea>
 		<input type="submit" value="$(gettext "Post content")" />
 		$(gettext "Code Helper:")
 		$(cat lib/jseditor.html)
@@ -97,6 +118,12 @@ EOT
 		d="$(GET blogsave)"
 		if check_auth; then
 			[ -d "$blog" ] || mkdir -p ${blog}
+			# New post ?
+			if [ ! -f "${blog}/${d}.txt" ]; then
+				echo "New Blog post: <a href='$script?blog=$d'>Read it!</a>" \
+					| log_activity
+			fi
+			# Write content to file
 			sed "s/$(echo -en '\r') /\n/g" > ${blog}/${d}.txt << EOT
 $(GET content)
 EOT
@@ -104,12 +131,12 @@ EOT
 		header "Location: $script?blog" ;;
 		
 	*\ blog\ *)
-		d="Latest blog posts"
-		nb="20"
+		d="Blog posts"
+		count="20"
 		header
 		html_header
 		user_box
-		echo "<h2>$(gettext "Latest blog posts")</h2>"
+		#echo "<h2>$(gettext "Latest blog posts")</h2>"
 		# Blog tools for auth users
 		if check_auth; then
 			blog_tools
@@ -120,7 +147,12 @@ EOT
 			gettext "Blog plugin is not yet active."; echo "</p>"
 			html_footer && exit 0
 		fi
-		show_posts ${nb}
+		# Single post
+		if [ "$(GET blog)" != "blog" ]; then
+			show_post "$(GET blog)"
+		else
+			show_posts ${count}
+		fi
 		html_footer
 		exit 0 ;;
 esac

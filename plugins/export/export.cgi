@@ -4,6 +4,14 @@
 #
 . /usr/lib/slitaz/httphelper
 
+#
+# NOTE: Exporting wiki and make all url's work is is a bit tricky and
+# actually don't work as expected. The goal is to have a SliTaz codex
+# online thta can be include on the ISO, so we could have an export
+# including a small CGI script to simply display wiki pages via HTTPd
+# knowing that with HTML we must also deal with ../../
+#
+
 if [ "$(GET export)" ]; then
 	d="Export"
 	date=$(date "+%Y%m%d")
@@ -14,8 +22,8 @@ if [ "$(GET export)" ]; then
 	cat << EOT 
 <h2>Export</h2>
 <p>
-$(gettext "Export to HTML and create a tarball of your text content or
-uploaded files.")
+$(gettext "EXPERIMENTAL: Export to HTML and create a tarball of your text
+content or plugins files.")
 </p>
 <form method="get" action="$WEB_URL">
 	<select name="export">
@@ -50,21 +58,18 @@ EOT
 	}
 	# Export requested content
 	case " $(GET export) " in
-		*\ uploads\ *)
-			export="uploads"
+		*\ cloud\ *)
+			export="cloud"
 			tmpdir="content"
 			echo '<pre>'
 			gettext "Exporting:"; echo " $export"
 			gen_tarball
 			echo '</pre>' 
 			dl_link ;;
-		*)
-			[ "$(GET export)" == "export" ] && exit 0
-			export="$(GET export)"
-			format="html"
+		*\ wiki\ *)
+			export="wiki"
 			echo '<pre>'
 			gettext "Exporting:"; echo " $export"
-			gettext "Creating tmp directory:"; echo " PID $$ DATE $date"
 			mkdir -p $tmpdir/$export
 			gettext "Copying CSS style and images..."; echo
 			cp -a style.css images $tmpdir/$export
@@ -72,28 +77,35 @@ EOT
 			for d in $(find . -type f | sed s'!./!!')
 			do
 				d=${d%.txt}
-				[ "$d" == "help" ] && continue
+				[ "$d" == "en/help" ] && continue
 				gettext "Exporting: "; echo "$d.txt"
 				mkdir -p $tmpdir/$export/$(dirname $d)
 				f=$tmpdir/$export/$d.html
-				html_header > $f
-				sed -i '/functions.js/'d $f
-				sed -i '/favicon.ico/'d $f
+				html_header > ${f}
+				sed -i '/functions.js/'d ${f}
+				sed -i '/favicon.ico/'d ${f}
+				sed -i s'/index.cgi/index.html/'/ ${f}
+				doc="[0-9a-zA-Z\.\#/~\_%=\?\&,\+\:@;!\(\)\*\$'\-]*"
+				#
+				# The sed from wiki url's to html bug if there is 2 link
+				# on same line: [test|Test] tralala [en/index|English]
+				#
 				cat $d.txt | wiki_parser | sed \
-					-e '/functions.js/'d \
-					-e s'/?d=//'g \
-					-e s"#href='\([^']*\)*\>#\0.html#"g >> $f 
-				html_footer >> $f
+					s"#href='\([^]]*\)?d=\($doc\)'>#href='\2.html'>#"g >> ${f} 
+				html_footer >> ${f}
 			done
 			cd $tmpdir/$export
-			[ "$format" == "html" ] && css_path
+			css_path
 			gen_tarball
-			gettext "Removing temporary files..."; echo
 			rm -rf $tmp/export/$$
 			echo '</pre>'
 			dl_link ;;
+		*\ export\ ) html_footer && exit 0 ;;
+		*)
+			echo '<pre>'
+			gettext "Export not yet implemented for"; echo ": $(GET export)"
+			echo '</pre>' ;;
 	esac
 	
-	html_footer
-	exit 0
+	html_footer && exit 0
 fi
