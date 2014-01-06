@@ -750,7 +750,7 @@ EOT
 			echo " <a href='?d=en/help'>help</a>"
 		else
 			if fgrep -q [NOWIKI] $wiki/$d.txt; then
-				cat $wiki/$d.txt | sed '/[NOWIKI]/'d
+				cat $wiki/$d.txt | sed '/\[NOWIKI\]/'d
 			else
 				cat $wiki/$d.txt | wiki_parser
 			fi
