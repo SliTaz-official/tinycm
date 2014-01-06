@@ -41,6 +41,14 @@ and use make to install:
 	$ make install
 
 
+Plugins
+-------
+All plugins are located in plugins/* and consist of a SHell script, a config
+file and an optionnal help.txt file. To start a new plugin simply copy and
+rename the skel directory and files. Then edit the configuration file and
+start coding. 
+
+
 Standalone Server
 -----------------
 On SliTaz you can install a copy of TinyCM anywhere under your $HOME directory
