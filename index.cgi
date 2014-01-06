@@ -730,14 +730,20 @@ EOT
 		html_header
 		user_box
 		get_lang
-		# Generate a default index on first run.
+		# Generate a default index on first run
 		if [ ! -f "$wiki/$index.txt" ]; then
-			default_index
-			if [ ! -f "$wiki/$index.txt" ]; then
-				echo "<pre class='error'>Directory: content/ is not writable</pre>"
+			if ! default_index; then
+				echo "<pre class='error'>Directory : content/ is not writable"
 				html_footer && exit 0
 			fi
 		fi
+		# Check cache dir
+		if [ ! -w "$cache" ]; then
+			echo "<pre class='error'>Directory : cache/ is not writable"
+			echo "Command   : install -m 0777 -d $tiny/cache</pre>"
+			html_footer && exit 0
+		fi
+		# Wiki document
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
 			gettext "The document does not exist. You can create it or read the"
