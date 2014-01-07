@@ -1,0 +1,13 @@
+==== Testsuite ====
+
+<p>HTTP link: [SliTaz!http://slitaz.org]</p>
+<p>Local link: [Index|index]</p>
+
+=== Images ===
+
+<p>
+[http://www.slitaz.org/images/logo.png]
+</p>
+
+
+

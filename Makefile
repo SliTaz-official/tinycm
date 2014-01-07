@@ -38,8 +38,8 @@ install:
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
 	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
 	
-	cp -a config.cgi favicon.ico index.cgi README style.css \
-		images lib plugins content/ $(DESTDIR)$(WEB)
+	cp -a config.cgi favicon.ico index.cgi style.css images lib \
+		plugins content/ $(DESTDIR)$(WEB)
 	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	
