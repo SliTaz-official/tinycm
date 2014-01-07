@@ -111,7 +111,7 @@ EOT
 		for f in $(ls ${cloud})
 		do
 			case $f in
-				*.png|*.jpg) image="images/image.png" ;;
+				*.png|*.jpg|*.gif) image="images/image.png" ;;
 				*) image="images/empty.png" ;;
 			esac
 			cat << EOT

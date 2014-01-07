@@ -1,9 +1,6 @@
 # CM configuration
 #
 
-# CM URL for redirection and RSS
-WEB_URL="http://localhost/cgi-bin/tinycm/"
-
 # Administrator email.
 ADMIN_MAIL="root@$SERVER_NAME"
 

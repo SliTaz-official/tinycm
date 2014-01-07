@@ -11,7 +11,6 @@
 . config.cgi
 
 tiny="$PWD"
-po="en fr"
 content="content"
 wiki="$content/wiki"
 index="index"
@@ -658,12 +657,24 @@ EOT
 		cachesize="$(du -sh $cache | awk '{print $1}')"
 		[ "$HG" != "yes" ] && hg=$(gettext "disabled")
 		[ "$HG" == "yes" ] && hg=$(gettext "enabled")
+		# Source all plugins.conf to get DASHBOARD_TOOLS and ADMIN_TOOLS
+		ADMIN_TOOLS=""
+		DASHBOARD_TOOLS=""
+		for p in $(ls $plugins)
+		do
+			. $plugins/$p/$p.conf
+		done
+		if check_auth && ! admin_user; then
+			ADMIN_TOOLS=""
+		fi
 		echo "<h2>$d</h2>"
 		if check_auth; then
 			cat << EOT
 <div id="tools">
 	<a href='$script?log'>Activity log</a>
 	<a href='$script?ls'>List files</a>
+	$DASHBOARD_TOOLS
+	$ADMIN_TOOLS
 </div>
 
 <pre>
@@ -735,7 +746,7 @@ EOT
 		# Generate a default index on first run
 		if [ ! -f "$wiki/$index.txt" ]; then
 			if ! default_index; then
-				echo "<pre class='error'>Directory : content/ is not writable"
+				echo "<pre class='error'>Directory : content/ is not writable</pre>"
 				html_footer && exit 0
 			fi
 		fi
