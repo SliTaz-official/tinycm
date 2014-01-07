@@ -108,9 +108,11 @@ default_index() {
 	cat > $wiki/$index.txt << EOT
 ==== Welcome ====
 
+<p>
 This is the default index page of your TinyCM, you can login then start to
 edit and adding some content. You can read the help about text formating
 and functions: <a href='?d=en/help'>Help page</a>
+</p>
 
 EOT
 }
@@ -264,11 +266,7 @@ EOT
 
 # Display user public profile.
 public_people() {
-	cat << EOT
-<pre>
-Real name : $NAME
-</pre>
-EOT
+	echo "</pre>"
 	# Display personnal user profile
 	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
 		cat $PEOPLE/$USER/profile.txt | wiki_parser
@@ -278,8 +276,6 @@ EOT
 # Display authentified user profile. TODO: change password
 auth_people() {
 	cat << EOT
-<pre>
-Real name  : $NAME
 Email      : $MAIL
 Secure key : $KEY
 </pre>
@@ -420,6 +416,7 @@ case " $(POST) " in
 		if [ "$pass" == "$valid" ] && [ "$pass" != "" ]; then
 			md5session=$(echo -n "$$:$user:$pass:$$" | md5sum | awk '{print $1}')
 			[ -d $sessions ] || mkdir -p $sessions
+			date '+%Y-%m-%d' > ${PEOPLE}/${user}/last
 			echo "$md5session" > $sessions/$user
 			header "Location: $script" \
 				"Set-Cookie: auth=$user:$md5session; HttpOnly"
@@ -626,13 +623,18 @@ EOT
 	*\ user\ *)
 		# User profile
 		d="$(GET user)"
+		last="$(cat $PEOPLE/"$(GET user)"/last)"
 		header
 		html_header
 		user_box
 		. $PEOPLE/"$(GET user)"/account.conf
-		echo "<h2>$(get_gravatar $MAIL) $(GET user)</h2>"
-		loglines=$(fgrep $(GET user) $(find $cache -name *.log) | wc -l)
-		gettext "Activities:"; echo " $loglines"
+cat << EOT
+<h2>$(get_gravatar $MAIL) $NAME</h2>
+
+<pre>
+$(gettext "User name  :") $USER
+$(gettext "Last login :") $last
+EOT
 		if check_auth && [ "$(GET user)" == "$user" ]; then
 			auth_people
 		else
