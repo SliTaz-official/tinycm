@@ -93,7 +93,7 @@ case " $(GET) " in
 		fi
 		# New post
 		if [ "$d" == "new" ]; then
-			date=$(date '+%Y-%M-%d')
+			date=$(date '+%Y-%m-%d')
 			last=$(ls -r $blog | head -n 1)
 			nb=${last%.txt}
 			d=$(($nb + 1))
