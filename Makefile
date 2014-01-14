@@ -6,7 +6,7 @@ PREFIX?=/usr
 DESTDIR?=
 WEB?=/var/www/cgi-bin/tinycm
 LOGIN?=/var/lib/slitaz
-LINGUAS?=
+LINGUAS?=pt_BR
 
 all:
 

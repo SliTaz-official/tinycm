@@ -1,0 +1,178 @@
+# Brazilian Portuguese translations for TinyCM package.
+# Copyright (C) 2014 THE TinyCM'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the TinyCM package.
+# Claudinei Pereira <claudinei@slitaz.org>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TinyCM\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-08 00:00+0100\n"
+"PO-Revision-Date: 2014-01-14 18:19-0200\n"
+"Last-Translator: Claudinei Pereira <claudinei@slitaz.org>\n"
+"Language-Team: Brazilian Portuguese <i18n@slitaz.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: index.cgi:179
+msgid "Search"
+msgstr "Buscar"
+
+#: index.cgi:190
+msgid "Create a new account"
+msgstr "Criar nova conta"
+
+#: index.cgi:198
+msgid "Login"
+msgstr "Login"
+
+#: index.cgi:208 index.cgi:228
+msgid "User name"
+msgstr "Usuário"
+
+#: index.cgi:209 index.cgi:230
+msgid "Password"
+msgstr "Senha"
+
+#: index.cgi:227
+msgid "Real name"
+msgstr "Nome real"
+
+#: index.cgi:229
+msgid "Email"
+msgstr "Email"
+
+#: index.cgi:232
+msgid "Create new account"
+msgstr "Criar nova conta"
+
+#: index.cgi:287
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+#: index.cgi:293
+msgid "Create a profile page"
+msgstr "Criar página de perfil"
+
+#: index.cgi:368
+msgid "Edit document"
+msgstr "Editar documento"
+
+#: index.cgi:369
+msgid "Last diff"
+msgstr "Última alteração"
+
+#: index.cgi:370
+msgid "File log"
+msgstr "Log de arquivo"
+
+#: index.cgi:371
+msgid "Dashboard"
+msgstr "Painel"
+
+#: index.cgi:394
+msgid "User"
+msgstr "Usuário"
+
+#: index.cgi:395
+msgid "Description"
+msgstr "Descrição"
+
+#: index.cgi:396
+msgid "Revision"
+msgstr "Revisão"
+
+#: index.cgi:475
+msgid "Save document"
+msgstr "Salvar documento"
+
+#: index.cgi:476
+msgid "Code Helper:"
+msgstr "Ajuda de código:"
+
+#: index.cgi:483
+msgid "You must be logged in to edit pages"
+msgstr "Você deve estar logado para editar páginas"
+
+#: index.cgi:507
+msgid "Activity"
+msgstr "Atividade"
+
+#: index.cgi:526
+msgid "No activity log yet"
+msgstr "Nenhum log de atividade até o momento"
+
+#: index.cgi:532
+msgid "Activity for:"
+msgstr "Atividade para:"
+
+#: index.cgi:550
+msgid "Document list"
+msgstr "Lista de documentos"
+
+#: index.cgi:572
+msgid "Diff for:"
+msgstr "Alterações para:"
+
+#: index.cgi:593
+msgid "Bad login or pass"
+msgstr "Login ou senha não válidos"
+
+#: index.cgi:602
+msgid "Sign Up"
+msgstr "Inscrever-se"
+
+#: index.cgi:610
+msgid "Online registration is disabled"
+msgstr "Registro online está desabilitado"
+
+#: index.cgi:634
+msgid "User name  :"
+msgstr "Usuário     :"
+
+#: index.cgi:635
+msgid "Last login :"
+msgstr "Último login:"
+
+#: index.cgi:658
+msgid "disabled"
+msgstr "desabilitado"
+
+#: index.cgi:659
+msgid "enabled"
+msgstr "habilitado"
+
+#: index.cgi:697
+msgid "Plugins"
+msgstr "Plugins"
+
+#: index.cgi:707
+msgid "You must be logged in to view the dashboard."
+msgstr "Você deve estar logado para visualizar o painel."
+
+#: index.cgi:713
+msgid "Hg is disabled"
+msgstr "Hg está desabilitado"
+
+#: index.cgi:714
+msgid "Hg is not installed"
+msgstr "Hg não está instalado"
+
+#: index.cgi:724
+msgid "Executing: hg init"
+msgstr "Executando: hg init"
+
+#: index.cgi:728
+msgid "Adding current content and committing"
+msgstr "Adicionando conteúdo atual e submetendo alterações"
+
+#: index.cgi:762
+msgid "The document does not exist. You can create it or read the"
+msgstr "O documento não existe. Você pode criá-lo ou ler o"
+
+#: index.cgi:775
+msgid "Mercurial is enabled but no repository found"
+msgstr "Mercurial habilitade porém nenhum repositório encontrado"
