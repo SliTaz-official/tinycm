@@ -435,7 +435,7 @@ case " $(POST) " in
 			header
 			html_header
 			user_box
-			echo "<h2>gettext "User already exists: $user"</h2>"
+			echo "<h2>$(gettext 'User already exists:') $user</h2>"
 			html_footer
 		fi ;;
 esac
