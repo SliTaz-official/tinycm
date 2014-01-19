@@ -5,10 +5,10 @@ PACKAGE="tinycm"
 PREFIX?=/usr
 DESTDIR?=
 WEB?=/var/www/cgi-bin/tinycm
-LOGIN?=/var/lib/slitaz
+AUTH?=/var/lib/slitaz
 LINGUAS?=pt_BR
 
-all:
+all: msgfmt
 
 # i18n
 
@@ -31,24 +31,31 @@ msgfmt:
 
 # Install
 
-install:
-	install -m 0700 -d $(DESTDIR)$(LOGIN)/people
-	install -m 0700 -d $(DESTDIR)$(LOGIN)/auth
-	install -m 0755 -d $(DESTDIR)$(WEB)/cache
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
-	#install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
-	
-	cp -a config.cgi favicon.ico index.cgi style.css images lib \
-		plugins content/ $(DESTDIR)$(WEB)
-	#cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
-	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
-	
+install: install-web
+	install -m 0700 -d $(DESTDIR)$(AUTH)/people
+	install -m 0700 -d $(DESTDIR)$(AUTH)/auth
+	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
+	cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	# Set permissions
-	chown -R www.www $(DESTDIR)$(LOGIN)/auth
-	chown -R www.www $(DESTDIR)$(LOGIN)/people
+	chown -R www.www $(DESTDIR)$(AUTH)/auth
+	chown -R www.www $(DESTDIR)$(AUTH)/people
 	chown -R www.www $(DESTDIR)$(WEB)/content
 	chown -R www.www $(DESTDIR)$(WEB)/cache
+
+install-web:
+	install -m 0755 -d $(DESTDIR)$(WEB)/cache
+	cp -a config.cgi favicon.ico index.cgi style.css images lib \
+		plugins content $(DESTDIR)$(WEB)
+
+install-slitaz: install
+	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 
 uninstall:
 	rm -rf $(DESTDIR)$(WEB)
 	rm $(DESTDIR)$(PREFIX)/share/applications/tinycm.desktop
+
+# Clean source
+
+clean:
+	rm -rf po/mo
