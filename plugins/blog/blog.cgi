@@ -56,7 +56,7 @@ EOT
 
 # Display blog post: show_posts count
 show_posts() {
-	for p in $(ls -r $blog | head -n $1)
+	for p in $(ls $blog | sort -r -n | head -n $1)
 	do
 		show_post ${p}
 	done
