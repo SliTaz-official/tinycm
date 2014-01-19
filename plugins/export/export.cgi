@@ -100,7 +100,8 @@ EOT
 			rm -rf $tmp/export/$$
 			echo '</pre>'
 			dl_link ;;
-		*\ export\ ) html_footer && exit 0 ;;
+		*\ export\ )
+			html_footer && exit 0 ;;
 		*)
 			echo '<pre>'
 			gettext "Export not yet implemented for"; echo ": $(GET export)"

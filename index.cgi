@@ -110,7 +110,7 @@ default_index() {
 <p>
 This is the default index page of your TinyCM, you can login then start to
 edit and adding some content. You can read the help about text formating
-and functions: <a href='?d=en/help'>Help page</a>
+and functions: [Help page|en/help]
 </p>
 
 EOT
@@ -547,20 +547,30 @@ EOT
 		header
 		html_header
 		user_box
-		echo "<h2>$(gettext "Document list")</h2>"
+		echo "<h2>$(gettext "Pages list")</h2>"
 		if check_auth; then
 			echo "<div id='tools'>"
 			echo "<a href='$script?dashboard'>Dashboard</a>"
 			echo "</div>"
-		fi 
+		fi
 		echo '<pre>'
 		cd ${wiki}
 		for d in $(find . -type f | sed s'/.\///')
 		do
-			echo "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
+			cat << EOT
+<a href="$script?d=${d%.txt}">${d%.txt}</a> : \
+<a href="$script?rm=$d">$(gettext "Remove")</a>
+EOT
 		done
 		echo '</pre>'
 		html_footer ;;
+	
+	*\ rm\ *)
+		[ ! check_auth ] && header "Location: Location: $script"
+		d="$(GET rm)"
+		rm ${wiki}/"${d}"
+		rm -rf ${cache}/"${d%.txt}"
+		header "Location: $script?ls" ;;
 		
 	*\ diff\ *)
 		d="$(GET diff)"
@@ -672,7 +682,7 @@ EOT
 			cat << EOT
 <div id="tools">
 	<a href='$script?log'>Activity log</a>
-	<a href='$script?ls'>List files</a>
+	<a href='$script?ls'>Pages list</a>
 	$DASHBOARD_TOOLS
 	$ADMIN_TOOLS
 </div>

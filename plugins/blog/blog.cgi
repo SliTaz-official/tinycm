@@ -23,7 +23,7 @@ post_tools() {
 	cat << EOT
 	- <a href="$script?blogedit&amp;d=${d}">$(gettext "Edit it!")</a>
 EOT
-#<a href="$script?blogrm&amp;d=${d}">$(gettext "Remove")</a>
+#<a href="$script?blogrm=${d}">$(gettext "Remove")</a>
 }
 
 # Display blog post: show_posts nb
@@ -35,7 +35,7 @@ show_post() {
 	if [ -f "${PEOPLE}/${author}/account.conf" ]; then
 		. ${PEOPLE}/${author}/account.conf
 	else
-		echo ERROR: ${PEOPLE}/${author}/account.conf
+		echo "ERROR: ${PEOPLE}/${author}/account.conf"
 	fi
 	echo "<div class=\"blogpost\">"
 	cat ${blog}/${d}.txt | sed -e '/AUTHOR=/'d -e '/DATE=/'d | wiki_parser
@@ -44,8 +44,8 @@ show_post() {
 	<a href="$script?user=$USER">$(get_gravatar $MAIL 24)</a>
 	<span class="date">$date</span>
 EOT
-	# Post tools for auth users
-	if admin_user; then
+	# Post tools for admin users
+	if check_auth && admin_user; then
 		post_tools
 		echo "</div>"
 	else
@@ -86,7 +86,6 @@ case " $(GET) " in
 		header
 		html_header
 		user_box
-		# Blog tools for auth users
 		if ! check_auth && admin_user; then
 			gettext "You must be admin to create a new Blog post"
 			html_footer && exit 0
@@ -97,7 +96,7 @@ case " $(GET) " in
 			last=$(ls -r $blog | head -n 1)
 			nb=${last%.txt}
 			d=$(($nb + 1))
-			conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n====Title====")
+			conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n==== Title ====")
 		fi		
 		cat << EOT
 <h2>$(gettext "Blog post"): $d</h2>
@@ -105,7 +104,7 @@ case " $(GET) " in
 <div id="edit">
 	<form method="get" action="$script" name="editor">
 		<input type="hidden" name="blogsave" value="$d" />
-		<textarea name="content">$conf $(cat "$blog/$d.txt")</textarea>
+		<textarea name="content">${conf}$(cat "$blog/$d.txt")</textarea>
 		<input type="submit" value="$(gettext "Post content")" />
 		$(gettext "Code Helper:")
 		$(cat lib/jseditor.html)
@@ -136,8 +135,7 @@ EOT
 		header
 		html_header
 		user_box
-		#echo "<h2>$(gettext "Latest blog posts")</h2>"
-		# Blog tools for auth users
+		# Blog tools for admin users
 		if check_auth && admin_user; then
 			blog_tools
 		fi

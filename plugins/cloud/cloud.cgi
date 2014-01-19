@@ -48,7 +48,7 @@ EOT
 	*\ cloudlog\ *)
 		# Display Cloud activity
 		d="Cloud activity"
-		[ ! check_auth ] && header "Location: $WEB_URL"
+		[ ! check_auth ] && header "Location: $script"
 		# Clean-up logfile
 		if [ "$(GET clean)" ]; then
 			rm -f ${cloudlog} && touch ${cloudlog}
