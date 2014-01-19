@@ -93,7 +93,7 @@ case " $(GET) " in
 		# New post
 		if [ "$d" == "new" ]; then
 			date=$(date '+%Y-%m-%d')
-			last=$(ls -r $blog | head -n 1)
+			last=$(ls $blog | sort -r -n | head -n 1)
 			nb=${last%.txt}
 			d=$(($nb + 1))
 			conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n==== Title ====")
