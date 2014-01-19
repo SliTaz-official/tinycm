@@ -40,12 +40,12 @@ and use make to install:
 	$ editor config.cgi
 	$ make install
 
-If you want to install the web interface and auth DB in an other directory
-than /var/www and /var/lib/slitaz you can use the following command:
+If you want to install the web interface and auth DB in another directory
+other than /var/www and /var/lib/slitaz you can use the following command:
 
 	$ make install WEB=/path/to/domain/vhost AUTH=/path/to/domain
 
-If you already have a users DB and want to share auth sytem you can install
+If you already have a users DB and want to share auth system you can install
 TinyCM with:
 
 	$ make install-web WEB=/path/to/domain/vhost

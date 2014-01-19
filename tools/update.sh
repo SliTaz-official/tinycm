@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# Update a TinyCM install with latest code from Hg
+# Update a TinyCM install with latest code from Hg.
 # Usage: ./tools/update.sh [paths]
 #
 . /lib/libtaz.sh
 
 [ ! "$1" ] && echo "Missing TinyCM path(s)" && exit 0
 
-# We dont overwrite style.css and images since they ma have change
+# We dont overwrite style.css and images since they may have changed
 # as well as the config file!
 for cm in $@
 do
