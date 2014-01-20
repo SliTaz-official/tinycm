@@ -39,13 +39,14 @@ install: install-web
 	# Set permissions
 	chown -R www.www $(DESTDIR)$(AUTH)/auth
 	chown -R www.www $(DESTDIR)$(AUTH)/people
-	chown -R www.www $(DESTDIR)$(WEB)/content
-	chown -R www.www $(DESTDIR)$(WEB)/cache
 
 install-web:
 	install -m 0755 -d $(DESTDIR)$(WEB)/cache
 	cp -a config.cgi favicon.ico index.cgi style.css images lib \
 		plugins content $(DESTDIR)$(WEB)
+	# Set permissions
+	chown -R www.www $(DESTDIR)$(WEB)/content
+	chown -R www.www $(DESTDIR)$(WEB)/cache
 
 install-slitaz: install
 	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/applications
