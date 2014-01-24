@@ -38,7 +38,7 @@ EOT
 			*\ md5sum\ *) echo "$keygen" | md5sum | awk '{print $1}' ;;
 			*\ sha256sum\ *) echo "$keygen" | sha256sum | awk '{print $1}' ;;
 			*\ sha512sum\ *) echo "$keygen" | sha512sum | awk '{print $1}' ;;
-			*) gettext "Encrypted key" ;;
+			*) echo "--" ;;
 		esac
 		# Random password
 		cat << EOT

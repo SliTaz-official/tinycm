@@ -87,11 +87,18 @@ EOT
 			gettext "You must be logged in to use the Cloud."
 			exit 1
 		fi
-		cat << EOT 
+		cat << EOT
+<div id="tools">
+	<a href="$script?cloudlog">Activity</a>
+	<a href="$content/cloud">Raw files</a>
+</div>
+
 <h2>Cloud files</h2>
+
 <p>
 $(gettext "Upload files on the cloud to share them with some other people
-or use them in your documents content.")
+or use them in your documents content. Tip: Drag and Drop files from you
+desktop.")
 </p>
 <div style="text-align: center;">
 	<form method="post" action="plugins/cloud/cloud.cgi?upcloud&amp;user=$user"
@@ -100,11 +107,9 @@ or use them in your documents content.")
 		<input type="submit" value="Upload" />
 	</form>
 </div>
-<div id="tools">
-	<a href="$script?cloudlog">Activity</a>
-	<a href="$content/cloud">Raw files</a>
+<p>
 	<b>Files:</b> $files | <b>Size:</b> $size
-</div>
+</p>
 EOT
 		echo '<pre>'
 		# List all Cloud files

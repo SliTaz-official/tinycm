@@ -133,7 +133,7 @@ thead { font-weight: bold; }
 /* Content */
 
 #content {
-	margin: 40px auto;
+	margin: 50px auto;
 	padding: 0 20px;
 	text-align: justify;
 	max-width: 680px;
@@ -212,12 +212,9 @@ select {
 	background-repeat: no-repeat;
 }
 
-#tools { 
-	padding-top: 10px; 
-	margin: 20px 0px; 
-	/*border-top: 1px dotted #ccc;
-	position: fixed;
-	bottom: 10px;*/
+#tools {
+	position: absolute;
+	top: 68px;
 }
 #tools a { text-decoration: none; margin: 4px 6px 4px 0px; }
 
@@ -283,7 +280,10 @@ input, textarea, select, #tools a {
 
 /* Plugins CSS */
 
-.blogpost { border-bottom: 1px dotted #ddd; }
-.post-tools { border-bottom: 1px dotted #ddd; padding: 4px 0;}
+
+.post-tools { 
+	border-top: 1px dotted #ddd;
+	border-bottom: 1px dotted #ddd;
+	padding: 4px 0; }
 .post-tools a { text-decoration: none; }
 .post-tools a:hover { text-decoration: underline; }

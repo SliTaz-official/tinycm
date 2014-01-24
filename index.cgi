@@ -361,17 +361,32 @@ $(GET content)
 EOT
 }
 
-# CM tools (edit, diff, etc).
+# CM tools (edit, diff, etc) for auth users
 wiki_tools() {
-	cat << EOT
+	if check_auth; then
+		cat << EOT
 <div id="tools">
 	<a href="$script?edit=$d">$(gettext "Edit document")</a>
 	<a href="$script?diff=$d">$(gettext "Last diff")</a>
 	<a href="$script?log=$d">$(gettext "File log")</a>
-	<a href="$script?dashboard">$(gettext "Dashboard")</a>
-	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
+	<a href='$script?dashboard'>$(gettext 'Dashboard')</a>
+EOT
+		[ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>"
+		echo "</div>"
+	fi
+}
+
+# Built-in Dashboard tools and ADMIN_TOOLS from plugins
+dashboard_tools() {
+	if check_auth; then
+				cat << EOT
+<div id='tools'>
+	<a href='$script?log'>Activity log</a>
+	<a href='$script?ls'>Pages list</a>
+	<a href='$script?dashboard'>Dashboard</a>
 </div>
 EOT
+	fi 
 }
 
 # Get and display Gravatar image: get_gravatar email size
@@ -504,12 +519,8 @@ EOT
 		user_box
 		# Main activity
 		if [ "$d" == "log" ]; then
-			echo "<h2>$(gettext "Activity")</h2>"
-			if check_auth; then
-				echo "<div id='tools'>"
-				echo "<a href='$script?dashboard'>Dashboard</a>"
-				echo "</div>"
-			fi 
+			dashboard_tools
+			echo "<h2>$(gettext "Activity log")</h2>"
 			echo '<pre>'
 			if [ -f "$cache/log/activity.log" ]; then
 				IFS="|"
@@ -528,7 +539,9 @@ EOT
 			echo '</pre>'
 			html_footer && exit 0
 		fi
+		# Document activity
 		get_lang
+		wiki_tools
 		echo "<h2>$(gettext "Activity for:") <a href='$script?d=$d'>$d</a></h2>"
 		echo '<pre>'
 		if [ -f "$cache/$d/activity.log" ]; then
@@ -537,9 +550,6 @@ EOT
 			gettext "No log for: $d"; echo
 		fi
 		echo '</pre>'
-		if check_auth; then
-			wiki_tools
-		fi 
 		html_footer ;;
 	
 	*\ ls\ *)
@@ -547,19 +557,16 @@ EOT
 		header
 		html_header
 		user_box
+		dashboard_tools
 		echo "<h2>$(gettext "Pages list")</h2>"
-		if check_auth; then
-			echo "<div id='tools'>"
-			echo "<a href='$script?dashboard'>Dashboard</a>"
-			echo "</div>"
-		fi
 		echo '<pre>'
 		cd ${wiki}
 		for d in $(find . -type f | sed s'/.\///')
 		do
 			cat << EOT
 <a href="$script?d=${d%.txt}">${d%.txt}</a> : \
-<a href="$script?rm=$d">$(gettext "Remove")</a>
+<a href="$script?rm=$d">$(gettext "Remove")</a> || \
+<a href="$script?edit=$d">$(gettext "Edit")</a>
 EOT
 		done
 		echo '</pre>'
@@ -579,6 +586,7 @@ EOT
 		html_header
 		user_box
 		get_lang
+		wiki_tools
 		echo "<h2>$(gettext "Diff for:") <a href='$script?d=$d'>$d</a></h2>"
 		echo '<pre>'
 		if [ -f "$cache/$d/$date.diff" ]; then
@@ -591,9 +599,6 @@ EOT
 			gettext "No diff for: $d"; echo
 		fi
 		echo '</pre>'
-		if check_auth; then
-			wiki_tools
-		fi 
 		html_footer ;;
 		
 	*\ login\ *)
@@ -677,7 +682,6 @@ EOT
 		if check_auth && ! admin_user; then
 			ADMIN_TOOLS=""
 		fi
-		echo "<h2>$d</h2>"
 		if check_auth; then
 			cat << EOT
 <div id="tools">
@@ -686,6 +690,8 @@ EOT
 	$DASHBOARD_TOOLS
 	$ADMIN_TOOLS
 </div>
+
+<h2>$d</h2>
 
 <pre>
 Users     : $users
@@ -753,6 +759,7 @@ EOT
 		html_header
 		user_box
 		get_lang
+		
 		# Generate a default index on first run
 		if [ ! -f "$wiki/$index.txt" ]; then
 			if ! default_index; then
@@ -760,12 +767,25 @@ EOT
 				html_footer && exit 0
 			fi
 		fi
+		
 		# Check cache dir
 		if [ ! -w "$cache" ]; then
 			echo "<pre class='error'>Directory : cache/ is not writable"
 			echo "Command   : install -m 0777 -d $tiny/cache</pre>"
 			html_footer && exit 0
 		fi
+		
+		# Wiki tools and Hg warning if enable but not initiated
+		if [ "$HG" == "yes" ] && [ ! -d "$content/.hg" ]; then
+			echo '<p class="error box">'
+			gettext "Mercurial is enabled but no repository found"
+			echo ": <a href='?hg=init'>Hg init</a>"
+			echo '</p>'
+		fi
+		
+		# Wiki tools
+		wiki_tools
+		
 		# Wiki document
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
@@ -776,15 +796,6 @@ EOT
 				cat $wiki/$d.txt | sed '/\[NOWIKI\]/'d
 			else
 				cat $wiki/$d.txt | wiki_parser
-			fi
-		fi
-		if check_auth; then
-			wiki_tools
-			if [ "$HG" == "yes" ] && [ ! -d "$content/.hg" ]; then
-				echo '<p class="error box">'
-				gettext "Mercurial is enabled but no repository found"
-				echo ": <a href='?hg=init'>Hg init</a>"
-				echo '</p>'
 			fi
 		fi
 		html_footer ;;
