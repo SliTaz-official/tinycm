@@ -39,6 +39,11 @@ done
 unset IFS
 export LANG=$lang LC_ALL=$lang
 
+# Internationalization
+. /usr/bin/gettext.sh
+TEXTDOMAIN='tinycm'
+export TEXTDOMAIN
+
 #
 # Functions
 #

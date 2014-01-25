@@ -6,7 +6,7 @@ PREFIX?=/usr
 DESTDIR?=
 WEB?=/var/www/cgi-bin/tinycm
 AUTH?=/var/lib/slitaz
-LINGUAS?=pt_BR
+LINGUAS?=pt_BR fr
 
 all: msgfmt
 

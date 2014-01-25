@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TinyCM\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-08 00:00+0100\n"
+"POT-Creation-Date: 2014-01-25 13:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,162 +17,174 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: index.cgi:179
+#: index.cgi:184
 msgid "Search"
 msgstr ""
 
-#: index.cgi:190
+#: index.cgi:195
 msgid "Create a new account"
 msgstr ""
 
-#: index.cgi:198
+#: index.cgi:203
 msgid "Login"
 msgstr ""
 
-#: index.cgi:208 index.cgi:228
+#: index.cgi:213 index.cgi:233
 msgid "User name"
 msgstr ""
 
-#: index.cgi:209 index.cgi:230
+#: index.cgi:214 index.cgi:235
 msgid "Password"
 msgstr ""
 
-#: index.cgi:227
+#: index.cgi:232
 msgid "Real name"
 msgstr ""
 
-#: index.cgi:229
+#: index.cgi:234
 msgid "Email"
 msgstr ""
 
-#: index.cgi:232
+#: index.cgi:237
 msgid "Create new account"
 msgstr ""
 
-#: index.cgi:287
+#: index.cgi:292
 msgid "Edit profile"
 msgstr ""
 
-#: index.cgi:293
+#: index.cgi:298
 msgid "Create a profile page"
 msgstr ""
 
-#: index.cgi:368
+#: index.cgi:374
 msgid "Edit document"
 msgstr ""
 
-#: index.cgi:369
+#: index.cgi:375
 msgid "Last diff"
 msgstr ""
 
-#: index.cgi:370
+#: index.cgi:376
 msgid "File log"
 msgstr ""
 
-#: index.cgi:371
+#: index.cgi:377
 msgid "Dashboard"
 msgstr ""
 
-#: index.cgi:394
+#: index.cgi:414
 msgid "User"
 msgstr ""
 
-#: index.cgi:395
+#: index.cgi:415
 msgid "Description"
 msgstr ""
 
-#: index.cgi:396
+#: index.cgi:416
 msgid "Revision"
 msgstr ""
 
-#: index.cgi:475
+#: index.cgi:458
+msgid "User already exists:"
+msgstr ""
+
+#: index.cgi:495
 msgid "Save document"
 msgstr ""
 
-#: index.cgi:476
+#: index.cgi:496
 msgid "Code Helper:"
 msgstr ""
 
-#: index.cgi:483
+#: index.cgi:503
 msgid "You must be logged in to edit pages"
 msgstr ""
 
-#: index.cgi:507
-msgid "Activity"
+#: index.cgi:528
+msgid "Activity log"
 msgstr ""
 
-#: index.cgi:526
+#: index.cgi:542
 msgid "No activity log yet"
 msgstr ""
 
-#: index.cgi:532
+#: index.cgi:550
 msgid "Activity for:"
 msgstr ""
 
-#: index.cgi:550
-msgid "Document list"
+#: index.cgi:566
+msgid "Pages list"
 msgstr ""
 
-#: index.cgi:572
+#: index.cgi:573
+msgid "Remove"
+msgstr ""
+
+#: index.cgi:574
+msgid "Edit"
+msgstr ""
+
+#: index.cgi:595
 msgid "Diff for:"
 msgstr ""
 
-#: index.cgi:593
+#: index.cgi:613
 msgid "Bad login or pass"
 msgstr ""
 
-#: index.cgi:602
+#: index.cgi:622
 msgid "Sign Up"
 msgstr ""
 
-#: index.cgi:610
+#: index.cgi:630
 msgid "Online registration is disabled"
 msgstr ""
 
-#: index.cgi:634
+#: index.cgi:654
 msgid "User name  :"
 msgstr ""
 
-#: index.cgi:635
+#: index.cgi:655
 msgid "Last login :"
 msgstr ""
 
-#: index.cgi:658
+#: index.cgi:678
 msgid "disabled"
 msgstr ""
 
-#: index.cgi:659
+#: index.cgi:679
 msgid "enabled"
 msgstr ""
 
-#: index.cgi:697
+#: index.cgi:718
 msgid "Plugins"
 msgstr ""
 
-#: index.cgi:707
+#: index.cgi:728
 msgid "You must be logged in to view the dashboard."
 msgstr ""
 
-#: index.cgi:713
+#: index.cgi:734
 msgid "Hg is disabled"
 msgstr ""
 
-#: index.cgi:714
+#: index.cgi:735
 msgid "Hg is not installed"
 msgstr ""
 
-#: index.cgi:724
+#: index.cgi:745
 msgid "Executing: hg init"
 msgstr ""
 
-#: index.cgi:728
+#: index.cgi:749
 msgid "Adding current content and committing"
 msgstr ""
 
-#: index.cgi:762
-msgid "The document does not exist. You can create it or read the"
+#: index.cgi:786
+msgid "Mercurial is enabled but no repository found"
 msgstr ""
 
-#: index.cgi:775
-msgid "Mercurial is enabled but no repository found"
+#: index.cgi:797
+msgid "The document does not exist. You can create it or read the"
 msgstr ""
