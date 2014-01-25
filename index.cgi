@@ -8,7 +8,7 @@
 
 # Let's have a peer site config file with a .cgi extension so content
 # is secure even if left in a web server directory.
-. config.cgi
+. ./config.cgi
 
 tiny="$PWD"
 content="content"
@@ -26,14 +26,11 @@ IFS=","
 for lang in $HTTP_ACCEPT_LANGUAGE
 do
 	lang=${lang%;*} lang=${lang# } lang=${lang%-*}
-	if echo "$po" | fgrep -q "$lang"; then
-		break
-	fi
 	case "$lang" in
-		en) lang="C" ;;
-		fr) lang="fr_FR" ;;
-		pt) lang="pt_BR" ;;
-		ru) lang="ru_RU" ;;
+		en) lang="C" && break ;;
+		fr) lang="fr_FR" && break ;;
+		pt) lang="pt_BR" && break ;;
+		ru) lang="ru_RU" && break ;;
 	esac
 done
 unset IFS
@@ -51,12 +48,12 @@ export TEXTDOMAIN
 # Used by edit to display language name and the language box. This is
 # for CM content not gettext support.
 get_lang() {
-	lang=$(echo $d | cut -d "/" -f 1)
-	doc=${d#$lang/}
+	dlang=$(echo $d | cut -d "/" -f 1)
+	doc=${d#$dlang/}
 	echo '<div id="lang">'
 	for l in $LANGUAGES
 	do
-		case $lang in
+		case $dlang in
 			en) i18n="English" ;;
 			fr) i18n="Français" ;;
 			pt) i18n="Português" ;;
@@ -704,6 +701,7 @@ Wiki      : $docs ($wikisize)
 Cache     : $cachesize
 Mercurial : $hg
 </pre>
+
 <h3>Admin users</h3>
 EOT
 			# Get the list of administrators
