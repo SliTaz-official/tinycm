@@ -22,7 +22,7 @@ if [ "$(GET export)" ]; then
 	cat << EOT 
 <h2>Export</h2>
 <p>
-$(gettext "Create a tarball off your wiki and plugins files. EXPERIMENTAL:
+$(gettext "Create a tarball of your wiki and plugins files. EXPERIMENTAL:
 Export wiki documents to HTML.")
 </p>
 <form method="get" action="$WEB_URL">
@@ -38,7 +38,7 @@ EOT
 	<input type="submit" value="$(gettext "Export")" />
 </form>
 EOT
-	# HTML fixes EPERIMENTAL Functions
+	# HTML fixes EXPERIMENTAL Functions
 	css_path() {
 		# Sed CSS style path in all documents
 		sed -i s'/style.css/..\/style.css/' */*.html
