@@ -97,7 +97,7 @@ EOT
 
 <p>
 $(gettext "Upload files on the cloud to share them with some other people
-or use them in your documents content. Tip: Drag and Drop files from you
+or use them in your documents content. Tip: Drag and Drop files from your
 desktop.")
 </p>
 <div style="text-align: center;">

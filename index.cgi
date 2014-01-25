@@ -775,7 +775,7 @@ EOT
 			html_footer && exit 0
 		fi
 		
-		# Wiki tools and Hg warning if enable but not initiated
+		# Wiki tools and Hg warning if enabled but not initiated
 		if [ "$HG" == "yes" ] && [ ! -d "$content/.hg" ]; then
 			echo '<p class="error box">'
 			gettext "Mercurial is enabled but no repository found"
