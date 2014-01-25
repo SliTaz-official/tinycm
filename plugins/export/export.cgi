@@ -5,8 +5,8 @@
 . /usr/lib/slitaz/httphelper
 
 #
-# NOTE: Exporting wiki and making all urls work is a bit tricky and
-# actually doesn't work as expected. The goal is to have a SliTaz codex
+# NOTE: Exporting wiki to HTML and making all urls work is a bit tricky.
+# Actually it doesn't work as expected. The goal is to have a SliTaz codex
 # online that can be included on the ISO, so we could have an export
 # including a small CGI script to simply display wiki pages via HTTPd
 # knowing that with HTML we must also deal with ../../
@@ -22,22 +22,23 @@ if [ "$(GET export)" ]; then
 	cat << EOT 
 <h2>Export</h2>
 <p>
-$(gettext "EXPERIMENTAL: Export to HTML and create a tarball of your text
-content or plugins files.")
+$(gettext "Create a tarball off your wiki and plugins files. EXPERIMENTAL:
+Export wiki documents to HTML.")
 </p>
 <form method="get" action="$WEB_URL">
 	<select name="export">
 EOT
 	for c in $(ls -1 content/)
 	do
-		echo "<option value="$c">$c</option>"
+		echo "<option value=\"${c}\">$c</option>"
 	done
+	echo "<option value='wikitohtml'>wiki to HTML</option>"
 	cat << EOT
 	</select>
 	<input type="submit" value="$(gettext "Export")" />
 </form>
 EOT
-	# Functions
+	# HTML fixes EPERIMENTAL Functions
 	css_path() {
 		# Sed CSS style path in all documents
 		sed -i s'/style.css/..\/style.css/' */*.html
@@ -58,15 +59,7 @@ EOT
 	}
 	# Export requested content
 	case " $(GET export) " in
-		*\ cloud\ *)
-			export="cloud"
-			tmpdir="content"
-			echo '<pre>'
-			gettext "Exporting:"; echo " $export"
-			gen_tarball
-			echo '</pre>' 
-			dl_link ;;
-		*\ wiki\ *)
+		*\ wikitohtml\ *)
 			export="wiki"
 			echo '<pre>'
 			gettext "Exporting:"; echo " $export"
@@ -103,9 +96,13 @@ EOT
 		*\ export\ )
 			html_footer && exit 0 ;;
 		*)
+			export="$(GET export)"
+			tmpdir="content"
 			echo '<pre>'
-			gettext "Export not yet implemented for"; echo ": $(GET export)"
-			echo '</pre>' ;;
+			gettext "Exporting:"; echo " $export"
+			gen_tarball
+			echo '</pre>' 
+			dl_link ;;
 	esac
 	
 	html_footer && exit 0
