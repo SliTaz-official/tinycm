@@ -287,12 +287,14 @@ EOT
 		cat << EOT
 <div id="tools">
 	<a href="$script?edit=profile">$(gettext "Edit profile")</a>
+	<a href="$script?dashboard">Dashboard</a>
 </div>
 EOT
 	else
 		cat << EOT
 <div id="tools">
 	<a href="$script?edit=profile">$(gettext "Create a profile page")</a>
+	<a href="$script?dashboard">Dashboard</a>
 </div>
 EOT
 	fi
@@ -369,23 +371,23 @@ wiki_tools() {
 		cat << EOT
 <div id="tools">
 	<a href="$script?edit=$d">$(gettext "Edit document")</a>
-	<a href="$script?diff=$d">$(gettext "Last diff")</a>
 	<a href="$script?log=$d">$(gettext "File log")</a>
-	<a href='$script?dashboard'>$(gettext 'Dashboard')</a>
+	<a href="$script?diff=$d">$(gettext "Last diff")</a>
+	$PLUGINS_TOOLS
 EOT
 		[ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>"
 		echo "</div>"
 	fi
 }
 
-# Built-in Dashboard tools and ADMIN_TOOLS from plugins
-dashboard_tools() {
+# Built-in tools such as log/ls and PLUGINS_TOOLS
+tiny_tools() {
 	if check_auth; then
 				cat << EOT
 <div id='tools'>
 	<a href='$script?log'>Activity log</a>
 	<a href='$script?ls'>Pages list</a>
-	<a href='$script?dashboard'>Dashboard</a>
+	$PLUGINS_TOOLS
 </div>
 EOT
 	fi 
@@ -477,6 +479,7 @@ case " $(GET) " in
 		html_header
 		user_box
 		get_lang
+		wiki_tools
 		if check_auth; then
 			if [ "$doc" == "profile" ]; then
 				wiki="$PEOPLE/$user"
@@ -521,7 +524,7 @@ EOT
 		user_box
 		# Main activity
 		if [ "$d" == "log" ]; then
-			dashboard_tools
+			tiny_tools
 			echo "<h2>$(gettext "Activity log")</h2>"
 			echo '<pre>'
 			if [ -f "$cache/log/activity.log" ]; then
@@ -559,23 +562,24 @@ EOT
 		header
 		html_header
 		user_box
-		dashboard_tools
+		tiny_tools
+		[ ! check_auth ] && auth=0
 		echo "<h2>$(gettext "Pages list")</h2>"
 		echo '<pre>'
 		cd ${wiki}
 		for d in $(find . -type f | sed s'/.\///')
 		do
-			cat << EOT
-<a href="$script?d=${d%.txt}">${d%.txt}</a> : \
-<a href="$script?rm=$d">$(gettext "Remove")</a> || \
+			echo "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
+			[ "$auth" ] && cat << EOT
+ : <a href="$script?rm=$d">$(gettext "Remove")</a> || \
 <a href="$script?edit=$d">$(gettext "Edit")</a>
 EOT
-		done
+		done && unset auth
 		echo '</pre>'
 		html_footer ;;
 	
 	*\ rm\ *)
-		[ ! check_auth ] && header "Location: Location: $script"
+		[ ! check_auth ] && exit 1
 		d="$(GET rm)"
 		rm ${wiki}/"${d}"
 		rm -rf ${cache}/"${d%.txt}"
@@ -598,7 +602,7 @@ EOT
 			-e s"#^+\([^']*\).#<span style='color: green;'>\0</span>#"g \
 			-e s"#@@\([^']*\)@@#<span style='color: blue;'>@@\1@@</span>#"g
 		else
-			gettext "No diff for: $d"; echo
+			gettext "No diff for:"; echo " $d"
 		fi
 		echo '</pre>'
 		html_footer ;;
@@ -660,80 +664,13 @@ EOT
 		fi
 		html_footer ;;
 		
-	*\ dashboard\ *)
-		# For now simply list plugins and users info. We could have a 
-		# dashbord only for ADMINS found in the config file. The dashboard
-		# should also be a plugin.
-		d="Dashboard"
+	*\ hg\ *)
+		d="Hg Log"
 		header
 		html_header
 		user_box
-		users=$(ls -1 $PEOPLE | wc -l)
-		docs=$(find $wiki -type f | wc -l)
-		wikisize="$(du -sh $wiki | awk '{print $1}')"
-		cachesize="$(du -sh $cache | awk '{print $1}')"
-		[ "$HG" != "yes" ] && hg=$(gettext "disabled")
-		[ "$HG" == "yes" ] && hg=$(gettext "enabled")
-		# Source all plugins.conf to get DASHBOARD_TOOLS and ADMIN_TOOLS
-		ADMIN_TOOLS=""
-		DASHBOARD_TOOLS=""
-		for p in $(ls $plugins)
-		do
-			. $plugins/$p/$p.conf
-		done
-		if check_auth && ! admin_user; then
-			ADMIN_TOOLS=""
-		fi
-		if check_auth; then
-			cat << EOT
-<div id="tools">
-	<a href='$script?log'>Activity log</a>
-	<a href='$script?ls'>Pages list</a>
-	$DASHBOARD_TOOLS
-	$ADMIN_TOOLS
-</div>
-
-<h2>$d</h2>
-
-<pre>
-Users     : $users
-Wiki      : $docs ($wikisize)
-Cache     : $cachesize
-Mercurial : $hg
-</pre>
-
-<h3>Admin users</h3>
-EOT
-			# Get the list of administrators
-			for u in $(ls $PEOPLE)
-			do
-				user=${u}
-				if admin_user; then
-					echo "<a href='?user=$u'>$u</a>"
-				fi
-			done
-			cat << EOT
-<h3>$(gettext "Plugins")</h3>
-<pre>
-EOT
-			for p in $(ls -1 $plugins)
-			do
-				. $plugins/$p/$p.conf
-				echo "<a href='?$p'>$PLUGIN</a> - $SHORT_DESC"
-			done
-			echo '</pre>'
-		else
-			gettext "You must be logged in to view the dashboard."
-		fi
-		html_footer ;;
-		
-	*\ hg\ *)
-		header
 		[ "$HG" != "yes" ] && gettext "Hg is disabled" && exit 0
 		[ ! -x /usr/bin/hg ] && gettext "Hg is not installed" && exit 0
-		d="Hg Log"
-		html_header
-		user_box
 		echo "<h2>$d</h2>"
 		case " $(GET hg) " in
 			*\ init\ *)
@@ -745,7 +682,7 @@ EOT
 					echo '[hooks]' > .hg/hgrc
 					echo 'incoming = hg update' >> .hg/hgrc
 					gettext "Adding current content and committing"; echo
-					[ ! -f "$wiki/index.txt" ] && touch $wiki/$index.txt
+					[ ! -f "$wiki/index.txt" ] && default_index
 					hg add && hg commit -u "$NAME <$MAIL>" \
 						-m "Initial commit with current content"
 					echo '</pre>' && cd .. 
@@ -778,11 +715,11 @@ EOT
 			html_footer && exit 0
 		fi
 		
-		# Wiki tools and Hg warning if enabled but not initiated
+		# Hg warning if enabled but not initiated
 		if [ "$HG" == "yes" ] && [ ! -d "$content/.hg" ]; then
 			echo '<p class="error box">'
 			gettext "Mercurial is enabled but no repository found"
-			echo ": <a href='?hg=init'>Hg init</a>"
+			echo ": <a href='$script?hg=init'>Hg init</a>"
 			echo '</p>'
 		fi
 		
@@ -793,7 +730,7 @@ EOT
 		if [ ! -f "$wiki/$d.txt" ]; then
 			echo "<h2>$d</h2>"
 			gettext "The document does not exist. You can create it or read the"
-			echo " <a href='?d=en/help'>help</a>"
+			echo " <a href='$script?d=en/help'>help</a>"
 		else
 			if fgrep -q [NOWIKI] $wiki/$d.txt; then
 				cat $wiki/$d.txt | sed '/\[NOWIKI\]/'d

@@ -89,8 +89,9 @@ EOT
 		fi
 		cat << EOT
 <div id="tools">
-	<a href="$script?cloudlog">Activity</a>
+	<a href="$script?cloudlog">Cloud activity</a>
 	<a href="$content/cloud">Raw files</a>
+	<a href="$script?dashboard">Dashboard</a>
 </div>
 
 <h2>Cloud files</h2>
