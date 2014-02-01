@@ -10,7 +10,7 @@ blog="$tiny/$content/blog"
 blog_tools() {
 	cat << EOT
 <div id="tools">
-	<a href="$script?blogedit&amp;d=new">$(gettext "New post")</a>
+	<a href="$script?blog=edit&amp;d=new">$(gettext "New post")</a>
 	<a href="$script?dashboard">Dashboard</a>
 	$([ "$index" == "blog" ] && echo "<a href='$script?d=index'>Index</a>")
 	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
@@ -80,30 +80,36 @@ if fgrep -q '[BLOG]' $tiny/$wiki/index.txt && [ ! "$(GET)" ]; then
 	html_footer && exit 0
 fi
 
-case " $(GET) " in
-	*\ blogedit\ *)
-		d="$(GET d)"
-		header
-		html_header
-		user_box
-		if ! check_auth && admin_user; then
-			gettext "You must be admin to create a new Blog post"
-			html_footer && exit 0
-		fi
-		# New post
-		if [ "$d" == "new" ]; then
-			date=$(date '+%Y-%m-%d')
-			last=$(ls $blog | sort -r -n | head -n 1)
-			nb=${last%.txt}
-			d=$(($nb + 1))
-			conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n==== Title ====")
-		fi		
-		cat << EOT
+#
+# Handle GET requests
+#
+
+if [ "$(GET blog)" ]; then
+	case " $(GET blog) " in
+		*\ edit\ *)
+			d="$(GET d)"
+			header
+			html_header
+			user_box
+			if ! check_auth && admin_user; then
+				gettext "You must be admin to create a new Blog post"
+				html_footer && exit 0
+			fi
+			# New post
+			if [ "$d" == "new" ]; then
+				date=$(date '+%Y-%m-%d')
+				last=$(ls $blog | sort -r -n | head -n 1)
+				nb=${last%.txt}
+				d=$(($nb + 1))
+				conf=$(echo -e "\n\nAUTHOR=\"$user\"\nDATE=\"$date\"\n\n====Title====")
+			fi		
+			cat << EOT
 <h2>$(gettext "Blog post"): $d</h2>
 
 <div id="edit">
-	<form method="get" action="$script" name="editor">
-		<input type="hidden" name="blogsave" value="$d" />
+	<form method="get" action="$script?" name="editor">
+		<input type="hidden" name="blog" value="save" />
+		<input type="hidden" name="d" value="$d" />
 		<textarea name="content">${conf}$(cat "$blog/$d.txt")</textarea>
 		<input type="submit" value="$(gettext "Post content")" />
 		$(gettext "Code Helper:")
@@ -111,46 +117,46 @@ case " $(GET) " in
 	</form>
 </div>
 EOT
-		html_footer && exit 0 ;;
-
-	*\ blogsave\ *)
-		d="$(GET blogsave)"
-		if check_auth && admin_user; then
-			[ -d "$blog" ] || mkdir -p ${blog}
-			# New post ?
-			if [ ! -f "${blog}/${d}.txt" ]; then
-				echo "New Blog post: <a href='$script?blog=$d'>Read it!</a>" \
-					| log_activity
-			fi
-			# Write content to file
-			sed "s/$(echo -en '\r') /\n/g" > ${blog}/${d}.txt << EOT
+			html_footer && exit 0 ;;
+	
+		*\ save\ *)
+			d="$(GET d)"
+			if check_auth && admin_user; then
+				[ -d "$blog" ] || mkdir -p ${blog}
+				# New post ?
+				if [ ! -f "${blog}/${d}.txt" ]; then
+					echo "New Blog post: <a href='$script?blog=$d'>Read it!</a>" \
+						| log_activity
+				fi
+				# Write content to file
+				sed "s/$(echo -en '\r') /\n/g" > ${blog}/${d}.txt << EOT
 $(GET content)
 EOT
-		fi 
-		header "Location: $script?blog" ;;
-		
-	*\ blog\ *)
-		d="Blog posts"
-		count="20"
-		header
-		html_header
-		user_box
-		# Blog tools for admin users
-		if check_auth && admin_user; then
-			blog_tools
-		fi
-		# Exit if plugin is disabled
-		if [ ! -d "$blog" ]; then
-			echo "<p class='error box'>"
-			gettext "Blog plugin is not yet active."; echo "</p>"
-			html_footer && exit 0
-		fi
-		# Single post
-		if [ "$(GET blog)" != "blog" ]; then
-			show_post "$(GET blog)"
-		else
-			show_posts ${count}
-		fi
-		html_footer
-		exit 0 ;;
-esac
+			fi 
+			header "Location: $script?blog" ;;
+			
+		*)
+			d="Blog posts"
+			count="20"
+			header
+			html_header
+			user_box
+			# Blog tools for admin users
+			if check_auth && admin_user; then
+				blog_tools
+			fi
+			# Exit if plugin is disabled
+			if [ ! -d "$blog" ]; then
+				echo "<p class='error box'>"
+				gettext "Blog plugin is not yet active."; echo "</p>"
+				html_footer && exit 0
+			fi
+			# Single post
+			if [ "$(GET blog)" != "blog" ]; then
+				show_post "$(GET blog)"
+			else
+				show_posts ${count}
+			fi ;;
+	esac
+	html_footer && exit 0
+fi

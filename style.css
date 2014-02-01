@@ -125,7 +125,6 @@ thead { font-weight: bold; }
 	position: absolute;
 	right: 20px;
 	top: 72px;
-	
 }
 
 #search input[type="text"] { width: 180px; }
@@ -133,7 +132,7 @@ thead { font-weight: bold; }
 /* Content */
 
 #content {
-	margin: 50px auto;
+	margin: 60px auto;
 	padding: 0 20px;
 	text-align: justify;
 	max-width: 680px;
@@ -214,7 +213,7 @@ select {
 
 #tools {
 	position: absolute;
-	top: 68px;
+	top: 72px;
 }
 #tools a { text-decoration: none; margin: 4px 6px 4px 0px; }
 
@@ -280,10 +279,19 @@ input, textarea, select, #tools a {
 
 /* Plugins CSS */
 
-
+/* Blog */
 .post-tools { 
 	border-top: 1px dotted #ddd;
 	border-bottom: 1px dotted #ddd;
 	padding: 4px 0; }
 .post-tools a { text-decoration: none; }
 .post-tools a:hover { text-decoration: underline; }
+
+/* Forum */
+#hashtags { font-size: 16px; font-weight: bold; }
+#hashtags a { text-decoration: none; padding: 0 4px; }
+.topic { padding: 6px; margin: 4px; }
+.topic span a { text-decoration: none; color: #666;
+	font-weight: bold; padding-left: 2px; }
+.forum-msg { background-color: #eee; padding: 10px; 
+		border: 2px solid #ddd; width: 98%;}

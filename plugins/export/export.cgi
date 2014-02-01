@@ -19,6 +19,10 @@ if [ "$(GET export)" ]; then
 	header
 	html_header
 	user_box
+	if ! check_auth && ! admin_user; then
+		gettext "You must be admin to export content."
+		html_footer && exit 0
+	fi
 	cat << EOT 
 <h2>Export</h2>
 <p>

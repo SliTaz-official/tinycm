@@ -5,28 +5,28 @@
 . /usr/lib/slitaz/httphelper
 
 if [ "$(GET dashboard)" ]; then
-		d="Dashboard"
-		header
-		html_header
-		user_box
-		users=$(ls -1 $PEOPLE | wc -l)
-		docs=$(find $wiki -type f | wc -l)
-		wikisize="$(du -sh $wiki | awk '{print $1}')"
-		cachesize="$(du -sh $cache | awk '{print $1}')"
-		[ "$HG" != "yes" ] && hg=$(gettext "disabled")
-		[ "$HG" == "yes" ] && hg=$(gettext "enabled")
-		# Source all plugins.conf to get DASHBOARD_TOOLS and ADMIN_TOOLS
+	d="Dashboard"
+	header
+	html_header
+	user_box
+	users=$(ls -1 $PEOPLE | wc -l)
+	docs=$(find $wiki -type f | wc -l)
+	wikisize="$(du -sh $wiki | awk '{print $1}')"
+	cachesize="$(du -sh $cache | awk '{print $1}')"
+	[ "$HG" != "yes" ] && hg=$(gettext "disabled")
+	[ "$HG" == "yes" ] && hg=$(gettext "enabled")
+	# Source all plugins.conf to get DASHBOARD_TOOLS and ADMIN_TOOLS
+	ADMIN_TOOLS=""
+	DASHBOARD_TOOLS=""
+	for p in $(ls $plugins)
+	do
+		. $plugins/$p/$p.conf
+	done
+	if check_auth && ! admin_user; then
 		ADMIN_TOOLS=""
-		DASHBOARD_TOOLS=""
-		for p in $(ls $plugins)
-		do
-			. $plugins/$p/$p.conf
-		done
-		if check_auth && ! admin_user; then
-			ADMIN_TOOLS=""
-		fi
-		if check_auth; then
-			cat << EOT
+	fi
+	if check_auth; then
+		cat << EOT
 <div id="tools">
 	<a href='$script?log'>Activity log</a>
 	<a href='$script?ls'>Pages list</a>
@@ -45,14 +45,19 @@ Mercurial : $hg
 
 <h3>Admin users</h3>
 EOT
-			# Get the list of administrators
-			for u in $(ls $PEOPLE)
-			do
-				user=${u}
-				if admin_user; then
-					echo "<a href='?user=$u'>$u</a>"
-				fi
-			done
+		# Get the list of administrators
+		for u in $(ls $PEOPLE)
+		do
+			user=${u}
+			if admin_user; then
+				echo "<a href='?user=$u'>$u</a>"
+			fi
+		done
+		echo '</p>'
+		
+		# Only for admins
+		if check_auth && admin_user; then
+			# List all plugins
 			cat << EOT
 <h3>$(gettext "Plugins")</h3>
 <pre>
@@ -63,9 +68,9 @@ EOT
 				echo "<a href='?$p'>$PLUGIN</a> - $SHORT_DESC"
 			done
 			echo '</pre>'
-		else
-			gettext "You must be logged in to view the dashboard."
 		fi
-		html_footer
-		exit 0
+	else
+			gettext "You must be logged in to view the dashboard."
+	fi
+	html_footer && exit 0
 fi
