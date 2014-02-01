@@ -71,7 +71,7 @@ $ ./tools/serv.sh
 Mercurial integration
 ---------------------
 TinyCM can be integrated smoothly with Mercurial, each new document and edit
-will be committed. You must first edit you config.cgi configuration to 
+will be committed. You must first edit your config.cgi configuration to 
 enable Hg with HG="yes" then login to your TinyCM, follow the link to init the
 repo or do it manually: cd content && hg init && hg add && hg commit -m "Message"
 

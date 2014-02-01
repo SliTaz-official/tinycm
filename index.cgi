@@ -200,7 +200,7 @@ login_page() {
 <h2>$(gettext "Login")</h2>
 
 <div id="account-info">
-$(gettext "No account yet or trouble with you account? Please send
+$(gettext "No account yet or trouble with your account? Please send
 a request to $ADMIN_MAIL with your real name, user name, mail and password.")
 $(online_signup)
 </div>
@@ -268,7 +268,7 @@ EOT
 # Display user public profile.
 public_people() {
 	echo "</pre>"
-	# Display personnal user profile
+	# Display personal user profile
 	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
 		cat $PEOPLE/$USER/profile.txt | wiki_parser
 	fi
