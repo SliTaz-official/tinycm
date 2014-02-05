@@ -188,7 +188,7 @@ select, #tools a {
 
 input[type="text"], input[type="password"] { 
 	background: #fefefe; border: 2px solid #ccc; 
-	width: 460px; }
+	width: 100%; }
 /*input[type="file"] { border: 2px solid #ddd; }*/
 /*input[type="checkbox"] { background: #fefefe; }*/
 
