@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# TinyCM - Small, fast and elegent CGI/SHell Content Manager
+# TinyCM - Small, fast and elegant CGI/SHell Content Manager
 #
 # Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
 #
@@ -155,7 +155,7 @@ admin_user() {
 	fgrep -q 'ADMIN_USER="yes"' ${PEOPLE}/${user}/account.conf
 }
 
-# Authentified or not
+# Authenticated or not
 user_box() {
 	if check_auth; then
 		cat << EOT
@@ -276,7 +276,7 @@ public_people() {
 	fi
 }
 
-# Display authentified user profile. TODO: change password
+# Display authenticated user profile. TODO: change password
 auth_people() {
 	cat << EOT
 Email      : $MAIL
@@ -302,7 +302,7 @@ EOT
 	fi
 }
 
-# The CM style parser. Just a title, simple text formating and internal
+# The CM style parser. Just a title, simple text formatting and internal
 # links, as well as images and use HTML for other stuff. Keep it fast!
 # To make TinyCM as easy as possible we have a small HTML editor/helper
 # written in Javascript
@@ -705,14 +705,14 @@ EOT
 		# Generate a default index on first run
 		if [ ! -f "$wiki/$index.txt" ]; then
 			if ! default_index; then
-				echo "<pre class='error'>Directory : content/ is not writable</pre>"
+				echo "<pre class='error'>Directory : content/ is not writeable</pre>"
 				html_footer && exit 0
 			fi
 		fi
 		
 		# Check cache dir
 		if [ ! -w "$cache" ]; then
-			echo "<pre class='error'>Directory : cache/ is not writable"
+			echo "<pre class='error'>Directory : cache/ is not writeable"
 			echo "Command   : install -m 0777 -d $tiny/cache</pre>"
 			html_footer && exit 0
 		fi

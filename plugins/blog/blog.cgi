@@ -111,7 +111,7 @@ show_posts() {
 }
 
 #
-# Index main page can display the lastest Blog posts
+# Index main page can display the latest Blog posts
 #
 if fgrep -q '[BLOG]' $tiny/$wiki/index.txt && [ ! "$(GET)" ]; then
 	d="Blog posts"
@@ -210,7 +210,7 @@ EOT
 			header "Location: $script?blog" ;;
 		
 		*\ archives\ *)
-			# List all post with title only
+			# List all posts with title only
 			d="Blog archives"
 			header
 			html_header
