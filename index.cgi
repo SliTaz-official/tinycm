@@ -95,7 +95,9 @@ html_footer() {
 <!-- End content -->
 </div>
 
-<div id="footer">&hearts;</div>
+<div id="footer">
+	I &hearts; <a href="http://tinycm.slitaz.org/">TinyCM</a>
+</div>
 
 </body>
 </html>
@@ -242,8 +244,8 @@ EOT
 # Create a new user in AUTH_FILE and PEOPLE
 new_user_config() {
 	if [ ! -f "$AUTH_FILE" ];then
-		touch $(DESTDIR)$(LOGIN)/auth/people
-		chmod 0600 $(DESTDIR)$(LOGIN)/auth/people
+		touch $AUTH_FILE
+		chmod 0600 $AUTH_FILE
 	fi
 	key=$(echo -n "$user:$mail:$pass" | md5sum | awk '{print $1}')
 	echo "$user:$pass" >> $AUTH_FILE

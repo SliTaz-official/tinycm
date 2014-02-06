@@ -273,9 +273,11 @@ input, textarea, select, #tools a {
 	padding: 20px;
 	border-top: 1px solid #ddd;
 	font-size: 90%;
+	color: #888;
 }
 
-#footer a { padding: 0 2px; }
+#footer a { padding: 0 2px; color: #888; text-decoration: none; }
+#footer a:hover { text-decoration: underline; }
 
 /* Plugins CSS */
 
