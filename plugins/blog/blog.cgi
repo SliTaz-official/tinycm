@@ -186,15 +186,16 @@ EOT
 				[ -d "$blog/$p" ] || mkdir -p ${blog}/${p}
 				# New post ?
 				if [ ! -f "${blog}/${p}/post.txt" ]; then
-					cat > ${blog}/${p}/post.conf << EOT
+					echo "New Blog post: <a href='$script?blog=$p'>Read it!</a>" \
+						| log_activity
+				fi
+				# Write config file
+				cat > ${blog}/${p}/post.conf << EOT
 # TinyCM Blog post configuration
 AUTHOR="$(GET author)"
 DATE="$(GET date)"
 TITLE="$(GET title)"
 EOT
-					echo "New Blog post: <a href='$script?blog=$p'>Read it!</a>" \
-						| log_activity
-				fi
 				# Write content to file
 				sed "s/$(echo -en '\r') /\n/g" > ${blog}/${p}/post.txt << EOT
 $(GET content)

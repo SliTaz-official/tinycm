@@ -571,11 +571,15 @@ EOT
 		cd ${wiki}
 		for d in $(find . -type f | sed s'/.\///')
 		do
-			echo "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
-			[ "$auth" ] && cat << EOT
- : <a href="$script?rm=$d">$(gettext "Remove")</a> || \
-<a href="$script?edit=$d">$(gettext "Edit")</a>
+			echo -n "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
+			if [ "$auth" ]; then 
+				cat << EOT
+ : <a href="$script?edit=$d">$(gettext "Edit")</a> || \
+<a href="$script?rm=$d">$(gettext "Remove")</a> 
 EOT
+			else
+				echo ""
+			fi
 		done && unset auth
 		echo '</pre>'
 		html_footer ;;
