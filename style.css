@@ -19,7 +19,7 @@ thead { font-weight: bold; }
 
 #header {
 	/*background: #351a0a;*/
-	background: #443b31;
+	background: #333;
 	height: 40px;
 	border-bottom: 8px solid #cfcfcf;
 }
@@ -85,8 +85,11 @@ thead { font-weight: bold; }
 #login input[type="submit"] { float: none; }
 #login p { display: inline; }
 
+#signup input[type="text"], #signup input[type="password"] { 
+	width: 400px; }
+	
 #user {
-	background-color: #362E24;
+	background-color: #222;
 	padding: 4px;
 	width: 84px;
 	float: right;
