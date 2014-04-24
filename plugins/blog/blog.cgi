@@ -186,7 +186,7 @@ EOT
 				[ -d "$blog/$p" ] || mkdir -p ${blog}/${p}
 				# New post ?
 				if [ ! -f "${blog}/${p}/post.txt" ]; then
-					echo "New Blog post: <a href='$script?blog=$p'>Read it!</a>" \
+					echo "New Blog post: <a href='$script?blog&amp;p=$p'>Read it!</a>" \
 						| log_activity
 				fi
 				# Write config file
