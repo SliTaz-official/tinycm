@@ -31,7 +31,7 @@ $(boldify "Usage:") $(basename $0) [command] [path|list]
 
 $(boldify "Commands:")
   inst       Install TinyCM and set permissions
-  up         Update one a list of TinyCM installation
+  up         Update one or a list of TinyCM installations
 
 EOT
 }
@@ -84,7 +84,7 @@ case "$1" in
 			exit 1
 		fi
 		echo ""
-		boldify $(echo "Updating TinyCM install's...")
+		boldify $(echo "Updating TinyCM installs...")
 		
 		# Priority to cmdline path argument
 		if [ "$path" ]; then
