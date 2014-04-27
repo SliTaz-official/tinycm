@@ -13,6 +13,7 @@ blog_tools() {
 <div id="tools">
 	<a href="$script?blog">$(gettext "Blog")</a>
 	<a href="$script?blog=edit&amp;p=new">$(gettext "New post")</a>
+	<a href="$script?blog=archives">$(gettext "Archives")</a>
 	<a href="$script?dashboard">Dashboard</a>
 	$([ "$index" == "blog" ] && echo "<a href='$script?d=index'>Index</a>")
 	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
