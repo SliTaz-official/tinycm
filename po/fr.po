@@ -19,15 +19,15 @@ msgstr ""
 
 #: index.cgi:184
 msgid "Search"
-msgstr ""
+msgstr "Recherche"
 
 #: index.cgi:195
 msgid "Create a new account"
-msgstr ""
+msgstr "Crée un nouveau compte"
 
 #: index.cgi:203
 msgid "Login"
-msgstr ""
+msgstr "Identifiant"
 
 #: index.cgi:213
 #: index.cgi:233
@@ -41,7 +41,7 @@ msgstr "Mot de passe"
 
 #: index.cgi:232
 msgid "Real name"
-msgstr "Vrai nom"
+msgstr "Véritable nom"
 
 #: index.cgi:234
 msgid "Email"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: index.cgi:237
 msgid "Create new account"
-msgstr ""
+msgstr "Creation du nouveau compte"
 
 #: index.cgi:292
 msgid "Edit profile"
@@ -57,7 +57,7 @@ msgstr "Editer le profile"
 
 #: index.cgi:298
 msgid "Create a profile page"
-msgstr ""
+msgstr "Crée une page de profil"
 
 #: index.cgi:374
 msgid "Edit document"
@@ -73,11 +73,11 @@ msgstr "Log du fichier"
 
 #: index.cgi:377
 msgid "Dashboard"
-msgstr ""
+msgstr "Tableau de bord"
 
 #: index.cgi:414
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 #: index.cgi:415
 msgid "Description"
@@ -89,27 +89,27 @@ msgstr ""
 
 #: index.cgi:458
 msgid "User already exists:"
-msgstr ""
+msgstr "L'utilisateur existe déjà"
 
 #: index.cgi:495
 msgid "Save document"
-msgstr ""
+msgstr "Sauvegarde le document"
 
 #: index.cgi:496
 msgid "Code Helper:"
-msgstr ""
+msgstr "Code source de l'assistant :"
 
 #: index.cgi:503
 msgid "You must be logged in to edit pages"
-msgstr ""
+msgstr "Vous devez être connecté pour éditer les pages"
 
 #: index.cgi:528
 msgid "Activity log"
-msgstr "Activité pour:"
+msgstr "Activité pour :"
 
 #: index.cgi:542
 msgid "No activity log yet"
-msgstr ""
+msgstr "Pas encore de trace d'activité"
 
 #: index.cgi:550
 msgid "Activity for:"
@@ -117,79 +117,79 @@ msgstr "Activité pour:"
 
 #: index.cgi:566
 msgid "Pages list"
-msgstr ""
+msgstr "Liste des pages"
 
 #: index.cgi:573
 msgid "Remove"
-msgstr ""
+msgstr "Retire"
 
 #: index.cgi:574
 msgid "Edit"
-msgstr ""
+msgstr "Edite"
 
 #: index.cgi:595
 msgid "Diff for:"
-msgstr ""
+msgstr "Différences pour :"
 
 #: index.cgi:613
 msgid "Bad login or pass"
-msgstr ""
+msgstr "Mauvais identifiant ou mot de passe"
 
 #: index.cgi:622
 msgid "Sign Up"
-msgstr ""
+msgstr "Inscription"
 
 #: index.cgi:630
 msgid "Online registration is disabled"
-msgstr ""
+msgstr "L'enregistrement en ligne est désactivé"
 
 #: index.cgi:654
 msgid "User name  :"
-msgstr ""
+msgstr "Utilisateur : "
 
 #: index.cgi:655
 msgid "Last login :"
-msgstr ""
+msgstr "Identifiant précédent : "
 
 #: index.cgi:678
 msgid "disabled"
-msgstr ""
+msgstr "désactivé"
 
 #: index.cgi:679
 msgid "enabled"
-msgstr ""
+msgstr "activé"
 
 #: index.cgi:718
 msgid "Plugins"
-msgstr ""
+msgstr "Greffons"
 
 #: index.cgi:728
 msgid "You must be logged in to view the dashboard."
-msgstr ""
+msgstr "Vous devez être connecté pour voir le tableau de board."
 
 #: index.cgi:734
 msgid "Hg is disabled"
-msgstr ""
+msgstr "Hg est désactivé"
 
 #: index.cgi:735
 msgid "Hg is not installed"
-msgstr ""
+msgstr "Hg n'est pas installé"
 
 #: index.cgi:745
 msgid "Executing: hg init"
-msgstr ""
+msgstr "Execution de : hg init"
 
 #: index.cgi:749
 msgid "Adding current content and committing"
-msgstr ""
+msgstr "Ajout du nouveau contenu et soumission"
 
 #: index.cgi:786
 msgid "Mercurial is enabled but no repository found"
-msgstr ""
+msgstr "Mercurial est activé mais aucun dépot n'est trouvé"
 
 #: index.cgi:797
 msgid "The document does not exist. You can create it or read the"
-msgstr ""
+msgstr "Le document n'existe pas. Vous pouvez le créer ou lire le"
 
 #~ msgid "Document list"
 #~ msgstr "Liste des documents"
