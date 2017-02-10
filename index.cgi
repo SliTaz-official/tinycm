@@ -2,7 +2,7 @@
 #
 # TinyCM - Small, fast and elegant CGI/SHell Content Manager
 #
-# Copyright (C) 2012-2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2012-2017 SliTaz GNU/Linux - BSD License
 #
 . /usr/lib/slitaz/httphelper
 
@@ -267,41 +267,6 @@ EOT
 	fi
 }
 
-# Display user public profile.
-public_people() {
-	echo "</pre>"
-	# Display personal user profile
-	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
-		cat $PEOPLE/$USER/profile.txt | wiki_parser
-	fi
-}
-
-# Display authenticated user profile. TODO: change password
-auth_people() {
-	cat << EOT
-Email      : $MAIL
-Secure key : $KEY
-</pre>
-EOT
-	# Each user can have personal profile page
-	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
-		cat $PEOPLE/$USER/profile.txt | wiki_parser
-		cat << EOT
-<div id="tools">
-	<a href="$script?edit=profile">$(gettext "Edit profile")</a>
-	<a href="$script?dashboard">Dashboard</a>
-</div>
-EOT
-	else
-		cat << EOT
-<div id="tools">
-	<a href="$script?edit=profile">$(gettext "Create a profile page")</a>
-	<a href="$script?dashboard">Dashboard</a>
-</div>
-EOT
-	fi
-}
-
 # The CM style parser. Just a title, simple text formatting and internal
 # links, as well as images and use HTML for other stuff. Keep it fast!
 # To make TinyCM as easy as possible we have a small HTML editor/helper
@@ -356,15 +321,6 @@ EOT
 			cd $tiny
 		fi
 	fi
-}
-
-# Save a user profile.
-save_profile() {
-	path="$PEOPLE/$user"
-	cp -f ${path}/${d}.txt ${path}/${d}.bak
-	sed "s/$(echo -en '\r') /\n/g" > ${path}/${d}.txt << EOT
-$(GET content)
-EOT
 }
 
 # CM tools (edit, diff, etc) for auth users
@@ -483,9 +439,6 @@ case " $(GET) " in
 		get_lang
 		wiki_tools
 		if check_auth; then
-			if [ "$doc" == "profile" ]; then
-				wiki="$PEOPLE/$user"
-			fi
 			cat << EOT
 <h2>$(gettext "Edit $doc [ $i18n ]")</h2>
 
@@ -509,13 +462,7 @@ EOT
 	*\ save\ *)
 		d="$(GET save)"
 		if check_auth; then
-			# User profile
-			if [ "$d" == "profile" ]; then
-				save_profile
-				header "Location: $script?user=$user"
-			else
-				save_document
-			fi
+			save_document
 		fi 
 		header "Location: $script?d=$d" ;;
 		
@@ -647,7 +594,7 @@ EOT
 		fi ;;
 		
 	*\ user\ *)
-		# User profile
+		# Basic user profile. Use the users plugin for more functions
 		d="$(GET user)"
 		last="$(cat $PEOPLE/"$(GET user)"/last)"
 		header
@@ -660,14 +607,8 @@ cat << EOT
 <pre>
 $(gettext "User name  :") $USER
 $(gettext "Last login :") $last
+</pre>
 EOT
-		if check_auth && [ "$(GET user)" == "$user" ]; then
-			auth_people
-		else
-			# check_auth will set VARS to current logged user: re-source
-			. $PEOPLE/"$(GET user)"/account.conf
-			public_people
-		fi
 		html_footer ;;
 		
 	*\ hg\ *)
