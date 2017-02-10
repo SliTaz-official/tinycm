@@ -103,6 +103,7 @@ case "$1" in
 			for plug in $(ls plugins)
 			do
 				if [ -d "$path/plugins/$plug" ]; then
+					echo "* Updating plugin: $plug"
 					cp -a plugins/$plug $path/plugins
 				fi
 			done

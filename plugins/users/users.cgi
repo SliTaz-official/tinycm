@@ -23,14 +23,14 @@ EOT
 		cat $PEOPLE/$USER/profile.txt | wiki_parser
 		cat << EOT
 <div id="tools">
-	<a href="$script?edit-profile">$(gettext "Edit profile")</a>
+	<a href="$script?modprofile">$(gettext "Modify profile")</a>
 	<a href="$script?dashboard">Dashboard</a>
 </div>
 EOT
 	else
 		cat << EOT
 <div id="tools">
-	<a href="$script?edit-profile">$(gettext "Create a profile page")</a>
+	<a href="$script?modprofile">$(gettext "Create a profile page")</a>
 	<a href="$script?dashboard">Dashboard</a>
 </div>
 EOT
@@ -125,7 +125,7 @@ EOT
 		fi
 		html_footer && exit 0 ;;
 		
-	*\ edit-profile\ *)
+	*\ modprofile\ *)
 		# Let user edit there profile
 		if ! check_auth; then
 			echo "ERROR" && exit 0
@@ -136,8 +136,8 @@ EOT
 		html_header
 		user_box
 		cat << EOT
-<h2>$(gettext "Edit profile [ $user ]")</h2>
-<p>$(gettext "Edit your profile settings")
+<h2>$(gettext "User:") $user</h2>
+<p>$(gettext "Modify your profile settings")
 <div id="edit">
 
 <form method="get" action="$script" name="editor">
