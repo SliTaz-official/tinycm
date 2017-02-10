@@ -141,7 +141,7 @@ EOT
 <div id="edit">
 
 <form method="get" action="$script" name="editor">
-	<input type="hidden" name="save-profile" />
+	<input type="hidden" name="saveprofile" />
 	<h3>Name</h3>
 	<input type="text" name="name" value="$NAME" />
 	<h3>Email</h3>
@@ -155,7 +155,7 @@ EOT
 EOT
 		html_footer && exit 0 ;;
 	
-	*\ save-profile\ *)
+	*\ saveprofile\ *)
 		# Save a user profile
 		if check_auth; then
 			path="$PEOPLE/$user"
