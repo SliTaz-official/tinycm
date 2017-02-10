@@ -86,11 +86,11 @@ case "$1" in
 		echo ""
 		boldify $(echo "Updating TinyCM installs...")
 		
-		# Priority to cmdline path argument
-		if [ "$path" ]; then
-			paths="$path"
-		else
+		# File liste of args
+		if [ -f "$path" ]; then
 			paths="$(cat ${list})"
+		else
+			paths="$path"
 		fi
 		
 		for path in ${paths}
