@@ -2,7 +2,6 @@
 #
 # TinyCM Plugin - Users and admin Dashboard.
 #
-. /usr/lib/slitaz/httphelper
 
 if [ "$(GET dashboard)" ]; then
 	d="Dashboard"
@@ -37,37 +36,47 @@ if [ "$(GET dashboard)" ]; then
 <h2>$d</h2>
 
 <pre>
-Users     : $users
-Wiki      : $docs ($wikisize)
-Cache     : $cachesize
-Mercurial : $hg
+Wiki docs        : $docs ($wikisize)
+Cache size       : $cachesize
+Mercurial        : $hg
+User accounts    : $users
+Server uptime    : $(uptime | cut -d " " -f 4 | sed s"/:/h /" | sed s"/,/min/")
 </pre>
 
 <h3>Admin users</h3>
 EOT
 		# Get the list of administrators
-		for u in $(ls $PEOPLE)
+		fgrep -l "ADMIN_USER=" $PEOPLE/*/account.conf | while read file;
 		do
-			user=${u}
-			if admin_user; then
-				echo "<a href='?user=$u'>$u</a>"
-			fi
+			. ${file}
+			echo "<a href='?user=$USER'>$USER</a>"
+			unset NAME USER
 		done
-		echo '</p>'
 		
 		# Only for admins
 		if check_auth && admin_user; then
 			# List all plugins
 			cat << EOT
 <h3>$(gettext "Plugins")</h3>
-<pre>
+<table>
+	<thead>
+		<td>$(gettext "Name")</td>
+		<td>$(gettext "Description")</td>
+		<td>$(gettext "Action")</td>
+	</thead>
 EOT
 			for p in $(ls -1 $plugins)
 			do
 				. $plugins/$p/$p.conf
-				echo "<a href='?$p'>$PLUGIN</a> - $SHORT_DESC"
+				cat << EOT
+	<tr>
+		<td><a href='?$p'>$PLUGIN</a></td>
+		<td>$SHORT_DESC</td>
+		<td>remove</td>
+	</tr>
+EOT
 			done
-			echo '</pre>'
+			echo "</table>"
 		fi
 	else
 			gettext "You must be logged in to view the dashboard."
