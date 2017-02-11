@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2012-2017 SliTaz GNU/Linux - BSD License
 #
-. /usr/lib/slitaz/httphelper
+. /usr/lib/slitaz/httphelper.sh
 
 # Let's have a peer site config file with a .cgi extension so content
 # is secure even if left in a web server directory.

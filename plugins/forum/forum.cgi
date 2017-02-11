@@ -6,7 +6,6 @@
 # d= is used by html_header to set page title
 # t= is used to set the topic number
 #
-. /usr/lib/slitaz/httphelper
 
 forum="$tiny/$content/forum"
 
