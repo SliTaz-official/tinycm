@@ -7,187 +7,186 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TinyCM\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-20 12:40+0300\n"
+"POT-Creation-Date: 2017-02-11 22:28+0100\n"
 "PO-Revision-Date: 2016-04-20 12:59+0300\n"
+"Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.6\n"
-"Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: index.cgi:184
+#: index.cgi:183
 msgid "Search"
 msgstr "Искать"
 
-#: index.cgi:195
+#: index.cgi:194
 msgid "Create a new account"
 msgstr "Создать учетную запись"
 
-#: index.cgi:203
+#: index.cgi:202
 msgid "Login"
 msgstr "Вход"
 
-#: index.cgi:213 index.cgi:233
+#: index.cgi:212 index.cgi:232
 msgid "User name"
 msgstr "Имя пользователя"
 
-#: index.cgi:214 index.cgi:235
+#: index.cgi:213 index.cgi:234
 msgid "Password"
 msgstr "Пароль"
 
-#: index.cgi:232
+#: index.cgi:231
 msgid "Real name"
 msgstr "Настоящее имя"
 
-#: index.cgi:234
+#: index.cgi:233
 msgid "Email"
 msgstr "Электронная почта"
 
-#: index.cgi:237
+#: index.cgi:236
 msgid "Create new account"
 msgstr "Создать учетную запись"
 
-#: index.cgi:292
-msgid "Edit profile"
-msgstr "Править профиль"
-
-#: index.cgi:298
-msgid "Create a profile page"
-msgstr "Создать страницу профиля"
-
-#: index.cgi:374
+#: index.cgi:331
 msgid "Edit document"
 msgstr "Править документ"
 
-#: index.cgi:375
-msgid "Last diff"
-msgstr "Последние различия"
-
-#: index.cgi:376
+#: index.cgi:332
 msgid "File log"
 msgstr "Журнал файла"
 
-#: index.cgi:377
-msgid "Dashboard"
-msgstr "Панель управления"
+#: index.cgi:333
+msgid "Last diff"
+msgstr "Последние различия"
 
-#: index.cgi:414
+#: index.cgi:371
 msgid "User"
 msgstr "Пользователь"
 
-#: index.cgi:415
+#: index.cgi:372
 msgid "Description"
 msgstr "Описание"
 
-#: index.cgi:416
+#: index.cgi:373
 msgid "Revision"
 msgstr "Ревизия"
 
-#: index.cgi:458
+#: index.cgi:415
 msgid "User already exists:"
 msgstr "Пользователь уже существует:"
 
-#: index.cgi:495
+#: index.cgi:450
 msgid "Save document"
 msgstr "Сохранить документ"
 
-#: index.cgi:496
+#: index.cgi:451
 msgid "Code Helper:"
 msgstr "Помощь по кодам:"
 
-#: index.cgi:503
+#: index.cgi:458
 msgid "You must be logged in to edit pages"
 msgstr "Вы должны авторизоваться, чтобы править страницы"
 
-#: index.cgi:528
+#: index.cgi:477
 msgid "Activity log"
 msgstr "Журнал активности"
 
-#: index.cgi:542
+#: index.cgi:491
 msgid "No activity log yet"
 msgstr "Журнала активности пока нет"
 
-#: index.cgi:550
+#: index.cgi:499
 msgid "Activity for:"
 msgstr "Деятельность по:"
 
-#: index.cgi:566
+#: index.cgi:516
 msgid "Pages list"
 msgstr "Список страниц"
 
-#: index.cgi:573
-msgid "Remove"
-msgstr "Удалить"
-
-#: index.cgi:574
+#: index.cgi:524
 msgid "Edit"
 msgstr "Править"
 
-#: index.cgi:595
+#: index.cgi:525
+msgid "Remove"
+msgstr "Удалить"
+
+#: index.cgi:549
 msgid "Diff for:"
 msgstr "Различия для:"
 
-#: index.cgi:613
+#: index.cgi:558
+#, fuzzy
+msgid "No diff for:"
+msgstr "Различия для:"
+
+#: index.cgi:567
 msgid "Bad login or pass"
 msgstr "Плохой логин или пароль"
 
-#: index.cgi:622
+#: index.cgi:576
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
-#: index.cgi:630
+#: index.cgi:584
 msgid "Online registration is disabled"
 msgstr "Он-лайн регистрация отключена"
 
-#: index.cgi:654
+#: index.cgi:608
 msgid "User name  :"
 msgstr "Имя пользователя:"
 
-#: index.cgi:655
+#: index.cgi:609
 msgid "Last login :"
 msgstr "Последний вход:"
 
-#: index.cgi:678
-msgid "disabled"
-msgstr "отключено"
-
-#: index.cgi:679
-msgid "enabled"
-msgstr "включено"
-
-#: index.cgi:718
-msgid "Plugins"
-msgstr "Модули"
-
-#: index.cgi:728
-msgid "You must be logged in to view the dashboard."
-msgstr "Вы должны авторизоваться, чтобы просмотреть панель управления."
-
-#: index.cgi:734
+#: index.cgi:619
 msgid "Hg is disabled"
 msgstr "Hg отключен"
 
-#: index.cgi:735
+#: index.cgi:620
 msgid "Hg is not installed"
 msgstr "Hg не установлен"
 
-#: index.cgi:745
+#: index.cgi:627
 msgid "Executing: hg init"
 msgstr "Выполнение: hg init"
 
-#: index.cgi:749
+#: index.cgi:631
 msgid "Adding current content and committing"
 msgstr "Добавление текущего содержимого и фиксирование"
 
-#: index.cgi:786
+#: index.cgi:668
 msgid "Mercurial is enabled but no repository found"
 msgstr "Hg включен, но репозиторий не найден"
 
-#: index.cgi:797
+#: index.cgi:679
 msgid "The document does not exist. You can create it or read the"
 msgstr "Документ не существует. Вы можете создать его или читать"
+
+#~ msgid "Edit profile"
+#~ msgstr "Править профиль"
+
+#~ msgid "Create a profile page"
+#~ msgstr "Создать страницу профиля"
+
+#~ msgid "Dashboard"
+#~ msgstr "Панель управления"
+
+#~ msgid "disabled"
+#~ msgstr "отключено"
+
+#~ msgid "enabled"
+#~ msgstr "включено"
+
+#~ msgid "Plugins"
+#~ msgstr "Модули"
+
+#~ msgid "You must be logged in to view the dashboard."
+#~ msgstr "Вы должны авторизоваться, чтобы просмотреть панель управления."
