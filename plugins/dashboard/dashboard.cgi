@@ -8,7 +8,6 @@ if [ "$(GET dashboard)" ]; then
 	header
 	html_header
 	user_box
-	users=$(ls -1 $PEOPLE | wc -l)
 	docs=$(find $wiki -type f | wc -l)
 	wikisize="$(du -sh $wiki | awk '{print $1}')"
 	cachesize="$(du -sh $cache | awk '{print $1}')"
@@ -39,7 +38,6 @@ if [ "$(GET dashboard)" ]; then
 Wiki docs        : $docs ($wikisize)
 Cache size       : $cachesize
 Mercurial        : $hg
-User accounts    : $users
 Server uptime    : $(uptime | cut -d " " -f 4 | sed s"/:/h /" | sed s"/,/min/")
 </pre>
 
@@ -72,14 +70,14 @@ EOT
 	<tr>
 		<td><a href='?$p'>$PLUGIN</a></td>
 		<td>$SHORT_DESC</td>
-		<td>remove</td>
+		<td>TODO</td>
 	</tr>
 EOT
 			done
 			echo "</table>"
 		fi
 	else
-			gettext "You must be logged in to view the dashboard."
+		gettext "You must be logged in to view the dashboard"
 	fi
 	html_footer && exit 0
 fi

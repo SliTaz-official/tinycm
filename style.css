@@ -175,7 +175,7 @@ form { display: inline; }
 textarea { border: 2px solid #ccc; padding: 4px; width: 100%; }
 select { min-width: 180px; }
 input[type="submit"], input[type="text"], input[type="password"], 
-select, #tools a {
+input[type="file"], select, #tools a {
 	color: #444444;
 	border: 1px solid #cccccc;
 	padding: 4px;
@@ -225,7 +225,7 @@ select {
 /* Round corner */
 
 pre, .button, .pctbar, .box, #login, #account-info, #user, img,
-input, textarea, select, #tools a {
+input, textarea, select, #tools a, #cloud-upload {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -302,3 +302,24 @@ input, textarea, select, #tools a {
 	font-weight: bold; padding-left: 2px; }
 .forum-msg { background-color: #eee; padding: 10px; 
 		border: 2px solid #ddd; width: 98%;}
+
+/* Cloud */
+#cloud-upload { 
+	text-align: center;
+	color: #444444;
+	border: 1px solid #cccccc;
+	padding: 0px;
+	margin: 4px 0px;
+	background-image: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+	background-image: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+}
+
+#cloud-upload input[type="file"] {
+	border: 0px solid #cccccc;
+	width: 85%;
+	-webkit-appearance: none;
+	-webkit-padding-end: 0px;
+	-webkit-padding-start: 0px;
+}
+
+

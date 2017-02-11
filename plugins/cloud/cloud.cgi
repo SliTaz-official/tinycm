@@ -87,6 +87,7 @@ EOT
 			gettext "You must be logged in to use the Cloud."
 			exit 1
 		fi
+		[ -f "$cloudlog" ] || mkdir -p $(dirname $cloudlog)
 		cat << EOT
 <div id="tools">
 	<a href="$script?cloudlog">Cloud activity</a>
@@ -101,7 +102,7 @@ $(gettext "Upload files on the cloud to share them with some other people
 or use them in your documents content. Tip: Drag and Drop files from your
 desktop.")
 </p>
-<div style="text-align: center;">
+<div id="cloud-upload">
 	<form method="post" action="plugins/cloud/cloud.cgi?upcloud&amp;user=$user"
 		enctype="multipart/form-data">
 		<input type="file" name="datafile" size="50" />

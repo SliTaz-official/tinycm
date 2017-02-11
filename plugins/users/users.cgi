@@ -39,6 +39,31 @@ case " $(GET) " in
 		html_header
 		user_box
 		if check_auth && ! admin_user; then
+			gettext "You must be admin to manage users" && exit 0
+		fi
+		cat << EOT
+<h2>Users admin</h2>
+<div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
+	<a href='$script?loggedusers'>Logged users</a>
+	<a href='$script?userslist'>Users list</a>
+</div>
+<pre>
+User accounts   : $(ls -1 $PEOPLE | wc -l)
+People DB       : $PEOPLE
+Auth file       : $AUTH_FILE
+EOT
+		
+		echo "</pre>"
+		html_footer && exit 0 ;;
+		
+	*\ userslist\ *)
+		# List all users (slow if a llots a of accounts)
+		d="Users"
+		header
+		html_header
+		user_box
+		if check_auth && ! admin_user; then
 			gettext "You must be admin to manage users"
 			exit 0
 		fi
@@ -47,7 +72,8 @@ case " $(GET) " in
 <h2>Users: $users</h2>
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
-	<a href='?logged'>Logged users</a>
+	<a href="$script?users">Users admin</a>
+	<a href='$script?loggedusers'>Logged users</a>
 </div>
 <pre>
 EOT
@@ -62,14 +88,14 @@ EOT
 			cat << EOT
 $(get_gravatar $MAIL 24) <a href="?user=$USER">$USER</a> | $NAME | $MAIL
 EOT
-# deluser link
+# deluser link --> use 'tazu' on SliTaz
 #: <a href="?users&amp;deluser=$USER">$(gettext "delete")</a>
 			unset NAME USER 
 		done
 		echo "</pre>" 
 		html_footer && exit 0 ;;
 	
-	*\ logged\ *)
+	*\ loggedusers\ *)
 		# Show online users based on sessions files.
 		d="Logged users"
 		header
@@ -83,6 +109,7 @@ EOT
 <h2>Logged users</h2>
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
+	<a href="$script?users">Users admin</a>
 </div>
 <pre>
 EOT
