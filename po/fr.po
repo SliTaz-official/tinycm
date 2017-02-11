@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TinyCM\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-11 22:28+0100\n"
-"PO-Revision-Date: 2014-01-25 13:12+0100\n"
+"PO-Revision-Date: 2017-02-12 00:11+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: index.cgi:183
 msgid "Search"
@@ -43,7 +44,7 @@ msgstr "Véritable nom"
 
 #: index.cgi:233
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: index.cgi:236
 msgid "Create new account"
@@ -67,11 +68,11 @@ msgstr "Utilisateur"
 
 #: index.cgi:372
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: index.cgi:373
 msgid "Revision"
-msgstr ""
+msgstr "Révision"
 
 #: index.cgi:415
 msgid "User already exists:"
@@ -107,20 +108,19 @@ msgstr "Liste des pages"
 
 #: index.cgi:524
 msgid "Edit"
-msgstr "Edite"
+msgstr "Editer"
 
 #: index.cgi:525
 msgid "Remove"
-msgstr "Retire"
+msgstr "Supprimer"
 
 #: index.cgi:549
 msgid "Diff for:"
 msgstr "Différences pour :"
 
 #: index.cgi:558
-#, fuzzy
 msgid "No diff for:"
-msgstr "Différences pour :"
+msgstr "Pas différences pour:"
 
 #: index.cgi:567
 msgid "Bad login or pass"
@@ -152,7 +152,7 @@ msgstr "Hg n'est pas installé"
 
 #: index.cgi:627
 msgid "Executing: hg init"
-msgstr "Execution de : hg init"
+msgstr "Execution de: hg init"
 
 #: index.cgi:631
 msgid "Adding current content and committing"
