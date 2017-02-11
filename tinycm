@@ -4,7 +4,7 @@
 # Linux/BSD distribution providing a web server with CGI SHell support
 # such as LightTPD.
 #
-# Copyright (C) 2014 SliTaz GNU/Linux - BSD License
+# Copyright (C) 2014-2017 SliTaz GNU/Linux - BSD License
 #
 
 list="tinycm.list"
@@ -69,6 +69,7 @@ case "$1" in
 		mkdir -p $path
 		for file in index.cgi style.css images lib plugins
 		do
+			echo "* Installing: $file"
 			cp -a $file $path
 		done
 		if [ $(id) == 0 ]; then

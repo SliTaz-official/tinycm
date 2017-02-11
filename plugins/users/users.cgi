@@ -50,6 +50,7 @@ case " $(GET) " in
 </div>
 <pre>
 User accounts   : $(ls -1 $PEOPLE | wc -l)
+Logged users    : $(ls $sessions | wc -l)
 People DB       : $PEOPLE
 Auth file       : $AUTH_FILE
 EOT
@@ -105,8 +106,9 @@ EOT
 			gettext "You must be logged in to view online users"
 			exit 0
 		fi
+		logged="$(ls $sessions | wc -l)"
 		cat << EOT
-<h2>Logged users</h2>
+<h2>Logged users: $logged</h2>
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
 	<a href="$script?users">Users admin</a>
