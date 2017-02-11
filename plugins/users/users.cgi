@@ -126,7 +126,7 @@ EOT
 		html_footer && exit 0 ;;
 		
 	*\ modprofile\ *)
-		# Let user edit there profile
+		# Let user edit their profile
 		if ! check_auth; then
 			echo "ERROR" && exit 0
 		fi

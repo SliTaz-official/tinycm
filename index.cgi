@@ -113,7 +113,7 @@ default_index() {
 
 <p>
 This is the default index page of your TinyCM, you can login then start to
-edit and adding some content. You can read the help about text formating
+edit and add some content. You can read the help about text formating
 and functions: [Help page|en/help]
 </p>
 
