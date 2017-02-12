@@ -14,7 +14,7 @@ case " $(GET) " in
 		
 		# Wall is only for logged users
 		if ! check_auth; then
-			gettext "You must be logged to read the wall" 
+			gettext "You must be logged in to read the wall" 
 			html_footer && exit 0
 		fi
 		

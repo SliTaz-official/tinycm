@@ -163,7 +163,7 @@ if [ "$(GET forum)" ]; then
 			html_header
 			user_box
 			if ! check_auth; then
-				gettext "You must be logged to create a new Forum post"
+				gettext "You must be logged in to create a new Forum post"
 				html_footer && exit 0
 			fi
 			# New post
@@ -258,7 +258,7 @@ EOT
 			header "Location: $script?forum" ;;
 		
 		*\ hashtag\ *)
-			# Display an hashtag
+			# Display a hashtag
 			hashtag="$(GET h)"
 			header
 			html_header
