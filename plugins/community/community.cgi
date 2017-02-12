@@ -12,6 +12,12 @@ case " $(GET) " in
 		html_header
 		user_box
 		
+		# Wall is only for logged users
+		if ! check_auth; then
+			gettext "You must be logged to read the wall" 
+			html_footer && exit 0
+		fi
+		
 		# Save any new message first
 		if [ "$(GET message)" ] && check_auth; then
 			# Prevent more than one message by minute peer user
