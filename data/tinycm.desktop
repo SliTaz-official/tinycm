@@ -3,7 +3,7 @@ Encoding=UTF-8
 Name=Content Manager
 Name[fr]=Gestionnaire de contenu
 Icon=slitaz-doc
-Exec=browser http://localhost/tinycm/index.cgi
+Exec=tazweb --notoolbar http://localhost/cgi-bin/tinycm/index.cgi
 Type=Application
 Categories=Office;
 
