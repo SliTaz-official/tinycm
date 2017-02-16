@@ -38,7 +38,7 @@ You can also use a full URL. This time we separate the link name of the URL
 with an exclamation !
 </p>
 <pre>
-[SliTaz!http://www.slitaz.org/]
+[TinyCM!http://tinycm.slitaz.org/]
 </pre>
 
 <h3>Images</h3>
@@ -50,3 +50,18 @@ Just paste the URL to the PNG image or use the image name:
 [http://site.com/path/image.png]
 [image.png]
 </pre>
+
+<h3>User link</h3>
+<p>
+You can refer to a user in any wiki document and some plugins such as wall:
+</p>
+<pre>
+@username@
+</pre>
+
+<h3>No wiki formating</h3>
+<p>
+You may want to use HTML code in your pages and avoid any wiki parsing 
+function such as this help page. Just add the tag NOWIKI into [ ] at 
+any place in the page.
+</p>

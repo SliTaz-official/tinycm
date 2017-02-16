@@ -283,7 +283,8 @@ wiki_parser() {
 		-e s"#\[\([^]]*\)|\($doc\)\]#<a href='$script?d=\2'>\1</a>#"g \
 		-e s"#\[\([^]]*\)!\($doc\)\]#<a href='\2'>\1</a>#"g \
 		-e s"#\[\(http://*[^]]*.png\)\]#<img src='\1' />#"g \
-		-e s"#\[\([^]]*.png\)\]#<img src='content/cloud/\1' />#"g
+		-e s"#\[\([^]]*.png\)\]#<img src='content/cloud/\1' />#"g \
+		-e s"#@\([^']*\)@#<a href='$script?user=\1'>\1</a>#"g
 }
 
 link_user() {
