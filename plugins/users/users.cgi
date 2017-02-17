@@ -13,23 +13,12 @@ auth_people() {
 	cat << EOT
 Email      : $MAIL
 </pre>
-EOT
-	# Each user can have personal profile page
-	if [ -f "$PEOPLE/$USER/profile.txt" ]; then
-		cat << EOT
+
 <div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
 	<a href="$script?modprofile">$(gettext "Modify profile")</a>
-	<a href="$script?dashboard">Dashboard</a>
 </div>
 EOT
-	else
-		cat << EOT
-<div id="tools">
-	<a href="$script?modprofile">$(gettext "Create a profile page")</a>
-	<a href="$script?dashboard">Dashboard</a>
-</div>
-EOT
-	fi
 }
 
 case " $(GET) " in

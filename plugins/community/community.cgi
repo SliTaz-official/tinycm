@@ -13,8 +13,8 @@ case " $(GET) " in
 		user_box
 		
 		# Wall is only for logged users
-		if ! check_auth; then
-			gettext "You must be logged in to read the wall" 
+		if [ "$WALL_MODE" == "private" ] && ! check_auth; then
+			gettext "Private Wall - You must be logged in to read the wall" 
 			html_footer && exit 0
 		fi
 		
@@ -39,15 +39,16 @@ EOT
 		fi
 		
 		# Message form
-		cat << EOT
-<h2>$d</h2>
+		echo "<h2>$d</h2>"
+		if check_auth; then
+			cat << EOT
 
 <form method="get" action="$script" id="wall-form" name ="wall" onsubmit="return checkWall();">
 	<input type="hidden" name="wall" />
-	<textarea name="message" maxlength="${MESSAGE_LENGTH}"></textarea>
+	<textarea name="message" maxlength="${WALL_MESSAGES_LENGTH}"></textarea>
 	<div>
 		<input type="submit" value="$(gettext 'Send message')" />
-		$(eval_gettext "Date: $date - Max char:") ${MESSAGE_LENGTH} -
+		$(eval_gettext "Date: $date - Max char:") ${WALL_MESSAGES_LENGTH} -
 		$(gettext "Wiki syntax is supported:")
 		<a href="?d=en/help">$(gettext "Help page")</a>
 	</div>
@@ -55,6 +56,7 @@ EOT
 
 <h2>$(gettext "Latest Messages")</h2>
 EOT
+		fi
 		# Display messages &nb=40
 		msg_nb=40
 		if [ "$(GET nb)" ]; then
@@ -83,17 +85,38 @@ EOT
 EOT
 		html_footer && exit 0 ;;
 	
+	*\ community-config\ *)
+		d="Community plugin config"
+		header
+		html_header
+		user_box
+		cat << EOT
+<div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
+	<a href="$script?community">Community Tools</a>
+</div>
+
+<h2>$d</h2>
+<pre>
+Wall mode        : $WALL_MODE
+Messages length  : $WALL_MESSAGES_LENGTH
+</pre>
+EOT
+		html_footer && exit 0 ;;
+	
 	*\ community\ *)
 		d="Community Tools"
 		header
 		html_header
 		user_box
 		cat << EOT
+<div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
+	<a href="$script?wall">Community Wall</a>
+	<a href="$script?community-config">Plugin Config</a>
+</div>
 <h2>$d</h2>
 <p>$SHORT_DESC</p>
-<div id="tools">
-	<a href="$script?wall">Community Wall</a>
-</div>
 EOT
 		
 		html_footer && exit 0 ;;
