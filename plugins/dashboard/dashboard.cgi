@@ -38,7 +38,6 @@ if [ "$(GET dashboard)" ]; then
 Wiki docs        : $docs ($wikisize)
 Cache size       : $cachesize
 Mercurial        : $hg
-Server uptime    : $(uptime | cut -d " " -f 4 | sed s"/:/h /" | sed s"/,/min/")
 </pre>
 
 <h3>Admin users</h3>
