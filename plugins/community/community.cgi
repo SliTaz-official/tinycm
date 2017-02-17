@@ -87,28 +87,6 @@ EOT
 		fi
 		html_footer && exit 0 ;;
 	
-	*\ communityconfig\ *)
-		d="Community plugin config"
-		header
-		html_header
-		user_box
-		if ! admin_user; then
-			header "Location: $script"
-		fi
-		cat << EOT
-<div id="tools">
-	<a href="$script?dashboard">Dashboard</a>
-	<a href="$script?community">Community Tools</a>
-</div>
-
-<h2>$d</h2>
-<pre>
-Wall mode        : $WALL_MODE
-Messages length  : $WALL_MESSAGES_LENGTH
-</pre>
-EOT
-		html_footer && exit 0 ;;
-	
 	*\ community\ *)
 		d="Community Tools"
 		header
@@ -118,15 +96,20 @@ EOT
 		if check_auth; then
 			echo "<a href='$script?dashboard'>Dashboard</a>"
 		fi
-		if admin_user; then
-			echo "<a href='$script?communityconfig'>Plugin Config</a>"
-		fi
 		cat << EOT
 <a href="$script?wall">Community Wall</a>
 </div>
 <h2>$d</h2>
 <p>$SHORT_DESC</p>
 EOT
-		
+		if admin_user; then
+			cat << EOT
+<h3>Plugin config</h3>
+<pre>
+Wall mode        : $WALL_MODE
+Messages length  : $WALL_MESSAGES_LENGTH
+</pre>
+EOT
+		fi
 		html_footer && exit 0 ;;
 esac

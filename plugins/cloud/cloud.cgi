@@ -65,7 +65,7 @@ EOT
 EOT
 		if admin_user; then
 			cat << EOT
-<a href="$script?cloudlog&amp;clean">$(gettext "Clean logfile")</a>"
+<a href="$script?cloudlog&amp;clean">$(gettext "Clean logfile")</a>
 EOT
 		fi
 		echo "</div>"
