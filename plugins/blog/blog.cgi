@@ -220,7 +220,7 @@ EOT
 			blog_tools
 			echo "<h2>Blog archives</h2>"
 			echo "<pre>"
-			for p in $(ls $blog)
+			for p in $(ls $blog | sort -nr)
 			do
 				. ${blog}/${p}/post.conf
 				echo "\
