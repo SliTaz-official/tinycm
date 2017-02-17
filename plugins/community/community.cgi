@@ -78,18 +78,23 @@ EOT
 			cat ${wall}/${m} | wiki_parser
 			echo "</p></div>"
 		done
-		cat << EOT
+		if check_auth; then
+			cat << EOT
 <div id="tools">
 	<a href="$script?community">$(gettext "Community Tools")</a>
 </div>
 EOT
+		fi
 		html_footer && exit 0 ;;
 	
-	*\ community-config\ *)
+	*\ communityconfig\ *)
 		d="Community plugin config"
 		header
 		html_header
 		user_box
+		if ! admin_user; then
+			header "Location: $script"
+		fi
 		cat << EOT
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
@@ -109,11 +114,15 @@ EOT
 		header
 		html_header
 		user_box
+		echo '<div id="tools">'
+		if check_auth; then
+			echo "<a href='$script?dashboard'>Dashboard</a>"
+		fi
+		if admin_user; then
+			echo "<a href='$script?communityconfig'>Plugin Config</a>"
+		fi
 		cat << EOT
-<div id="tools">
-	<a href="$script?dashboard">Dashboard</a>
-	<a href="$script?wall">Community Wall</a>
-	<a href="$script?community-config">Plugin Config</a>
+<a href="$script?wall">Community Wall</a>
 </div>
 <h2>$d</h2>
 <p>$SHORT_DESC</p>

@@ -50,13 +50,25 @@ EOT
 		d="Cloud activity"
 		[ ! check_auth ] && header "Location: $script"
 		# Clean-up logfile
-		if [ "$(GET clean)" ]; then
+		if [ "$(GET clean)" ] && admin_user; then
 			rm -f ${cloudlog} && touch ${cloudlog}
 			header "Location: $HTTP_REFERER"
 		fi
 		header
 		html_header
 		user_box
+		cat << EOT
+<div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
+	<a href="$script?cloud">Cloud files</a>
+	<a href="$script?cloudlog&amp;full">$(gettext "More activity")</a>
+EOT
+		if admin_user; then
+			cat << EOT
+<a href="$script?cloudlog&amp;clean">$(gettext "Clean logfile")</a>"
+EOT
+		fi
+		echo "</div>"
 		echo "<h2>$(gettext "Cloud activity")</h2>"
 		echo '<pre>'
 		if [ "$(GET full)" ]; then
@@ -65,13 +77,6 @@ EOT
 			tac ${cloudlog} | head -n 20
 		fi
 		echo '</pre>'
-		cat << EOT
-<div id="tools">
-	<a href="$script?cloud">Cloud files</a>
-	<a href="$script?cloudlog&amp;full">$(gettext "More activity")</a>
-	<a href="$script?cloudlog&amp;clean">$(gettext "Clean logfile")</a>
-</div>
-EOT
 		html_footer && exit 0 ;;
 		
 	*\ cloud\ *)
@@ -90,9 +95,9 @@ EOT
 		[ -f "$cloudlog" ] || mkdir -p $(dirname $cloudlog)
 		cat << EOT
 <div id="tools">
+	<a href="$script?dashboard">Dashboard</a>
 	<a href="$script?cloudlog">Cloud activity</a>
 	<a href="$content/cloud">Raw files</a>
-	<a href="$script?dashboard">Dashboard</a>
 </div>
 
 <h2>Cloud files</h2>
