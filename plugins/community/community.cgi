@@ -43,7 +43,7 @@ EOT
 		if check_auth; then
 			cat << EOT
 
-<form method="get" action="$script" id="wall-form" name ="wall" onsubmit="return checkWall();">
+<form method="get" action="$script" id="wall-form" name="wall" onsubmit="return checkWall();">
 	<input type="hidden" name="wall" />
 	<textarea name="message" maxlength="${WALL_MESSAGES_LENGTH}"></textarea>
 	<div>
@@ -87,6 +87,17 @@ EOT
 		fi
 		html_footer && exit 0 ;;
 	
+	*\ twitter\ *)
+		header
+		html_header
+		user_box
+		cat << EOT
+<a class="twitter-timeline" 
+	href="https://twitter.com/${TWITTER_USER}">Tweets by ${TWITTER_USER}</a> 
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+EOT
+		html_footer && exit 0 ;;
+	
 	*\ community\ *)
 		d="Community Tools"
 		header
@@ -98,6 +109,7 @@ EOT
 		fi
 		cat << EOT
 <a href="$script?wall">Community Wall</a>
+<a href="$script?twitter">Twitter Timeline</a>
 </div>
 <h2>$d</h2>
 <p>$SHORT_DESC</p>
@@ -106,8 +118,9 @@ EOT
 			cat << EOT
 <h3>Plugin config</h3>
 <pre>
-Wall mode        : $WALL_MODE
-Messages length  : $WALL_MESSAGES_LENGTH
+Wall mode          : $WALL_MODE
+Messages length    : $WALL_MESSAGES_LENGTH
+Twitter user       : $TWITTER_USER
 </pre>
 EOT
 		fi
