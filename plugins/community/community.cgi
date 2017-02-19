@@ -88,6 +88,7 @@ EOT
 		html_footer && exit 0 ;;
 	
 	*\ twitter\ *)
+		d="Tweets by @${TWITTER_USER}"
 		header
 		html_header
 		user_box
