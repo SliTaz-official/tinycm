@@ -37,24 +37,16 @@ if [ "$(GET dashboard)" ]; then
 <pre>
 Wiki docs        : $docs ($wikisize)
 Cache size       : $cachesize
+Users account    : $(ls $PEOPLE | wc -l)
 Mercurial        : $hg
 </pre>
-
-<h3>Admin users</h3>
 EOT
-		# Get the list of administrators
-		fgrep -l "ADMIN_USER=" $PEOPLE/*/account.conf | while read file;
-		do
-			. ${file}
-			echo "<a href='?user=$USER'>$USER</a>"
-			unset NAME USER
-		done
 		
 		# Only for admins
-		if check_auth && admin_user; then
+		if admin_user; then
 			# List all plugins
 			cat << EOT
-<h3>$(gettext "Plugins")</h3>
+<h3>$(gettext "Plugins:") $(ls $plugins | wc -l)</h3>
 <table>
 	<thead>
 		<td>$(gettext "Name")</td>

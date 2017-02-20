@@ -27,24 +27,63 @@ case " $(GET) " in
 		header
 		html_header
 		user_box
-		if check_auth && ! admin_user; then
-			gettext "You must be admin to manage users" && exit 0
+		# Admin only
+		if admin_user; then
+			tools="<a href='$script?userslist'>Users list</a>"
 		fi
-		cat << EOT
-<h2>Users admin</h2>
+		# Logged users
+		if check_auth; then
+			cat << EOT
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
 	<a href='$script?loggedusers'>Logged users</a>
-	<a href='$script?userslist'>Users list</a>
+	$tools
 </div>
+<h2>${d}</h2>
 <pre>
 User accounts   : $(ls -1 $PEOPLE | wc -l)
 Logged users    : $(ls $sessions | wc -l)
-People DB       : $PEOPLE
-Auth file       : $AUTH_FILE
+</pre>
 EOT
 		
-		echo "</pre>"
+			# Last active user
+			count=10
+			echo "<h3>Last active users</h3>"
+			echo "<pre>"
+			find ${PEOPLE} -name "last" | xargs ls -1t | head -n ${count} | while read last;
+			do
+				dir="$(dirname $last)"
+				date="$(cat $last)"
+				u=$(basename $dir)
+				. "${PEOPLE}/${u}/account.conf"
+			cat << EOT
+$(get_gravatar $MAIL 24) $date  : <a href="?user=$u">$u</a> | $NAME
+EOT
+			done
+			echo "</pre>"
+			
+			# Admin only
+			if admin_user; then
+				cat << EOT
+<h3>Config paths</h3>
+<pre>
+People DB       : $PEOPLE
+Auth file       : $AUTH_FILE
+</pre>
+EOT
+				# Get the list of administrators
+				echo "<h3>Admin users</h3>"
+				fgrep -l "ADMIN_USER=" $PEOPLE/*/account.conf | while read file;
+				do
+					. ${file}
+					echo "<a href='?user=$USER'>$USER</a>"
+					unset NAME USER
+				done
+			fi
+			
+		else
+			gettext "You must be logged to check or admin users"
+		fi
 		html_footer && exit 0 ;;
 		
 	*\ userslist\ *)
@@ -59,12 +98,12 @@ EOT
 		fi
 		users=$(ls -1 $PEOPLE | wc -l)
 		cat << EOT
-<h2>Users: $users</h2>
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
 	<a href="$script?users">Users admin</a>
 	<a href='$script?loggedusers'>Logged users</a>
 </div>
+<h2>Users: $users</h2>
 <pre>
 EOT
 		for u in $(ls $PEOPLE)
@@ -97,11 +136,11 @@ EOT
 		fi
 		logged="$(ls $sessions | wc -l)"
 		cat << EOT
-<h2>Logged users: $logged</h2>
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
-	<a href="$script?users">Users admin</a>
+	<a href="$script?users">Users</a>
 </div>
+<h2>Logged users: $logged</h2>
 <pre>
 EOT
 		for u in $(ls $sessions)
