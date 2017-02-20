@@ -174,7 +174,15 @@ EOT
 		header
 		html_header
 		user_box
-		. $PEOPLE/"$(GET user)"/account.conf
+		account_config="$PEOPLE/$(GET user)/account.conf"
+		profile_config="$PEOPLE/$(GET user)/profile.conf"
+		if [ ! -f "$account_config" ]; then
+			echo "No user profile for: $(GET user)"
+			html_footer && exit 0
+		else
+			. ${account_config}
+		fi
+		[ -f "$profile_config" ] && . ${profile_config}
 cat << EOT
 <h2>$(get_gravatar $MAIL) $NAME</h2>
 

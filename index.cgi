@@ -250,18 +250,21 @@ new_user_config() {
 	echo "$user:$pass" >> $AUTH_FILE
 	mkdir -p $PEOPLE/$user/
 	cat > $PEOPLE/$user/account.conf << EOT
-# SliTaz user configuration
-#
-
+# User configuration
 NAME="$name"
 USER="$user"
 MAIL="$mail"
-
 EOT
-	chmod 0600 $PEOPLE/$user/account.conf
+	cat > $PEOPLE/$user/profile.conf << EOT
+# User profile
+WEBSITE="$website"
+FACEBOOK="$facebook"
+TWITTER="$twitter"
+EOT
+	chmod 0600 $PEOPLE/$user/*.conf
 	# First created user is admin
 	if [ $(ls ${PEOPLE} | wc -l) == "1" ]; then
-		echo 'ADMIN_USER="yes"' >> $PEOPLE/$user/account.conf
+		echo "$user" > ${ADMIN_USERS}
 	fi
 }
 
