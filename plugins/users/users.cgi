@@ -21,6 +21,24 @@ Email      : $MAIL
 EOT
 }
 
+# List last active users. Usage: last_users NB
+list_last_users() {
+	count=${1}
+	echo "<h3>Last $count active users</h3>"
+	echo "<pre>"
+	find ${PEOPLE} -name "last" | xargs ls -1t | head -n ${count} | while read last;
+	do
+		dir="$(dirname $last)"
+		date="$(cat $last)"
+		u=$(basename $dir)
+		. "${PEOPLE}/${u}/account.conf"
+	cat << EOT
+$(get_gravatar $MAIL 24) $date  : <a href="?user=$u">$u</a> | $NAME
+EOT
+	done
+	echo "</pre>"
+}
+
 case " $(GET) " in
 	*\ users\ *)
 		d="Users"
@@ -36,7 +54,7 @@ case " $(GET) " in
 			cat << EOT
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
-	<a href='$script?loggedusers'>Logged users</a>
+	<a href='$script?lastusers'>Last users</a>
 	$tools
 </div>
 <h2>${d}</h2>
@@ -45,22 +63,7 @@ User accounts   : $(ls -1 $PEOPLE | wc -l)
 Logged users    : $(ls $sessions | wc -l)
 </pre>
 EOT
-		
-			# Last active user
-			count=10
-			echo "<h3>Last active users</h3>"
-			echo "<pre>"
-			find ${PEOPLE} -name "last" | xargs ls -1t | head -n ${count} | while read last;
-			do
-				dir="$(dirname $last)"
-				date="$(cat $last)"
-				u=$(basename $dir)
-				. "${PEOPLE}/${u}/account.conf"
-			cat << EOT
-$(get_gravatar $MAIL 24) $date  : <a href="?user=$u">$u</a> | $NAME
-EOT
-			done
-			echo "</pre>"
+			list_last_users 5
 			
 			# Admin only
 			if admin_user; then
@@ -87,7 +90,7 @@ EOT
 		html_footer && exit 0 ;;
 		
 	*\ userslist\ *)
-		# List all users (slow if a lot a of accounts)
+		# List all users
 		d="Users"
 		header
 		html_header
@@ -100,11 +103,16 @@ EOT
 		cat << EOT
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
-	<a href="$script?users">Users admin</a>
-	<a href='$script?loggedusers'>Logged users</a>
+	<a href="$script?users">Users</a>
+	<a href='$script?lastusers'>Last users</a>
 </div>
 <h2>Users: $users</h2>
-<pre>
+<div id="users">
+<table>
+	<thead>
+		<td>$(gettext "Username")</td>
+		<td>$(gettext "Action")</td>
+	</thead>
 EOT
 		for u in $(ls $PEOPLE)
 		do
@@ -113,20 +121,22 @@ EOT
 				echo "${u} : Missing account.conf"
 				continue
 			fi
-			. "${PEOPLE}/${u}/account.conf"
 			cat << EOT
-$(get_gravatar $MAIL 24) <a href="?user=$USER">$USER</a> | $NAME | $MAIL
+	<tr>
+		<td><a href='?$u'>$u</a></td>
+		<td>TODO</td>
+	</tr>
 EOT
 # deluser link --> use 'tazu' on SliTaz
 #: <a href="?users&amp;deluser=$USER">$(gettext "delete")</a>
 			unset NAME USER 
 		done
-		echo "</pre>" 
+		echo "</table></div>"
 		html_footer && exit 0 ;;
 	
-	*\ loggedusers\ *)
+	*\ lastusers\ *)
 		# Show online users based on sessions files.
-		d="Logged users"
+		d="Last users"
 		header
 		html_header
 		user_box
@@ -134,15 +144,17 @@ EOT
 			gettext "You must be logged in to view online users"
 			exit 0
 		fi
-		logged="$(ls $sessions | wc -l)"
 		cat << EOT
 <div id="tools">
 	<a href="$script?dashboard">Dashboard</a>
 	<a href="$script?users">Users</a>
 </div>
-<h2>Logged users: $logged</h2>
-<pre>
 EOT
+		list_last_users 15
+		
+		# Active cookies
+		echo "<h3>Session cookies: $(ls $sessions | wc -l)</h3>"
+		echo "<pre>"
 		for u in $(ls $sessions)
 		do
 			. "${PEOPLE}/${u}/account.conf"

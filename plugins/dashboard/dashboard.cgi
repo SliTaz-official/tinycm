@@ -47,6 +47,7 @@ EOT
 			# List all plugins
 			cat << EOT
 <h3>$(gettext "Plugins:") $(ls $plugins | wc -l)</h3>
+<div id="plugins">
 <table>
 	<thead>
 		<td>$(gettext "Name")</td>
@@ -65,7 +66,7 @@ EOT
 	</tr>
 EOT
 			done
-			echo "</table>"
+			echo "</table></div>"
 		fi
 	else
 		gettext "You must be logged in to view the dashboard"
