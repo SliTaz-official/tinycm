@@ -55,7 +55,7 @@ check_tiny() {
 	fi
 }
 
-# Rebuilt an up-to-date config file, plugins may need new variables
+# Rebuild an up-to-date config file, plugins may need new variables
 update_config() {
 	echo "Updating config file: confi.cgi"
 	. ${path}/config.cgi
@@ -140,7 +140,7 @@ case "$1" in
 		boldify "Updating TinyCM install(s)..."
 		echo ""
 		
-		# File liste of args
+		# File list of args
 		if [ -f "$path" ]; then
 			paths="$(cat ${list})"
 		else
