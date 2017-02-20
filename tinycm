@@ -55,6 +55,52 @@ check_tiny() {
 	fi
 }
 
+# Rebuilt an up-to-date config file, plugins may need new variables
+update_config() {
+	echo "Updating config file: confi.cgi"
+	. ${path}/config.cgi
+	[ ! "$WALL_MODE" ] && WALL_MODE="public"
+	[ ! "$WALL_MESSAGES_LENGTH" ] && WALL_MESSAGES_LENGTH="240"
+	cat > ${path}/config.cgi << EOT
+#
+# TinyCM configuration
+#
+
+# Administrator email.
+ADMIN_MAIL="$ADMIN_MAIL"
+
+# Auth file for user
+AUTH_FILE="$AUTH_FILE"
+
+# People config files
+PEOPLE="$PEOPLE"
+
+# CM documents languages.
+LANGUAGES="$LANGUAGES"
+
+# Online registration for user
+ONLINE_SIGNUP="$ONLINE_SIGNUP"
+
+# Use Mercurial repo for content and configure user name
+HG="$HG"
+
+#
+# Plugin configuration: community.cgi
+#
+
+# Wall mode: public/private
+WALL_MODE="$WALL_MODE"
+
+# Max length for messages on the Wall
+WALL_MESSAGES_LENGTH="$WALL_MESSAGES_LENGTH"
+
+# Twitter user name and/or Facebook page URL name 
+TWITTER_USER="$TWITTER_USER"
+FACEBOOK_PAGE="$FACEBOOK_PAGE"
+EOT
+	unset TWITTER_USER FACEBOOK_PAGE
+}
+
 #
 # Commands
 #
@@ -85,7 +131,8 @@ case "$1" in
 			exit 1
 		fi
 		echo ""
-		boldify $(echo "Updating TinyCM installs...")
+		boldify "Updating TinyCM install(s)..."
+		echo ""
 		
 		# File liste of args
 		if [ -f "$path" ]; then
@@ -97,10 +144,11 @@ case "$1" in
 		for path in ${paths}
 		do
 			check_tiny
-			echo "Updating: $path"
+			echo "Updating TinyCM: $path"
 			cp -a index.cgi $path
 			cp -a lib/functions.js $path/lib
 			cp -a lib/jseditor.html $path/lib
+			echo "Updating plugins..."
 			for plug in $(ls plugins)
 			do
 				if [ -d "$path/plugins/$plug" ]; then
@@ -108,6 +156,7 @@ case "$1" in
 					cp -a plugins/$plug $path/plugins
 				fi
 			done
+			update_config
 		done && echo "" ;;
 	*)
 		usage ;;

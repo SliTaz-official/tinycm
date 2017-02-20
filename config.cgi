@@ -1,4 +1,5 @@
-# CM configuration
+#
+# TinyCM configuration
 #
 
 # Administrator email.
@@ -18,3 +19,17 @@ ONLINE_SIGNUP="yes"
 
 # Use Mercurial repo for content and configure user name
 HG="no"
+
+#
+# Plugin configuration: community.cgi
+#
+
+# Wall mode: public/private
+WALL_MODE="public"
+
+# Max length for messages on the Wall
+WALL_MESSAGES_LENGTH="240"
+
+# Twitter user name and/or Facebook page URL name 
+TWITTER_USER="slitaz"
+FACEBOOK_PAGE="slitaz"

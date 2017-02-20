@@ -99,6 +99,39 @@ EOT
 EOT
 		html_footer && exit 0 ;;
 	
+	*\ facebook\ *)
+		d="Facebook @${FACEBOOK_PAGE}"
+		header
+		html_header
+		user_box
+		cat << EOT
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div style="text-align: center;">
+	<div class="fb-page"
+		data-href="https://www.facebook.com/${FACEBOOK_PAGE}" 
+		data-tabs="timeline" 
+		data-width="500" 
+		data-height="500" 
+		data-small-header="true" 
+		data-adapt-container-width="false" 
+		data-hide-cover="true" 
+		data-show-facepile="false">
+		<blockquote cite="https://www.facebook.com/${FACEBOOK_PAGE}" class="fb-xfbml-parse-ignore">
+			<a href="https://www.facebook.com/${FACEBOOK_PAGE}">${FACEBOOK_PAGE}</a>
+		</blockquote>
+	</div>
+</div>
+EOT
+		html_footer && exit 0 ;;
+		
 	*\ community\ *)
 		d="Community Tools"
 		header
@@ -111,6 +144,7 @@ EOT
 		cat << EOT
 <a href="$script?wall">Community Wall</a>
 <a href="$script?twitter">Twitter Timeline</a>
+<a href="$script?facebook">Facebook Page</a>
 </div>
 <h2>$d</h2>
 <p>$SHORT_DESC</p>

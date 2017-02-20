@@ -15,7 +15,7 @@ Email      : $MAIL
 </pre>
 
 <div id="tools">
-	<a href="$script?dashboard">Dashboard</a>
+	$PLUGINS_TOOLS
 	<a href="$script?modprofile">$(gettext "Modify profile")</a>
 </div>
 EOT
@@ -136,6 +136,18 @@ EOT
 			. $PEOPLE/"$(GET user)"/account.conf
 			public_people
 		fi
+		
+		# Messages plugin integration
+		if [ -x "$plugins/messages/messages.cgi" ]; then
+			if check_auth && [ "$(GET user)" != "$user" ]; then
+				cat << EOT
+<div id="tools">
+<a href="$script?messages&amp;to=$(GET user)">$(gettext "Send message")</a>
+</div>
+EOT
+			fi
+		fi
+		
 		# Display personal user profile
 		if [ -f "$PEOPLE/$USER/profile.txt" ]; then
 			echo "<h2>$(gettext "About me")</h2>"
