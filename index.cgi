@@ -247,7 +247,6 @@ new_user_config() {
 		touch $AUTH_FILE
 		chmod 0600 $AUTH_FILE
 	fi
-	key=$(echo -n "$user:$mail:$pass" | md5sum | awk '{print $1}')
 	echo "$user:$pass" >> $AUTH_FILE
 	mkdir -p $PEOPLE/$user/
 	cat > $PEOPLE/$user/account.conf << EOT
@@ -257,7 +256,6 @@ new_user_config() {
 NAME="$name"
 USER="$user"
 MAIL="$mail"
-KEY="$key"
 
 EOT
 	chmod 0600 $PEOPLE/$user/account.conf

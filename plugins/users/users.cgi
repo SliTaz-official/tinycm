@@ -81,7 +81,7 @@ EOT
 				for u in $(cat $ADMIN_USERS)
 				do
 					. ${PEOPLE}/${u}/account.conf
-					echo "<a href='?user=$u'>$u</a> | $NAME"
+					echo "<a href='?user=$u'>$u</a> - $NAME"
 				done
 				echo "</pre>"
 			fi
@@ -125,7 +125,7 @@ EOT
 			fi
 			cat << EOT
 	<tr>
-		<td><a href='?$u'>$u</a></td>
+		<td><a href="$script?user=$u">$u</a></td>
 		<td>TODO</td>
 	</tr>
 EOT
