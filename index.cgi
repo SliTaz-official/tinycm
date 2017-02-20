@@ -152,7 +152,7 @@ check_auth() {
 
 # Check if user is admin
 admin_user() {
-	fgrep -q 'ADMIN_USER="yes"' ${PEOPLE}/${user}/account.conf
+	fgrep -w -q "$user" ${ADMIN_USERS}
 }
 
 # Authenticated or not

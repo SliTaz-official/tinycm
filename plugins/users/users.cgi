@@ -71,17 +71,19 @@ EOT
 <h3>Config paths</h3>
 <pre>
 People DB       : $PEOPLE
-Auth file       : $AUTH_FILE
+Authfile        : $AUTH_FILE
+Admin users     : $ADMIN_USERS
 </pre>
 EOT
 				# Get the list of administrators
 				echo "<h3>Admin users</h3>"
-				fgrep -l "ADMIN_USER=" $PEOPLE/*/account.conf | while read file;
+				echo "<pre>"
+				for u in $(cat $ADMIN_USERS)
 				do
-					. ${file}
-					echo "<a href='?user=$USER'>$USER</a>"
-					unset NAME USER
+					. ${PEOPLE}/${u}/account.conf
+					echo "<a href='?user=$u'>$u</a> | $NAME"
 				done
+				echo "</pre>"
 			fi
 			
 		else

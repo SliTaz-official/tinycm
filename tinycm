@@ -59,8 +59,11 @@ check_tiny() {
 update_config() {
 	echo "Updating config file: confi.cgi"
 	. ${path}/config.cgi
+	# Def value for new variables
 	[ ! "$WALL_MODE" ] && WALL_MODE="public"
 	[ ! "$WALL_MESSAGES_LENGTH" ] && WALL_MESSAGES_LENGTH="240"
+	# from 1.4
+	[ ! "$ADMIN_USERS" ] && ADMIN_USERS=$(dirname "$AUTH_FILE")/admin
 	cat > ${path}/config.cgi << EOT
 #
 # TinyCM configuration
@@ -71,6 +74,9 @@ ADMIN_MAIL="$ADMIN_MAIL"
 
 # Auth file for user
 AUTH_FILE="$AUTH_FILE"
+
+# Admin users file list
+ADMIN_USERS="/var/lib/slitaz/auth/admin"
 
 # People config files
 PEOPLE="$PEOPLE"
