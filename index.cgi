@@ -152,7 +152,7 @@ check_auth() {
 
 # Check if user is admin
 admin_user() {
-	fgrep -w -q "$user" ${ADMIN_USERS}
+	grep -w -q "$user" ${ADMIN_USERS}
 }
 
 # Authenticated or not
@@ -243,25 +243,18 @@ EOT
 
 # Create a new user in AUTH_FILE and PEOPLE
 new_user_config() {
-	if [ ! -f "$AUTH_FILE" ];then
-		touch $AUTH_FILE
-		chmod 0600 $AUTH_FILE
+	if [ ! -f "$AUTH_FILE" ]; then
+		touch $AUTH_FILE && chmod 0600 $AUTH_FILE
 	fi
 	echo "$user:$pass" >> $AUTH_FILE
-	mkdir -p $PEOPLE/$user/
+	mkdir -pm0700 $PEOPLE/${user}
 	cat > $PEOPLE/$user/account.conf << EOT
 # User configuration
 NAME="$name"
 USER="$user"
 MAIL="$mail"
 EOT
-	cat > $PEOPLE/$user/profile.conf << EOT
-# User profile
-WEBSITE="$website"
-FACEBOOK="$facebook"
-TWITTER="$twitter"
-EOT
-	chmod 0600 $PEOPLE/$user/*.conf
+	chmod 0600 $PEOPLE/$user/account.conf
 	# First created user is admin
 	if [ $(ls ${PEOPLE} | wc -l) == "1" ]; then
 		echo "$user" > ${ADMIN_USERS}

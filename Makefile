@@ -34,7 +34,7 @@ msgfmt:
 install: install-web
 	install -m 0700 -d $(DESTDIR)$(AUTH)/people
 	install -m 0700 -d $(DESTDIR)$(AUTH)/auth
-	install -m 0777 -d $(DESTDIR)$(PREFIX)/share/locale
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
 	cp -a po/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	# Set permissions
 	chown -R www.www $(DESTDIR)$(AUTH)/auth

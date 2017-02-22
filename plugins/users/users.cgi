@@ -176,14 +176,26 @@ EOT
 		user_box
 		account_config="$PEOPLE/$(GET user)/account.conf"
 		profile_config="$PEOPLE/$(GET user)/profile.conf"
+		
 		if [ ! -f "$account_config" ]; then
 			echo "No user profile for: $(GET user)"
 			html_footer && exit 0
 		else
 			. ${account_config}
 		fi
-		[ -f "$profile_config" ] && . ${profile_config}
-cat << EOT
+		# Init profile.conf
+		if [ -f "${profile_config}" ]; then
+			. ${profile_config}
+		else
+			cat > $PEOPLE/$user/profile.conf << EOT
+# User profile
+WEBSITE="$website"
+FACEBOOK="$facebook"
+TWITTER="$twitter"
+EOT
+			chmod 0600 $PEOPLE/$user/profile.conf
+		fi
+		cat << EOT
 <h2>$(get_gravatar $MAIL) $NAME</h2>
 
 <pre>
