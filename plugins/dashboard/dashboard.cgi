@@ -18,7 +18,7 @@ if [ "$(GET dashboard)" ]; then
 	DASHBOARD_TOOLS=""
 	for p in $(ls $plugins)
 	do
-		. $plugins/$p/$p.conf
+		[ -f "$plugins/$p/$p.conf" ] && . $plugins/$p/$p.conf
 	done
 	if check_auth && ! admin_user; then
 		ADMIN_TOOLS=""
