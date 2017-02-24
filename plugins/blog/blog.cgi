@@ -228,7 +228,7 @@ EOT
 		echo "</pre>" 
 		html_footer && exit 0 ;;
 		
-	*)
+	*\ blog\ *)
 		if [ "$(GET blog)" == "rss" ]; then
 			rss && exit 0
 		fi
