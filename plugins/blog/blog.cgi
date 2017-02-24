@@ -2,7 +2,6 @@
 #
 # TinyCM Plugin - Blog
 #
-. /usr/lib/slitaz/httphelper
 
 blog="$tiny/$content/blog"
 
@@ -133,29 +132,29 @@ fi
 # Handle GET requests
 #
 
-if [ "$(GET blog)" ]; then
-	case " $(GET blog) " in
-		*\ edit\ *)
-			d="Editing: $(GET p)"
-			p="$(GET p)"
-			header
-			html_header
-			user_box
-			if ! check_auth && admin_user; then
-				gettext "You must be admin to create a new Blog post"
-				html_footer && exit 0
-			fi
-			blog_tools
-			# New post
-			if [ "$p" == "new" ]; then
-				last=$(ls $blog | sort -r -n | head -n 1)
-				p=$(($last + 1))
-				AUTHOR="$user"
-				DATE=$(date '+%Y-%m-%d')
-			else
-				. ${blog}/${p}/post.conf
-			fi		
-			cat << EOT
+
+case " $(GET blog) " in
+	*\ edit\ *)
+		d="Editing: $(GET p)"
+		p="$(GET p)"
+		header
+		html_header
+		user_box
+		if ! check_auth && admin_user; then
+			gettext "You must be admin to create a new Blog post"
+			html_footer && exit 0
+		fi
+		blog_tools
+		# New post
+		if [ "$p" == "new" ]; then
+			last=$(ls $blog | sort -r -n | head -n 1)
+			p=$(($last + 1))
+			AUTHOR="$user"
+			DATE=$(date '+%Y-%m-%d')
+		else
+			. ${blog}/${p}/post.conf
+		fi		
+		cat << EOT
 <h2>$(gettext "Blog post"): $p</h2>
 
 <div id="edit">
@@ -179,78 +178,80 @@ if [ "$(GET blog)" ]; then
 	</form>
 </div>
 EOT
-			html_footer && exit 0 ;;
-	
-		*\ save\ *)
-			p="$(GET p)"
-			if check_auth && admin_user; then
-				[ -d "$blog/$p" ] || mkdir -p ${blog}/${p}
-				# New post ?
-				if [ ! -f "${blog}/${p}/post.txt" ]; then
-					echo "New Blog post: <a href='$script?blog&amp;p=$p'>Read it!</a>" \
-						| log_activity
-				fi
-				# Write config file
-				cat > ${blog}/${p}/post.conf << EOT
+		html_footer && exit 0 ;;
+
+	*\ save\ *)
+		p="$(GET p)"
+		if check_auth && admin_user; then
+			[ -d "$blog/$p" ] || mkdir -p ${blog}/${p}
+			# New post ?
+			if [ ! -f "${blog}/${p}/post.txt" ]; then
+				echo "New Blog post: <a href='$script?blog&amp;p=$p'>Read it!</a>" \
+					| log_activity
+			fi
+			# Write config file
+			cat > ${blog}/${p}/post.conf << EOT
 # TinyCM Blog post configuration
 AUTHOR="$(GET author)"
 DATE="$(GET date)"
 TITLE="$(GET title)"
 EOT
-				# Write content to file
-				sed "s/$(echo -en '\r') /\n/g" > ${blog}/${p}/post.txt << EOT
+			# Write content to file
+			sed "s/$(echo -en '\r') /\n/g" > ${blog}/${p}/post.txt << EOT
 $(GET content)
 EOT
-			fi
-			[ -f "${blog}/${p}/post.xml" ] || gen_rss
-			header "Location: $script?blog&p=$p" ;;
-		
-		*\ rm\ *)
-			if check_auth && admin_user; then
-				rm -rf ${blog}/"$(GET p)"
-			fi
-			header "Location: $script?blog" ;;
-		
-		*\ archives\ *)
-			# List all posts with title only
-			d="Blog archives"
-			header
-			html_header
-			user_box
-			blog_tools
-			echo "<h2>Blog archives</h2>"
-			echo "<pre>"
-			for p in $(ls $blog | sort -nr)
-			do
-				. ${blog}/${p}/post.conf
-				echo "\
+		fi
+		[ -f "${blog}/${p}/post.xml" ] || gen_rss
+		header "Location: $script?blog&p=$p" ;;
+	
+	*\ rm\ *)
+		if check_auth && admin_user; then
+			rm -rf ${blog}/"$(GET p)"
+		fi
+		header "Location: $script?blog" ;;
+	
+	*\ archives\ *)
+		# List all posts with title only
+		d="Blog archives"
+		header
+		html_header
+		user_box
+		blog_tools
+		echo "<h2>Blog archives</h2>"
+		echo "<pre>"
+		for p in $(ls $blog | sort -nr)
+		do
+			. ${blog}/${p}/post.conf
+			echo "\
 <span class='date'>$DATE :</span> <a href='$script?blog&amp;p=$p'>$TITLE</a>"
-			done 
-			echo "</pre>" ;;
-			
-		*)
-			if [ "$(GET blog)" == "rss" ]; then
-				rss && exit 0
-			fi
-			d="Blog posts"
-			count="20"
-			header
-			html_header
-			user_box
-			blog_tools
-			# Exit if plugin is disabled
-			if [ ! -d "$blog" ]; then
-				echo "<p class='error box'>"
-				gettext "Blog plugin is not yet active."; echo "</p>"
-				html_footer && exit 0
-			fi
-			# Single post
-			if [ "$(GET p)" ]; then
-				show_post "$(GET p)"
-			else
-				show_posts ${count}
-				echo "<p><a href='$script?blog=archives'>$(gettext "Blog archives")</a></p>"
-			fi ;;
-	esac
-	html_footer && exit 0
-fi
+		done 
+		echo "</pre>" 
+		html_footer && exit 0 ;;
+		
+	*)
+		if [ "$(GET blog)" == "rss" ]; then
+			rss && exit 0
+		fi
+		d="Blog posts"
+		count="10"
+		header
+		html_header
+		user_box
+		blog_tools
+		# Exit if plugin is disabled
+		if [ ! -d "$blog" ]; then
+			echo "<p class='error box'>"
+			gettext "Blog plugin is not yet active."; echo "</p>"
+			html_footer && exit 0
+		fi
+		# Single post
+		if [ "$(GET p)" ]; then
+			show_post "$(GET p)"
+		else
+			show_posts ${count}
+			echo "<p><a href='$script?blog=archives'>$(gettext "Blog archives")</a></p>"
+		fi 
+		html_footer && exit 0 ;;
+esac
+	
+
