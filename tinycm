@@ -154,7 +154,7 @@ case "$1" in
 			cp -a index.cgi $path
 			cp -a lib/functions.js $path/lib
 			cp -a lib/jseditor.html $path/lib
-			cp -a images/* $path/images
+			#cp -a images/* $path/images
 			echo "Updating plugins..."
 			for plug in $(ls plugins)
 			do
