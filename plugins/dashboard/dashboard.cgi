@@ -57,14 +57,16 @@ EOT
 EOT
 			for p in $(ls -1 $plugins)
 			do
-				. $plugins/$p/$p.conf
-				cat << EOT
+				if [ -f "$plugins/${p}/${p}.conf" ]; then
+					. $plugins/${p}/${p}.conf
+					cat << EOT
 	<tr>
 		<td><a href='?$p'>$PLUGIN</a></td>
 		<td>$SHORT_DESC</td>
 		<td>TODO</td>
 	</tr>
 EOT
+				fi
 			done
 			echo "</table></div>"
 		fi
