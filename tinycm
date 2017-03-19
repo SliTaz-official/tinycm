@@ -30,8 +30,10 @@ usage() {
 $(boldify "Usage:") $(basename $0) [command] [path|list]
 
 $(boldify "Commands:")
-  inst       Install TinyCM and set permissions
-  up         Update one or a list of TinyCM installations
+  -i  inst       Install TinyCM and set permissions
+  -u  up         Update one or a list of TinyCM installations
+  -g  get        Download latest source tarball from repository
+  -p  plugins    List installed/avalaible plugins
 
 EOT
 }
@@ -100,7 +102,7 @@ WALL_MODE="$WALL_MODE"
 # Max length for messages on the Wall
 WALL_MESSAGES_LENGTH="$WALL_MESSAGES_LENGTH"
 
-# Twitter user name and/or Facebook page URL name 
+# Twitter user name and/or Facebook page URL name
 TWITTER_USER="$TWITTER_USER"
 FACEBOOK_PAGE="$FACEBOOK_PAGE"
 EOT
@@ -112,25 +114,39 @@ EOT
 #
 
 case "$1" in
-	inst)
+
+	-i|inst*)
 		check_source
 		check_path
+
 		echo ""
-		boldify "Installing TinyCM..."
-		echo "Path:"; echo "$path"
-		mkdir -p $path
-		for file in index.cgi style.css images lib plugins
+		boldify "TinyCM installation"
+		echo "Path: $path"
+		mkdir -p ${path}
+		for file in index.cgi config.cgi style.css images lib plugins
 		do
-			echo "* Installing: $file"
-			cp -a $file $path
+			echo "  * Installing: $file"
+			cp -a ${file} ${path}
 		done
-		if [ $(id) == 0 ]; then
-			echo root
+		
+		# Content with wiki/*/help.txt
+		for lang in en
+		do
+			mkdir -p ${path}/content/wiki/${lang}
+			cp content/wiki/${lang}/help.txt ${path}/content/wiki/${lang}
+		done
+
+		# Set permissions
+		if [ $(id -u) == 0 ]; then
+			chown -R www.www ${path}/content
+			install -d -o www -g www ${path}/cache
 		else
-			echo user
+			chmod 0777 ${path}/content ${path}/content/*
+			install -d -m 0777 ${path}/cache
 		fi
 		echo "" ;;
-	up)
+
+	-u|up*)
 		check_source
 		if [ ! "$path" ] && [ ! -f "$list" ]; then
 			error "Missing path argument or paths list: $list"
@@ -139,14 +155,14 @@ case "$1" in
 		echo ""
 		boldify "Updating TinyCM install(s)..."
 		echo ""
-		
+
 		# File list of args
 		if [ -f "$path" ]; then
 			paths="$(cat ${list})"
 		else
 			paths="$path"
 		fi
-		
+
 		for path in ${paths}
 		do
 			check_tiny
@@ -165,8 +181,20 @@ case "$1" in
 			done
 			update_config
 		done && echo "" ;;
-	*)
-		usage ;;
+
+	-p|plug*)
+		echo ""
+		boldify "TinyCM plugins:"
+		ls -1 plugins
+		echo "" ;;
+
+	-g|get)
+		tarball="tinycm-tip.tar.bz2"
+		if [ ! -f "$tarball" ]; then
+			wget ${dlurl} -O ${tarball}
+		fi ;;
+
+	*) usage ;;
 esac
 
 exit 0
