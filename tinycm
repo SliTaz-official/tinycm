@@ -33,7 +33,7 @@ $(boldify "Commands:")
   -i  inst       Install TinyCM and set permissions
   -u  up         Update one or a list of TinyCM installations
   -g  get        Download latest source tarball from repository
-  -p  plugins    List installed/avalaible plugins
+  -p  plugins    List installed/available plugins
 
 EOT
 }
