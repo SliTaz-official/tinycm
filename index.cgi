@@ -508,22 +508,34 @@ EOT
 		user_box
 		tiny_tools
 		[ ! check_auth ] && auth=0
-		echo "<h2>$(gettext "Pages list")</h2>"
-		echo '<pre>'
+		cat << EOT
+<h2>$(gettext "Pages list")</h2>
+<div id="plugins">
+<table>
+	<thead>
+		<td>$(gettext "Name")</td>
+		<td>$(gettext "Title")</td>
+		<td>$(gettext "Action")</td>
+	</thead>
+
+EOT
 		cd ${wiki}
 		for d in $(find . -type f | sed s'/.\///')
 		do
-			echo -n "<a href='$script?d=${d%.txt}'>${d%.txt}</a>"
+			d="${d%.txt}"
+			title=$(grep '^====' ${d}.txt | sed s'/====//'g)
+			echo "<tr><td><a href='$script?d=${d}'>${d}</a></td>"
+			echo "<td>$title</td>"
 			if [ "$auth" ]; then 
 				cat << EOT
- : <a href="$script?edit=$d">$(gettext "Edit")</a> || \
-<a href="$script?rm=$d">$(gettext "Remove")</a> 
+<td><a href="$script?edit=$d">$(gettext "Edit")</a> | \
+<a href="$script?rm=$d">$(gettext "Remove")</a></td></tr>
 EOT
 			else
-				echo ""
+				echo "N/A"
 			fi
 		done && unset auth
-		echo '</pre>'
+		echo '</table></div>'
 		html_footer ;;
 	
 	*\ rm\ *)
