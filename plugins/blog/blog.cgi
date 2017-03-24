@@ -76,14 +76,14 @@ show_post() {
 	p="$1"
 	. ${blog}/${p}/post.conf
 	d="$TITLE"
-	
+
 	# Author info
 	if [ -f "${PEOPLE}/${AUTHOR}/account.conf" ]; then
 		. ${PEOPLE}/${AUTHOR}/account.conf
 	else
 		echo "ERROR: ${PEOPLE}/${AUTHOR}/account.conf"
 	fi
-	
+
 	echo "<h2>$TITLE</h2>"
 	echo "<div class='blogpost'>"
 	cat ${blog}/${p}/post.txt | wiki_parser
@@ -109,6 +109,11 @@ show_posts() {
 		show_post ${p}
 	done
 }
+
+# RSS feed requested
+if [ "$(GET blog)" == "rss" ]; then
+	rss && exit 0
+fi
 
 #
 # Index main page can display the latest Blog posts
@@ -153,7 +158,7 @@ case " $(GET blog) " in
 			DATE=$(date '+%Y-%m-%d')
 		else
 			. ${blog}/${p}/post.conf
-		fi		
+		fi
 		cat << EOT
 <h2>$(gettext "Blog post"): $p</h2>
 
@@ -165,12 +170,12 @@ case " $(GET blog) " in
 		<textarea name="content">$(cat "$blog/$p/post.txt")</textarea>
 		<div>
 			<input type="submit" value="$(gettext "Post content")" />
-			<input style="width: 20%;" type="text" 
+			<input style="width: 20%;" type="text"
 				name="author" value="$AUTHOR" />
 			<input style="width: 20%; display: inline;" type="text"
 				name="date" value="$DATE" />
 		</div>
-		
+
 		<p>
 		$(gettext "Code Helper:")
 		$(cat lib/jseditor.html)
@@ -203,13 +208,13 @@ EOT
 		fi
 		[ -f "${blog}/${p}/post.xml" ] || gen_rss
 		header "Location: $script?blog&p=$p" ;;
-	
+
 	*\ rm\ *)
 		if check_auth && admin_user; then
 			rm -rf ${blog}/"$(GET p)"
 		fi
 		header "Location: $script?blog" ;;
-	
+
 	*\ archives\ *)
 		# List all posts with title only
 		d="Blog archives"
@@ -217,41 +222,52 @@ EOT
 		html_header
 		user_box
 		blog_tools
-		echo "<h2>Blog archives</h2>"
-		echo "<pre>"
+		cat << EOT
+<h2>Blog archives</h2>
+<div id="plugins">
+<table>
+	<thead>
+		<td>$(gettext "Date")</td>
+		<td>$(gettext "Title")</td>
+	</thead>
+EOT
 		for p in $(ls $blog | sort -nr)
 		do
 			. ${blog}/${p}/post.conf
-			echo "\
-<span class='date'>$DATE :</span> <a href='$script?blog&amp;p=$p'>$TITLE</a>"
-		done 
-		echo "</pre>" 
+			cat << EOT
+	<tr>
+		<td>$DATE</td>
+		<td><a href='$script?blog&amp;p=$p'>$TITLE</a></td>
+	</tr>
+EOT
+		done
+		echo "</table></div>"
 		html_footer && exit 0 ;;
-		
+
 	*\ blog\ *)
-		if [ "$(GET blog)" == "rss" ]; then
-			rss && exit 0
-		fi
 		d="Blog posts"
 		count="10"
 		header
 		html_header
 		user_box
 		blog_tools
+
 		# Exit if plugin is disabled
 		if [ ! -d "$blog" ]; then
 			echo "<p class='error box'>"
 			gettext "Blog plugin is not yet active."; echo "</p>"
 			html_footer && exit 0
 		fi
+
 		# Single post
 		if [ "$(GET p)" ]; then
 			show_post "$(GET p)"
 		else
 			show_posts ${count}
 			echo "<p><a href='$script?blog=archives'>$(gettext "Blog archives")</a></p>"
-		fi 
+		fi
+
 		html_footer && exit 0 ;;
 esac
-	
+
 
