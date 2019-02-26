@@ -12,7 +12,7 @@ if [ "$(GET dashboard)" ]; then
 	wikisize="$(du -sh $wiki | awk '{print $1}')"
 	cachesize="$(du -sh $cache | awk '{print $1}')"
 	[ "$HG" != "yes" ] && hg=$(gettext "disabled")
-	[ "$HG" == "yes" ] && hg=$(gettext "enabled")
+	[ "$HG" = "yes" ] && hg=$(gettext "enabled")
 	# Source all plugins.conf to get DASHBOARD_TOOLS and ADMIN_TOOLS
 	ADMIN_TOOLS=""
 	DASHBOARD_TOOLS=""

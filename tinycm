@@ -137,7 +137,7 @@ case "$1" in
 		done
 
 		# Set permissions
-		if [ $(id -u) == 0 ]; then
+		if [ $(id -u) = 0 ]; then
 			chown -R www.www ${path}/content
 			install -d -o www -g www ${path}/cache
 		else

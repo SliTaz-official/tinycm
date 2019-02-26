@@ -142,7 +142,7 @@ check_auth() {
 	user="$(echo $auth | cut -d ":" -f 1)"
 	md5cookie="$(echo $auth | cut -d ":" -f 2)"
 	[ -f "$sessions/$user" ] && md5session="$(cat $sessions/$user)"
-	if [ "$md5cookie" == "$md5session" ] && [ "$auth" ]; then
+	if [ "$md5cookie" = "$md5session" ] && [ "$auth" ]; then
 		. $PEOPLE/$user/account.conf
 		return 0
 	else
@@ -189,7 +189,7 @@ EOT
 
 # Link for online signup if enabled.
 online_signup() {
-	if [ "$ONLINE_SIGNUP" == "yes" ]; then
+	if [ "$ONLINE_SIGNUP" = "yes" ]; then
 		echo -n "<p><a href='$script?signup'>"
 		gettext "Create a new account"
 		echo '</a></p>'
@@ -256,7 +256,7 @@ MAIL="$mail"
 EOT
 	chmod 0600 $PEOPLE/$user/account.conf
 	# First created user is admin
-	if [ $(ls ${PEOPLE} | wc -l) == "1" ]; then
+	if [ $(ls ${PEOPLE} | wc -l) = "1" ]; then
 		echo "$user" > ${ADMIN_USERS}
 	fi
 }
@@ -302,7 +302,7 @@ EOT
 	if [ "$new" ]; then
 		echo "Page created by: $(link_user)" | log
 		echo "New document: <a href='$script?d=$d'>$d</a>" | log_activity
-		if [ "$HG" == "yes" ]; then
+		if [ "$HG" = "yes" ]; then
 			cd $content && hg -q add
 			hg commit -q -u "$NAME <$MAIL>" -m "Created new document: $d"
 			cd $tiny
@@ -310,7 +310,7 @@ EOT
 	else
 		# Here we may clean log: cat && tail -n 40
 		echo "Page edited by: $(link_user)" | log
-		if [ "$HG" == "yes" ]; then
+		if [ "$HG" = "yes" ]; then
 			cd $content && hg commit -q -u "$NAME <$MAIL>" \
 				-m "Edited document: $d"
 			cd $tiny
@@ -328,7 +328,7 @@ wiki_tools() {
 	<a href="$script?diff=$d">$(gettext "Last diff")</a>
 	$PLUGINS_TOOLS
 EOT
-		[ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>"
+		[ "$HG" = "yes" ] && echo "<a href='$script?hg'>Hg Log</a>"
 		echo "</div>"
 	fi
 }
@@ -384,7 +384,7 @@ case " $(POST) " in
 		user="$(POST auth)"
 		pass="$(md5crypt "$(POST pass)")"
 		valid=$(fgrep "${user}:" $AUTH_FILE | cut -d ":" -f 2)
-		if [ "$pass" == "$valid" ] && [ "$pass" != "" ]; then
+		if [ "$pass" = "$valid" ] && [ "$pass" != "" ]; then
 			md5session=$(echo -n "$$:$user:$pass:$$" | md5sum | awk '{print $1}')
 			[ -d $sessions ] || mkdir -p $sessions
 			date '+%Y-%m-%d' > ${PEOPLE}/${user}/last
@@ -467,7 +467,7 @@ EOT
 		html_header
 		user_box
 		# Main activity
-		if [ "$d" == "log" ]; then
+		if [ "$d" = "log" ]; then
 			tiny_tools
 			echo "<h2>$(gettext "Activity log")</h2>"
 			echo '<pre>'
@@ -585,7 +585,7 @@ EOT
 		html_header
 		user_box
 		echo "<h2>$d</h2>"
-		if [ "$ONLINE_SIGNUP" == "yes" ]; then
+		if [ "$ONLINE_SIGNUP" = "yes" ]; then
 			signup_page
 		else
 			gettext "Online registration is disabled"
@@ -670,7 +670,7 @@ EOT
 		fi
 		
 		# Hg warning if enabled but not initiated
-		if [ "$HG" == "yes" ] && [ ! -d "$content/.hg" ]; then
+		if [ "$HG" = "yes" ] && [ ! -d "$content/.hg" ]; then
 			echo '<p class="error box">'
 			gettext "Mercurial is enabled but no repository found"
 			echo ": <a href='$script?hg=init'>Hg init</a>"

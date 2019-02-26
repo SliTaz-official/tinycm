@@ -74,7 +74,7 @@ EOT
 			for d in $(find . -type f | sed s'!./!!')
 			do
 				d=${d%.txt}
-				[ "$d" == "en/help" ] && continue
+				[ "$d" = "en/help" ] && continue
 				gettext "Exporting: "; echo "$d.txt"
 				mkdir -p $tmpdir/$export/$(dirname $d)
 				f=$tmpdir/$export/$d.html

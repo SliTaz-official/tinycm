@@ -13,7 +13,7 @@ case " $(GET) " in
 		user_box
 		
 		# Wall is only for logged users
-		if [ "$WALL_MODE" == "private" ] && ! check_auth; then
+		if [ "$WALL_MODE" = "private" ] && ! check_auth; then
 			gettext "Private Wall - You must be logged in to read the wall" 
 			html_footer && exit 0
 		fi
@@ -33,7 +33,7 @@ EOT
 		if [ "$(GET delmsg)" ] && check_auth; then
 			m=$(GET delmsg)
 			author=$(echo ${m} | cut -d "_" -f 3)
-			if [ "$user" == "${author%.txt}" ] || admin_user; then
+			if [ "$user" = "${author%.txt}" ] || admin_user; then
 				rm -f ${wall}/${m}
 			fi
 		fi
@@ -71,7 +71,7 @@ EOT
 	<div>By <a href='?user=${author%.txt}'>${author%.txt}</a>
 	- <span class="date">${pubdate}</span>
 EOT
-			if [ "$user" == "${author%.txt}" ] || admin_user; then
+			if [ "$user" = "${author%.txt}" ] || admin_user; then
 				echo " - <span class='del'><a href='?wall&amp;delmsg=$m'>Delete</a></span>"
 			fi
 			echo "</div><p>"

@@ -15,8 +15,8 @@ forum_tools() {
 <div id="tools">
 	<a href="$script?forum=edit&amp;t=new">$(gettext "New post")</a>
 	$([ "$(GET t)" ] && echo "<a href='$script?forum'>Forum</a>")
-	$([ "$index" == "forum" ] && echo "<a href='$script?d=index'>Index</a>")
-	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
+	$([ "$index" = "forum" ] && echo "<a href='$script?d=index'>Index</a>")
+	$([ "$HG" = "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
 </div>
 EOT
 }
@@ -120,13 +120,13 @@ EOT
 show_messages() {
 	msgs=$(ls -1 $forum/$t/msg.*.txt | wc -l)
 	echo "<h3>$(gettext 'Messages'): $msgs</h3>"
-	[ "$msgs" == 0 ] && echo "<p>$(gettext 'Be the first to post a message!')<p/>"
+	[ "$msgs" = 0 ] && echo "<p>$(gettext 'Be the first to post a message!')<p/>"
 	for msg in $(ls -1tr $forum/$t/msg.*.conf)
 	do
 		. ${msg}
 		rm=""
 		# User can delete his post.
-		if [ "$user" == "$AUTHOR" ]; then
+		if [ "$user" = "$AUTHOR" ]; then
 			rm="- <a href=\"?forum=msgrm&amp;t=$t&amp;msg=$ID\">$(gettext 'Remove')</a>"
 		fi
 		# Display user gravatar, date and message
@@ -167,7 +167,7 @@ if [ "$(GET forum)" ]; then
 				html_footer && exit 0
 			fi
 			# New post
-			if [ "$t" == "new" ]; then
+			if [ "$t" = "new" ]; then
 				date=$(date '+%Y-%m-%d %H:%M')
 				last=$(ls -r $forum | head -n 1)
 				nb=${last%.txt}

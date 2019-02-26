@@ -14,8 +14,8 @@ blog_tools() {
 	<a href="$script?blog=edit&amp;p=new">$(gettext "New post")</a>
 	<a href="$script?blog=archives">$(gettext "Archives")</a>
 	<a href="$script?dashboard">Dashboard</a>
-	$([ "$index" == "blog" ] && echo "<a href='$script?d=index'>Index</a>")
-	$([ "$HG" == "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
+	$([ "$index" = "blog" ] && echo "<a href='$script?d=index'>Index</a>")
+	$([ "$HG" = "yes" ] && echo "<a href='$script?hg'>Hg Log</a>")
 </div>
 EOT
 	fi
@@ -111,7 +111,7 @@ show_posts() {
 }
 
 # RSS feed requested
-if [ "$(GET blog)" == "rss" ]; then
+if [ "$(GET blog)" = "rss" ]; then
 	rss && exit 0
 fi
 
@@ -151,7 +151,7 @@ case " $(GET blog) " in
 		fi
 		blog_tools
 		# New post
-		if [ "$p" == "new" ]; then
+		if [ "$p" = "new" ]; then
 			last=$(ls $blog | sort -r -n | head -n 1)
 			p=$(($last + 1))
 			AUTHOR="$user"
